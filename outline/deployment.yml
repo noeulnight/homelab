@@ -31,6 +31,7 @@ spec:
           value: /var/lib/outline/data
         - name: FORCE_HTTPS
           value: false
+      containers:
         - name: outline
           image: docker.getoutline.com/outlinewiki/outline:latest
           ports:
