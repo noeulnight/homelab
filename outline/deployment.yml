@@ -51,6 +51,30 @@ spec:
                 secretKeyRef:
                   name: outline-secrets
                   key: UTILS_SECRET
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: OIDC_CLIENT_ID
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: OIDC_CLIENT_SECRET
+            - name: OIDC_AUTH_URI
+              value: https://auth.limtaehyun.dev/application/o/authorize/
+            - name: OIDC_TOKEN_URI
+              value: https://auth.limtaehyun.dev/application/o/token/
+            - name: OIDC_USERINFO_URI
+              value: https://auth.limtaehyun.dev/application/o/userinfo/
+            - name: OIDC_LOGOUT_URI
+              value: https://auth.limtaehyun.dev/application/o/outline/end-session/
+            - name: OIDC_USERNAME_CLAIM
+              value: preferred_username
+            - name: OIDC_DISPLAY_NAME
+              value: authentik
+            - name: OIDC_SCOPES
+              value: openid profile email
       volumes:
         - name: outline-storage
           persistentVolumeClaim:
