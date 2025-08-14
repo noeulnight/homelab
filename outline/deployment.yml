@@ -12,7 +12,25 @@ spec:
       labels:
         app: outline
     spec:
-      containers:
+      env:
+        - name: NODE_ENV
+          value: production
+        - name: URL
+          value: https://outline.limtaehyun.dev
+        - name: PORT
+          value: "3000"
+        - name: DEFAULT_LANGUAGE
+          value: ko_KR
+        - name: DATABASE_URL
+          value: postgres://outline:outline@postgres-service.postgres.svc.cluster.local:5432/outline
+        - name: REDIS_URL
+          value: redis://redis-service.redis.svc.cluster.local:6379
+        - name: FILE_STORAGE
+          value: local
+        - name: FILE_STORAGE_LOCAL_ROOT_DIR
+          value: /var/lib/outline/data
+        - name: FORCE_HTTPS
+          value: false
         - name: outline
           image: docker.getoutline.com/outlinewiki/outline:latest
           ports:
