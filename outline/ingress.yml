@@ -14,4 +14,4 @@ spec:
               service:
                 name: outline-service
                 port:
-                  number: 80
+                  number: 3000
