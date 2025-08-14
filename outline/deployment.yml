@@ -39,6 +39,8 @@ spec:
               value: /var/lib/outline/data
             - name: FORCE_HTTPS
               value: "false"
+            - name: PGSSLMODE
+              value: disable
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
