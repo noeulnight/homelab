@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pgsql
+  name: postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pgsql
+      app: postgres
   template:
     metadata:
       labels:
-        app: pgsql
+        app: postgres
     spec:
       containers:
-        - name: pgsql
+        - name: postgres
           image: public.ecr.aws/docker/library/postgres:14
           ports:
             - containerPort: 5432
@@ -23,14 +23,14 @@ spec:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: pgsql-root-password
+                  name: postgres-root-password
                   key: password
             - name: POSTGRES_INITDB_ARGS
               value: --data-checksums
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: pgsql-storage
+              name: postgres-storage
       volumes:
-        - name: pgsql-storage
+        - name: postgres-storage
           persistentVolumeClaim:
-            claimName: pgsql-pvc
+            claimName: postgres-pvc
