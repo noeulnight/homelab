@@ -17,6 +17,9 @@ spec:
           image: docker.getoutline.com/outlinewiki/outline:latest
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - mountPath: /var/lib/outline/data
+              name: outline-storage
           env:
             - name: NODE_ENV
               value: production
@@ -35,10 +38,7 @@ spec:
             - name: FILE_STORAGE_LOCAL_ROOT_DIR
               value: /var/lib/outline/data
             - name: FORCE_HTTPS
-              value: false
-          volumeMounts:
-            - mountPath: /var/lib/outline/data
-              name: outline-storage
+              value: "false"
       volumes:
         - name: outline-storage
           persistentVolumeClaim:
