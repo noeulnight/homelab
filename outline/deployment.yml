@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: outline
+  template:
+    metadata:
+      labels:
+        app: outline
+    spec:
+      containers:
+        - name: outline
+          image: docker.getoutline.com/outlinewiki/outline:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /var/lib/outline/data
+              name: outline-storage
+      volumes:
+        - name: outline-storage
+          persistentVolumeClaim:
+            claimName: outline-pvc
