@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: immich
 resources:
   - ./storageclass.yml
+  - ./pv.yml
   - ./pvc.yml
   - ./secret.yml
   - ./deployment.yml
