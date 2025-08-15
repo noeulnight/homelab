@@ -70,7 +70,7 @@ spec:
       serviceAccountName: authentik
       containers:
         - name: authentik
-          image: ghcr.io/goauthentik/server:latest
+          image: ghcr.io/goauthentik/server:2025.6.4
           args:
             - worker
           env:
