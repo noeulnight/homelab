@@ -12,24 +12,6 @@ spec:
       labels:
         app: immich-server
     spec:
-      securityContext:
-        fsGroup: 1000
-      initContainers:
-        - name: init-immich-data-perms
-          image: busybox:1.35
-          command:
-            - sh
-            - -c
-            - |
-              mkdir -p /data/encoded-video /data/library /data/profile /data/thumbnails
-              touch /data/encoded-video/.immich /data/library/.immich /data/profile/.immich /data/thumbnails/.immich
-              chown -R 1000:1000 /data
-              chmod -R 775 /data
-          volumeMounts:
-            - name: immich-library
-              mountPath: /data
-          securityContext:
-            runAsUser: 0
       containers:
         - name: immich-server
           image: ghcr.io/immich-app/immich-server:release
@@ -53,13 +35,12 @@ spec:
               value: redis-service.redis.svc.cluster.local
             - name: REDIS_PORT
               value: "6379"
-            - name: UPLOAD_LOCATION
-              value: /data
           volumeMounts:
-            - name: immich-library
-              mountPath: /data
+            - name: library
+              mountPath: /usr/src/app/upload
+              subPath: library
       volumes:
-        - name: immich-library
+        - name: library
           persistentVolumeClaim:
             claimName: immich-library-pvc
 ---

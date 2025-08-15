@@ -4,7 +4,7 @@ metadata:
   name: immich-library-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: local-path-retain
   resources:
     requests:
@@ -16,7 +16,7 @@ metadata:
   name: immich-db-pvc
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   storageClassName: local-path-retain
   resources:
     requests:
