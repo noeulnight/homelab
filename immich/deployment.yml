@@ -36,10 +36,10 @@ spec:
             - name: REDIS_PORT
               value: "6379"
             - name: UPLOAD_LOCATION
-              value: /mnt/data/immich
+              value: /upload
           volumeMounts:
             - name: immich-library
-              mountPath: /
+              mountPath: /upload
       volumes:
         - name: immich-library
           persistentVolumeClaim:
@@ -102,7 +102,7 @@ spec:
                   key: DB_PASSWORD
           volumeMounts:
             - name: immich-db-pvc
-              mountPath: /
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: immich-db-pvc
           persistentVolumeClaim:
