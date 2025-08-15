@@ -8,7 +8,7 @@ spec:
   storageClassName: local-path-retain
   resources:
     requests:
-      storage: 100Gi
+      storage: 150Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -20,4 +20,4 @@ spec:
   storageClassName: local-path-retain
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi
