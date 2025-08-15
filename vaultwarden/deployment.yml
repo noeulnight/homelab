@@ -41,6 +41,24 @@ spec:
                 secretKeyRef:
                   name: vaultwarden-secrets
                   key: PUSH_INSTALLATION_KEY
+            - name: SSO_ENABLED
+              value: "true"
+            - name: SSO_ONLY
+              value: "true"
+            - name: SSO_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-secrets
+                  key: SSO_CLIENT_ID
+            - name: SSO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-secrets
+                  key: SSO_CLIENT_SECRET
+            - name: SSO_AUTHORITY
+              value: https://auth.limtaehyun.dev/application/o/vaultwarden/
+            - name: SSO_SCOPES
+              value: email profile offline_access
           volumeMounts:
             - mountPath: /data
               name: vaultwarden-storage
