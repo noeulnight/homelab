@@ -36,10 +36,10 @@ spec:
             - name: REDIS_PORT
               value: "6379"
             - name: UPLOAD_LOCATION
-              value: /uploads
+              value: /media
           volumeMounts:
             - name: immich-library
-              mountPath: /uploads
+              mountPath: /media
       volumes:
         - name: immich-library
           persistentVolumeClaim:
