@@ -19,7 +19,7 @@ spec:
             - containerPort: 2283
           env:
             - name: DB_HOSTNAME
-              value: immich-postgres.immich.svc.cluster.local
+              value: immich-postgres-service.immich.svc.cluster.local
             - name: DB_PORT
               value: "5432"
             - name: DB_USERNAME
