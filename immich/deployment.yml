@@ -1,0 +1,199 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-server
+  template:
+    metadata:
+      labels:
+        app: immich-server
+    spec:
+      containers:
+        - name: immich-server
+          image: ghcr.io/immich-app/immich-server:release
+          ports:
+            - containerPort: 3001
+          env:
+            - name: IMMICH_LOG_LEVEL
+              value: log
+            - name: DB_HOSTNAME
+              value: postgres-service.postgres.svc.cluster.local
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_DATABASE_NAME
+              value: immich
+            - name: DB_USERNAME
+              value: immich
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secrets
+                  key: DB_PASSWORD
+            - name: REDIS_HOSTNAME
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secrets
+                  key: JWT_SECRET
+            - name: IMMICH_MACHINE_LEARNING_URL
+              value: http://immich-ml-service:3003
+            - name: IMMICH_MACHINE_LEARNING_ENABLED
+              value: "true"
+            - name: IMMICH_TELEMETRY_DISABLED
+              value: "true"
+            - name: UPLOAD_LOCATION
+              value: /mnt/data/immich
+          volumeMounts:
+            - mountPath: /mnt/data/immich
+              name: immich-library
+      volumes:
+        - name: immich-library
+          persistentVolumeClaim:
+            claimName: immich-library-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-ml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-ml
+  template:
+    metadata:
+      labels:
+        app: immich-ml
+    spec:
+      containers:
+        - name: immich-ml
+          image: ghcr.io/immich-app/immich-machine-learning:release
+          ports:
+            - containerPort: 3003
+          env:
+            - name: TRANSFORMERS_CACHE
+              value: /cache
+          volumeMounts:
+            - mountPath: /cache
+              name: ml-cache
+      volumes:
+        - name: ml-cache
+          emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-web
+  template:
+    metadata:
+      labels:
+        app: immich-web
+    spec:
+      containers:
+        - name: immich-web
+          image: ghcr.io/immich-app/immich-web:release
+          ports:
+            - containerPort: 3000
+          env:
+            - name: IMMICH_SERVER_URL
+              value: http://immich-server-service:3001
+            - name: PUBLIC_IMMICH_SERVER_URL
+              value: https://immich.limtaehyun.dev
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-microservices
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-microservices
+  template:
+    metadata:
+      labels:
+        app: immich-microservices
+    spec:
+      containers:
+        - name: immich-microservices
+          image: ghcr.io/immich-app/immich-microservices:release
+          env:
+            - name: DB_HOSTNAME
+              value: immich-postgres-service.immich.svc.cluster.local
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_DATABASE_NAME
+              value: immich
+            - name: DB_USERNAME
+              value: immich
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secrets
+                  key: DB_PASSWORD
+            - name: REDIS_HOSTNAME
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: IMMICH_MACHINE_LEARNING_URL
+              value: http://immich-ml-service:3003
+            - name: IMMICH_TELEMETRY_DISABLED
+              value: "true"
+            - name: UPLOAD_LOCATION
+              value: /mnt/data/immich
+          volumeMounts:
+            - mountPath: /mnt/data/immich
+              name: immich-library
+      volumes:
+        - name: immich-library
+          persistentVolumeClaim:
+            claimName: immich-library-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-postgres
+  template:
+    metadata:
+      labels:
+        app: immich-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: tensorchord/pgvecto-rs:pg14-v0.2.0
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: immich
+            - name: POSTGRES_USER
+              value: immich
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: immich-secrets
+                  key: DB_PASSWORD
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: immich-db-pvc
