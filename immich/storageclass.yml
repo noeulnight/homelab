@@ -5,3 +5,8 @@ metadata:
 provisioner: rancher.io/local-path
 reclaimPolicy: Retain
 volumeBindingMode: WaitForFirstConsumer
+parameters:
+  # HDD 최적화 설정
+  fsType: ext4
+mountOptions:
+  - relatime
