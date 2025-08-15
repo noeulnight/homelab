@@ -12,6 +12,7 @@ spec:
   storageClassName: manual
   hostPath:
     path: /mnt/data/immich
+    type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -27,3 +28,4 @@ spec:
   storageClassName: manual
   hostPath:
     path: /mnt/data/immich-db
+    type: DirectoryOrCreate

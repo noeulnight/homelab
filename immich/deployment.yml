@@ -39,7 +39,7 @@ spec:
               value: /mnt/data/immich
           volumeMounts:
             - name: immich-library
-              mountPath: /mnt/data/immich
+              mountPath: /
       volumes:
         - name: immich-library
           persistentVolumeClaim:
@@ -102,7 +102,7 @@ spec:
                   key: DB_PASSWORD
           volumeMounts:
             - name: immich-db-pvc
-              mountPath: /var/lib/postgresql/data
+              mountPath: /
       volumes:
         - name: immich-db-pvc
           persistentVolumeClaim:
