@@ -38,7 +38,6 @@ spec:
           volumeMounts:
             - name: library
               mountPath: /usr/src/app/upload
-              subPath: library
       volumes:
         - name: library
           persistentVolumeClaim:
