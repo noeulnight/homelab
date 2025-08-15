@@ -18,7 +18,7 @@ spec:
           ports:
             - containerPort: 2283
           env:
-            - name: DB_HOST
+            - name: DB_HOSTNAME
               value: postgres-service.postgres.svc.cluster.local
             - name: DB_PORT
               value: "5432"
@@ -31,7 +31,7 @@ spec:
                   key: DB_PASSWORD
             - name: DB_DATABASE_NAME
               value: immich
-            - name: REDIS_HOST
+            - name: REDIS_HOSTNAME
               value: redis-service.redis.svc.cluster.local
             - name: REDIS_PORT
               value: "6379"
