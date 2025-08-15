@@ -45,6 +45,8 @@ spec:
               value: "true"
             - name: SSO_ONLY
               value: "true"
+            - name: SSO_FRONTEND
+              value: override
             - name: SSO_CLIENT_ID
               valueFrom:
                 secretKeyRef:
