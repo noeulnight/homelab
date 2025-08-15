@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: immich.limtaehyun.dev
+    - host: photos.limtaehyun.dev
       http:
         paths:
           - path: /
