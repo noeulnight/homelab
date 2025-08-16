@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: seafile
-          image: seafileltd/seafile-pro-mc:12.0-latest
+          image: seafileltd/seafile-mc:13.0-latest
           envFrom:
             - configMapRef:
                 name: seafile-env
@@ -28,6 +28,4 @@ spec:
         - name: seafile-data
           persistentVolumeClaim:
             claimName: seafile-data
-      restartPolicy: Always
-      imagePullSecrets:
-        - name: regcred
+      restartPolicy: Alway
