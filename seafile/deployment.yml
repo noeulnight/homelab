@@ -28,4 +28,3 @@ spec:
         - name: seafile-data
           persistentVolumeClaim:
             claimName: seafile-data
-      restartPolicy: Alway
