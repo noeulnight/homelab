@@ -14,4 +14,12 @@ spec:
     spec:
       containers:
         - name: mysql
+          ports:
+            - containerPort: 3306
           image: public.ecr.aws/docker/library/mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secrets
+                  key: MYSQL_ROOT_PASSWORD

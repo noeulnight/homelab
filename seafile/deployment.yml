@@ -19,6 +19,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: seafile-env
+            - secretRef:
+                name: seafile-secret
           volumeMounts:
             - name: seafile-data
               mountPath: /shared
