@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: seafile-ingress
+  name: homarr-ingress
 spec:
   ingressClassName: nginx
   rules:
-    - host: storage.limtaehyun.dev
+    - host: homarr.limtaehyun.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: seafile-service
+                name: homarr-service
                 port:
-                  number: 80
+                  number: 7575
