@@ -4,14 +4,13 @@ metadata:
   name: immich-library-pv
 spec:
   capacity:
-    storage: 100Gi
-  volumeMode: Filesystem
+    storage: 150Gi
   accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
+    - ReadWriteMany
   storageClassName: local-path-retain
+  persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /mnt/data/immich
+    path: /mnt/data/immich/library
     type: DirectoryOrCreate
 ---
 apiVersion: v1
@@ -20,12 +19,11 @@ metadata:
   name: immich-db-pv
 spec:
   capacity:
-    storage: 10Gi
-  volumeMode: Filesystem
+    storage: 20Gi
   accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
+    - ReadWriteMany
   storageClassName: local-path-retain
+  persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /mnt/data/immich-db
+    path: /mnt/data/immich/db
     type: DirectoryOrCreate

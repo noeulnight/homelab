@@ -6,6 +6,7 @@ spec:
   accessModes:
     - ReadWriteMany
   storageClassName: local-path-retain
+  volumeName: immich-library-pv
   resources:
     requests:
       storage: 150Gi
@@ -18,6 +19,7 @@ spec:
   accessModes:
     - ReadWriteMany
   storageClassName: local-path-retain
+  volumeName: immich-db-pv
   resources:
     requests:
       storage: 20Gi
