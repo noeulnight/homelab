@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-pathretain
+  storageClassName: local-path-retain
   volumeName: mongo-pv
   resources:
     requests:
