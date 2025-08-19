@@ -6,7 +6,7 @@ spec:
   capacity:
     storage: 150Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   storageClassName: local-path-retain
   persistentVolumeReclaimPolicy: Retain
   hostPath:
