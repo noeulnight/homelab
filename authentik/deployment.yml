@@ -41,6 +41,14 @@ spec:
                 secretKeyRef:
                   name: authentik-secrets
                   key: AUTHENTIK_POSTGRESQL__PASSWORD
+            - name: AUTHENTIK_HOST
+              value: "https://auth.limtaehyun.dev"
+            - name: AUTHENTIK_USE_X_FORWARDED_HOST
+              value: "true"
+            - name: AUTHENTIK_USE_X_FORWARDED_PORT
+              value: "true"
+            - name: AUTHENTIK_TRUSTED_PROXY
+              value: "10.42.0.0/16" # k3s 기본 Pod CIDR 또는 ingress controller IP 대역
           volumeMounts:
             - mountPath: /media
               name: authentik-storage
