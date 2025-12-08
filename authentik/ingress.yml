@@ -3,14 +3,15 @@ kind: Ingress
 metadata:
   name: authentik-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header X-Forwarded-Proto https;
-      proxy_set_header X-Forwarded-Scheme https;
-      proxy_set_header X-Forwarded-Host $host;
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - auth.limtaehyun.dev
+      secretName: tls
   rules:
     - host: auth.limtaehyun.dev
       http:
