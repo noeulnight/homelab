@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: termix-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - termix.limtaehyun.dev
+      secretName: tls
+  rules:
+    - host: termix.limtaehyun.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: termix-service
+                port:
+                  number: 8080
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: termix-service
+                port:
+                  number: 8081

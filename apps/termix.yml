@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: termix=bugattiguy527/termix:latest
+    argocd-image-updater.argoproj.io/termix.update-strategy: digest
+  name: termix
+  namespace: argocd
+spec:
+  destination:
+    namespace: termix
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: termix
+    repoURL: git@github.com:noeulnight/homelab.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
