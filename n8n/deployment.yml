@@ -12,6 +12,10 @@ spec:
       labels:
         app: n8n
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: n8n
           image: docker.n8n.io/n8nio/n8n:latest
