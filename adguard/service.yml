@@ -5,7 +5,6 @@ metadata:
 spec:
   selector:
     app: adguard
-  type: LoadBalancer
   ports:
     - name: dns-tcp
       port: 53
