@@ -1,25 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: n8n-ingress
+  name: adguard-ingress
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - workflow.limtaehyun.dev
+        - adguard.limtaehyun.dev
       secretName: tls
   rules:
-    - host: workflow.limtaehyun.dev
+    - host: adguard.limtaehyun.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: n8n-service
+                name: adguard-service
                 port:
-                  number: 5678
+                  number: 443
