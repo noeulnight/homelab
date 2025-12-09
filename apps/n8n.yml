@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: n8n=public.ecr.aws/docker/library/n8n:alpine
+    argocd-image-updater.argoproj.io/n8n.update-strategy: digest
+  name: n8n
+  namespace: argocd
+spec:
+  destination:
+    namespace: n8n
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: n8n
+    repoURL: git@github.com:noeulnight/homelab.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
