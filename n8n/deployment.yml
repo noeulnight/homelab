@@ -25,37 +25,20 @@ spec:
             - name: DB_TYPE
               value: postgresdb
             - name: DB_POSTGRESDB_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-credentials
-                  key: DB_POSTGRESDB_DATABASE
+              value: n8n
             - name: DB_POSTGRESDB_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-credentials
-                  key: DB_POSTGRESDB_HOST
+              value: postgres-service.postgres.svc.cluster.local
             - name: DB_POSTGRESDB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-credentials
-                  key: DB_POSTGRESDB_PORT
+              value: "5432"
             - name: DB_POSTGRESDB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-credentials
-                  key: DB_POSTGRESDB_USER
+              value: n8n
             - name: DB_POSTGRESDB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: n8n-database-credentials
+                  name: n8n-secrets
                   key: DB_POSTGRESDB_PASSWORD
-            - name: DB_POSTGRESDB_SCHEMA
-              valueFrom:
-                secretKeyRef:
-                  name: n8n-database-credentials
-                  key: DB_POSTGRESDB_SCHEMA
           volumeMounts:
-            - mountPath: /opt/n8n/data
+            - mountPath: /home/node/.n8n
               name: n8n-storage
       volumes:
         - name: n8n-storage
