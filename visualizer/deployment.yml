@@ -12,6 +12,7 @@ spec:
       labels:
         app: visualizer
     spec:
+      serviceAccountName: visualizer
       containers:
         - name: visualizer
           image: ghcr.io/benc-uk/kubeview:latest
