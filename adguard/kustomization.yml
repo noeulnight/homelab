@@ -7,3 +7,4 @@ resources:
   - ./pvc.yml
   - ./service.yml
   - ./ingress.yml
+  - ./dns-ingress.yml
