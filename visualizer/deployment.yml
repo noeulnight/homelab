@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: visualizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: visualizer
+  template:
+    metadata:
+      labels:
+        app: visualizer
+    spec:
+      containers:
+        - name: visualizer
+          image: ghcr.io/benc-uk/kubeview:latest
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - mountPath: /root/.kube
+              name: kubeconfig
+      volumes:
+        - name: kubeconfig
+          hostPath:
+            path: /home/ubuntu/.kube
+            type: Directory
