@@ -8,4 +8,4 @@ resources:
   - ./service.yml
   - ./rbac.yml
   - ./ingress.yml
-  - ../adguard/ingress.yml
+  - ./ingress/adguard.yml
