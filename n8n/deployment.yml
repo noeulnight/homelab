@@ -41,6 +41,10 @@ spec:
                 secretKeyRef:
                   name: n8n-secrets
                   key: DB_POSTGRESDB_PASSWORD
+            - name: WEBHOOK_URL
+              value: https://workflow.limtaehyun.dev
+            - name: N8N_PROXY_HOPS
+              value: "1"
           volumeMounts:
             - mountPath: /home/node/.n8n
               name: n8n-storage
