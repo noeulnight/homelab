@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: adguard-ui
+  name: adguard-ingress
   namespace: authentik
 spec:
   ingressClassName: nginx
