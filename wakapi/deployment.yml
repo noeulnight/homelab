@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wakapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wakapi
+  template:
+    metadata:
+      labels:
+        app: wakapi
+    spec:
+      containers:
+        - name: wakapi
+          image: ghcr.io/muety/wakapi:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: WAKAPI_PASSWORD_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: wakapi-secrets
+                  key: WAKAPI_PASSWORD_SALT
+            - name: WAKAPI_DB_TYPE
+              value: postgres
+            - name: WAKAPI_DB_HOST
+              value: postgres-service.postgres.svc.cluster.local
+            - name: WAKAPI_DB_PORT
+              value: "5432"
+            - name: WAKAPI_DB_USER
+              value: wakapi
+            - name: WAKAPI_DB_NAME
+              value: wakapi
+            - name: WAKAPI_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wakapi-secrets
+                  key: WAKAPI_DB_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: wakapi-pvc
