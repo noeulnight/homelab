@@ -35,6 +35,8 @@ spec:
               value: wakapi
             - name: WAKAPI_ALLOW_SIGNUP
               value: "false"
+            - name: WAKAPI_OIDC_ALLOW_SIGNUP
+              value: "true"
             - name: WAKAPI_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
