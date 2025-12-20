@@ -5,6 +5,10 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  ignoreDifferences:
+    - jsonPointers:
+        - /data
+      kind: Secret
   sources:
     - chart: tailscale-operator
       repoURL: https://pkgs.tailscale.com/helmcharts
