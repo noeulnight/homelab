@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale
+  namespace: argocd
+spec:
+  project: default
+  source:
+    - chart: tailscale
+      repoURL: https://pkgs.tailscale.com/helmcharts
+      helm:
+        releaseName: tailscale
+    - souce: tailscale
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: tailscale
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
