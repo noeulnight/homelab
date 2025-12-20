@@ -6,11 +6,11 @@ metadata:
 spec:
   project: default
   sources:
-    - chart: tailscale
+    - chart: tailscale-operator
       repoURL: https://pkgs.tailscale.com/helmcharts
       targetRevision: HEAD
       helm:
-        releaseName: tailscale
+        releaseName: tailscale-operator
     - path: tailscale
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
