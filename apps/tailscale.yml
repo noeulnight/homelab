@@ -8,6 +8,7 @@ spec:
   sources:
     - chart: tailscale
       repoURL: https://pkgs.tailscale.com/helmcharts
+      targetRevision: HEAD
       helm:
         releaseName: tailscale
     - path: tailscale
