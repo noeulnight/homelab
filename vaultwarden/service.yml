@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: vitwarden-service
+spec:
+  selector:
+    app: vitwarden
+  ports:
+    - protocol: TCP
+      port: 11001
+      targetPort: 11001

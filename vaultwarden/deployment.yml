@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+        - name: vaultwarden
+          image: vaultwarden/server:latest
+          ports:
+            - containerPort: 11001
+          env:
+            - name: SSO_ENABLED
+              value: "true"
+            - name: SSO_ONLY
+              value: "true"
+            - name: SSO_AUTHORITY
+              value: "https://auth.limtaehyun.dev/application/o/vaultwarden/"
+            - name: SSO_SCOPES
+              value: "email profile offline_access"
+            - name: SSO_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: vitwarden-secret
+                  key: SSO_CLIENT_ID
+            - name: SSO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: vitwarden-secret
+                  key: SSO_CLIENT_SECRET
+      volumes:
+        - name: vaultwarden-storage
+          persistentVolumeClaim:
+            claimName: vaultwarden-pvc
