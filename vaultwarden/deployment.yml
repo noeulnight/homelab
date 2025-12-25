@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: vaultwarden
-          image: vaultwarden/server:latest
+          image: vaultwarden/server:testing
           ports:
             - containerPort: 80
           env:
