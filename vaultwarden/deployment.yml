@@ -16,7 +16,7 @@ spec:
         - name: vaultwarden
           image: vaultwarden/server:latest
           ports:
-            - containerPort: 11001
+            - containerPort: 80
           env:
             - name: SSO_ENABLED
               value: "true"
@@ -36,6 +36,8 @@ spec:
                 secretKeyRef:
                   name: vaultwarden-secret
                   key: SSO_CLIENT_SECRET
+            - name: DOMAIN
+              value: "vaultwarden.limtaehyun.dev"
       volumes:
         - name: vaultwarden-storage
           persistentVolumeClaim:

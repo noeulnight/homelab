@@ -22,4 +22,4 @@ spec:
               service:
                 name: vaultwarden-service
                 port:
-                  number: 11001
+                  number: 80
