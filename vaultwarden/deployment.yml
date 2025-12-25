@@ -29,12 +29,12 @@ spec:
             - name: SSO_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: vitwarden-secret
+                  name: vaultwarden-secret
                   key: SSO_CLIENT_ID
             - name: SSO_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: vitwarden-secret
+                  name: vaultwarden-secret
                   key: SSO_CLIENT_SECRET
       volumes:
         - name: vaultwarden-storage
