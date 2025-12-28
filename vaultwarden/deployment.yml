@@ -14,28 +14,10 @@ spec:
     spec:
       containers:
         - name: vaultwarden
-          image: vaultwarden/server:testing
+          image: vaultwarden/server:latest
           ports:
             - containerPort: 80
           env:
-            - name: SSO_ENABLED
-              value: "true"
-            - name: SSO_ONLY
-              value: "true"
-            - name: SSO_AUTHORITY
-              value: "https://auth.limtaehyun.dev/application/o/vaultwarden/"
-            - name: SSO_SCOPES
-              value: "email profile offline_access"
-            - name: SSO_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: vaultwarden-secret
-                  key: SSO_CLIENT_ID
-            - name: SSO_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: vaultwarden-secret
-                  key: SSO_CLIENT_SECRET
             - name: DOMAIN
               value: "https://vaultwarden.limtaehyun.dev"
       volumes:
