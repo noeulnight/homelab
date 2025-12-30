@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: coder-service
+spec:
+  selector:
+    app: coder
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
