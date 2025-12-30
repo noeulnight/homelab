@@ -1,25 +1,22 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: coder-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-
+  name: coder-wildcard
+  namespace: coder
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - coder.limtaehyun.dev
+        - "*.coder.limtaehyun.dev"
       secretName: tls
   rules:
-    - host: coder.limtaehyun.dev
+    - host: "*.coder.limtaehyun.dev"
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: coder-service
+                name: coder
                 port:
                   number: 80

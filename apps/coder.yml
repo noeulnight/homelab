@@ -29,6 +29,10 @@ spec:
                   secretKeyRef:
                     name: coder-secret
                     key: CODER_PG_CONNECTION_URL
+              - name: CODER_ACCESS_URL
+                value: https://coder.limtaehyun.dev
+              - name: CODER_WILDCARD_ACCESS_URL
+                value: "*.coder.limtaehyun.dev"
               - name: CODER_OIDC_ICON_URL
                 value: https://auth.limtaehyun.dev/static/dist/assets/icons/icon.png
               - name: CODER_OIDC_ISSUER_URL
@@ -47,6 +51,21 @@ spec:
                   secretKeyRef:
                     name: coder-secret
                     key: CODER_OIDC_CLIENT_SECRET
+            serviceAccount:
+              workspacePerms: true
+              enableDeployments: true
+              workspaceNamespaces:
+                - name: coder-workspace
+            service:
+              enable: true
+              type: ClusterIP
+            ingress:
+              enable: true
+              className: nginx
+              host: coder.limtaehyun.dev
+              tls:
+                enable: true
+                secretName: tls
     - path: coder
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
