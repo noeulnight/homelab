@@ -38,7 +38,7 @@ spec:
               - name: CODER_OIDC_ISSUER_URL
                 value: https://auth.limtaehyun.dev/application/o/coder/
               - name: CODER_OIDC_EMAIL_DOMAIN
-                value: limtaehyun.dev
+                value: limtaehyun.dev,naver.com
               - name: CODER_OIDC_SIGN_IN_TEXT
                 value: Sign in with HomeLab
               - name: CODER_OIDC_CLIENT_ID
