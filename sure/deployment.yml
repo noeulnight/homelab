@@ -12,6 +12,8 @@ spec:
       labels:
         app: sure-web
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: sure
           image: ghcr.io/we-promise/sure:latest
@@ -84,6 +86,8 @@ spec:
       labels:
         app: sure-worker
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: sure-worker
           image: ghcr.io/we-promise/sure:latest
