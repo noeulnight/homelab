@@ -14,9 +14,13 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: sure
-          image: ghcr.io/we-promise/sure:latest
+          image: ghcr.io/we-promise/sure:stable
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 3000
           env:
@@ -88,9 +92,13 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
       containers:
         - name: sure-worker
-          image: ghcr.io/we-promise/sure:latest
+          image: ghcr.io/we-promise/sure:stable
+          securityContext:
+            allowPrivilegeEscalation: false
           command: ["bundle", "exec", "sidekiq"]
           env:
             - name: SELF_HOSTED
