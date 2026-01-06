@@ -12,10 +12,6 @@ spec:
       labels:
         app: affine
     spec:
-      securityContext:
-        fsGroup: 1000
-        runAsUser: 1000
-        runAsGroup: 1000
       initContainers:
         - name: affine-migration
           image: ghcr.io/toeverything/affine:stable
