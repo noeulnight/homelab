@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: affine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: affine
+  template:
+    metadata:
+      labels:
+        app: affine
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+      initContainers:
+        - name: affine-migration
+          image: ghcr.io/toeverything/affine:stable
+          command: ["sh", "-c", "node ./scripts/self-host-predeploy.js"]
+          env:
+            - name: REDIS_SERVER_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: affine-secrets
+                  key: DATABASE_URL
+            - name: AFFINE_INDEXER_ENABLED
+              value: "false"
+          volumeMounts:
+            - mountPath: /root/.affine/storage
+              name: affine-storage
+            - mountPath: /root/.affine/config
+              name: affine-config
+      containers:
+        - name: affine
+          image: ghcr.io/toeverything/affine:stable
+          ports:
+            - containerPort: 3010
+          env:
+            - name: REDIS_SERVER_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: affine-secrets
+                  key: DATABASE_URL
+            - name: AFFINE_INDEXER_ENABLED
+              value: "false"
+          volumeMounts:
+            - mountPath: /root/.affine/storage
+              name: affine-storage
+            - mountPath: /root/.affine/config
+              name: affine-config
+      volumes:
+        - name: affine-storage
+          persistentVolumeClaim:
+            claimName: affine-storage-pvc
+        - name: affine-config
+          persistentVolumeClaim:
+            claimName: affine-config-pvc
