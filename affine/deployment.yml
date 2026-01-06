@@ -46,6 +46,8 @@ spec:
                   key: DATABASE_URL
             - name: AFFINE_INDEXER_ENABLED
               value: "false"
+            - name: AFFINE_SERVER_HOST
+              value: "document.limtaehyun.dev"
           volumeMounts:
             - mountPath: /root/.affine/storage
               name: affine-storage
