@@ -18,6 +18,11 @@ spec:
       targetRevision: v10.5.12
       helm:
         releaseName: grafana
+      valuesObject:
+        grafana.ini:
+          server:
+            - name: root_url
+              value: "https://monitoring.limtaehyun.dev"
     - path: grafana
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
