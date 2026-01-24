@@ -63,9 +63,11 @@ spec:
               enable: true
               className: nginx
               host: coder.limtaehyun.dev
+              annotations:
+                cert-manager.io/cluster-issuer: letsencrypt-prod
               tls:
                 enable: true
-                secretName: tls
+                secretName: coder-tls
     - path: coder
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD

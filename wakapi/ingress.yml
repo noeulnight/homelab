@@ -3,15 +3,15 @@ kind: Ingress
 metadata:
   name: wakapi-ingress
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - wakatime.limtaehyun.dev
-      secretName: tls
+      secretName: wakapi-tls
   rules:
     - host: wakatime.limtaehyun.dev
       http:
