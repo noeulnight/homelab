@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+spec:
+  destination:
+    namespace: grafana
+    server: https://kubernetes.default.svc
+  project: default
+  ignoreDifferences:
+    - jsonPointers:
+        - /data
+      kind: Secret
+  sources:
+    - chart: grafana
+      repoURL: https://grafana.github.io/helm-charts
+      targetRevision: v12.3.1
+      helm:
+        releaseName: grafana
+    - path: grafana
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
