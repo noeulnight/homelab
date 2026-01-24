@@ -10,6 +10,7 @@ spec:
   tls:
     - hosts:
         - monitoring.limtaehyun.dev
+      secretName: grafana-tls
   rules:
     - host: "monitoring.limtaehyun.dev"
       http:
