@@ -13,9 +13,9 @@ spec:
         - /data
       kind: Secret
   sources:
-    - chart: prometheus-community
+    - chart: kube-prometheus-stack
       repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: v28.6.0
+      targetRevision: 81.2.2
       helm:
         releaseName: prometheus
   syncPolicy:
