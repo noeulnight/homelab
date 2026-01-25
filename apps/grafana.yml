@@ -27,6 +27,7 @@ spec:
             type: pvc
             enabled: true
             volumeName: "grafana-pv"
+            storageClassName: "local-path-retain"
             accessModes:
               - ReadWriteOnce
     - path: grafana
