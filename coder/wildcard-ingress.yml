@@ -3,14 +3,12 @@ kind: Ingress
 metadata:
   name: coder-wildcard
   namespace: coder
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - "*.coder.limtaehyun.dev"
-      secretName: coder-wildcard-tls
+      secretName: limtaehyun-dev-tls
   rules:
     - host: "*.coder.limtaehyun.dev"
       http:

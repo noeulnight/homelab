@@ -4,14 +4,13 @@ metadata:
   name: adguard-doh-ingress
   namespace: adguard
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - adguard.limtaehyun.dev
-      secretName: adguard-tls
+      secretName: limtaehyun-dev-tls
   rules:
     - host: adguard.limtaehyun.dev
       http:

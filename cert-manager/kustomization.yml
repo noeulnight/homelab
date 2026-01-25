@@ -4,3 +4,4 @@ namespace: cert-manager
 resources:
   - ./secret.yml
   - ./cluster-issuer.yml
+  - ./wildcard-certificate.yml

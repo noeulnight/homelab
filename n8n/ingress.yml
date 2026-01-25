@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: n8n-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
 
 spec:
@@ -11,7 +10,7 @@ spec:
   tls:
     - hosts:
         - workflow.limtaehyun.dev
-      secretName: n8n-tls
+      secretName: limtaehyun-dev-tls
   rules:
     - host: workflow.limtaehyun.dev
       http:

@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: visualizer-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
 
 spec:
@@ -11,7 +10,7 @@ spec:
   tls:
     - hosts:
         - visualizer.limtaehyun.dev
-      secretName: visualizer-tls
+      secretName: limtaehyun-dev-tls
   rules:
     - host: visualizer.limtaehyun.dev
       http:

@@ -3,14 +3,13 @@ kind: Ingress
 metadata:
   name: affine-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - document.limtaehyun.dev
-      secretName: affine-tls
+      secretName: limtaehyun-dev-tls
   rules:
     - host: document.limtaehyun.dev
       http:
