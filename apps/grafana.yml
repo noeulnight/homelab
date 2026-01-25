@@ -18,17 +18,17 @@ spec:
       targetRevision: v10.5.12
       helm:
         releaseName: grafana
-      values: |
-        grafana.ini:
-          server:
-            domain: monitoring.limtaehyun.dev
-            root_url: "%(protocol)s://%(domain)s"
-        persistence:
-          type: pvc
-          enabled: true
-          volumeName: "grafana-pv"
-          accessModes:
-            - ReadWriteOnce
+        values: |
+          grafana.ini:
+            server:
+              domain: monitoring.limtaehyun.dev
+              root_url: "%(protocol)s://%(domain)s"
+          persistence:
+            type: pvc
+            enabled: true
+            volumeName: "grafana-pv"
+            accessModes:
+              - ReadWriteOnce
     - path: grafana
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
