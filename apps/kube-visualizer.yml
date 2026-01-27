@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-visualizer
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-visualizer
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - chart: kube-visualizer
+      repoURL: https://noeulnight.github.io/kube-visualizer
+      targetRevision: "*"
+      helm:
+        releaseName: kube-visualizer
+        valuesObject:
+          ingress:
+            enabled: false
+    - path: kube-visualizer
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true

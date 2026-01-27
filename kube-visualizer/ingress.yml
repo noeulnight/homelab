@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kube-visualizer-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - visualizerd.limtaehyun.dev
+      secretName: limtaehyun-dev-tls
+  rules:
+    - host: visualizerd.limtaehyun.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kube-visualizer
+                port:
+                  number: 80
