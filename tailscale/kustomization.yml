@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: tailscale
 resources:
   - ./secret.yml
+  - ./webfinger.yml

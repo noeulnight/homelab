@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tailscale-webfinger-file
+  namespace: tailscale
+data:
+  webfinger.json: |
+    {"subject":"acct:admin@limtaehyun.dev","links":[{"href":"https://auth.limtaehyun.dev/application/o/tailscale/","rel":"http://openid.net/specs/connect/1.0/issuer"}]}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailscale-webfinger
+  namespace: tailscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tailscale-webfinger
+  template:
+    metadata:
+      labels:
+        app: tailscale-webfinger
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: tailscale-webfinger-file
+              mountPath: /usr/share/nginx/html/.well-known
+      volumes:
+        - name: tailscale-webfinger-file
+          configMap:
+            name: tailscale-webfinger-file
+            items:
+              - key: webfinger.json
+                path: webfinger
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tailscale-webfinger
+  namespace: tailscale
+spec:
+  selector:
+    app: tailscale-webfinger
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tailscale-webfinger
+  namespace: tailscale
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: limtaehyun.dev
+      http:
+        paths:
+          - path: /.well-known/webfinger
+            pathType: Exact
+            backend:
+              service:
+                name: webfinger
+                port:
+                  number: 80
