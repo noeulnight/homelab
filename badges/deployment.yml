@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: badges
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: badges
+  template:
+    metadata:
+      labels:
+        app: badges
+    spec:
+      serviceAccountName: badges
+      containers:
+        - name: badges
+          image: ghcr.io/noeulnight/kube-badges:latest
+          ports:
+            - containerPort: 3000
