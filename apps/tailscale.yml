@@ -18,8 +18,6 @@ spec:
         parameters:
           - name: TS_KUBE_SECRET
             value: "tailscale-secret"
-          - name: TS_ROUTES
-            value: "10.43.0.0/16,10.42.0.0/24"
     - path: tailscale
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
