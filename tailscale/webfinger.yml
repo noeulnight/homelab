@@ -68,6 +68,6 @@ spec:
             pathType: Exact
             backend:
               service:
-                name: webfinger
+                name: tailscale-webfinger
                 port:
                   number: 80
