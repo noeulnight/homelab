@@ -15,9 +15,18 @@ spec:
       targetRevision: "*"
       helm:
         releaseName: tailscale-operator
-        parameters:
-          - name: TS_KUBE_SECRET
-            value: "tailscale-secret"
+        values: |
+          oauth:
+            clientId:
+              valueFrom:
+                secretKeyRef:
+                  name: operator-oauth
+                  key: client_id
+            clientSecret:
+              valueFrom:
+                secretKeyRef:
+                  name: operator-oauth
+                  key: client_secret
     - path: tailscale
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD

@@ -7,5 +7,6 @@ spec:
   hostnamePrefix: homelab
   subnetRouter:
     advertiseRoutes:
+      - "10.0.0.0/8"
       - "10.43.0.0/16"
       - "10.42.0.0/24"
