@@ -7,10 +7,6 @@ metadata:
 
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - workflow.limtaehyun.dev
-      secretName: limtaehyun-dev-tls
   rules:
     - host: workflow.limtaehyun.dev
       http:

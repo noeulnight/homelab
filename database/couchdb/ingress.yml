@@ -7,10 +7,6 @@ metadata:
 
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - couchdb.limtaehyun.dev
-      secretName: limtaehyun-dev-tls
   rules:
     - host: couchdb.limtaehyun.dev
       http:

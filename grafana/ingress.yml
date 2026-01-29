@@ -5,10 +5,6 @@ metadata:
   namespace: grafana
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - monitoring.limtaehyun.dev
-      secretName: limtaehyun-dev-tls
   rules:
     - host: "monitoring.limtaehyun.dev"
       http:
