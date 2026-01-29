@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: couchdb
+    path: database/couchdb
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

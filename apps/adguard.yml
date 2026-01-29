@@ -1,10 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: adguard=ghcr.io/adguard/server:2025.10.3
-    argocd-image-updater.argoproj.io/adguard.update-strategy: digest
-    argocd-image-updater.argoproj.io/adguard.update-regex: "ghcr.io/adguard/server:.*"
   name: adguard
   namespace: argocd
 spec:

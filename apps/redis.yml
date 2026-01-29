@@ -1,9 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: redis=public.ecr.aws/docker/library/redis:alpine
-    argocd-image-updater.argoproj.io/redis.update-strategy: digest
   name: redis
   namespace: argocd
 spec:
@@ -12,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: redis
+    path: database/redis
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

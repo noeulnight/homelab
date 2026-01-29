@@ -1,9 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: wakapi=ghcr.io/muety/wakapi:latest
-    argocd-image-updater.argoproj.io/wakapi.update-strategy: digest
   name: wakapi
   namespace: argocd
 spec:

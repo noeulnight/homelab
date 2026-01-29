@@ -1,9 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: mysql=public.ecr.aws/docker/library/mysql:8.0
-    argocd-image-updater.argoproj.io/mysql.update-strategy: digest
   name: mysql
   namespace: argocd
 spec:
@@ -16,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: mysql
+    path: database/mysql
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

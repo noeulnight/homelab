@@ -1,10 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  annotations:
-    argocd-image-updater.argoproj.io/image-list: authentik=ghcr.io/goauthentik/server:2025.10.3
-    argocd-image-updater.argoproj.io/authentik.update-strategy: digest
-    argocd-image-updater.argoproj.io/authentik.update-regex: "ghcr.io/goauthentik/server:.*"
   name: authentik
   namespace: argocd
 spec:
