@@ -22,6 +22,8 @@ spec:
           controller:
             config:
               proxy-body-size: "100m"
+            extraArgs:
+              default-ssl-certificate: "cert-manager/limtaehyun-dev-tls"
   syncPolicy:
     automated:
       prune: true
