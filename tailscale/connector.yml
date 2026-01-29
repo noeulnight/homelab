@@ -4,7 +4,7 @@ metadata:
   name: tailscale-connector
 spec:
   replicas: 1
-  hostnamePrefix: homelab
+  hostname: homelab
   subnetRouter:
     advertiseRoutes:
       - "10.0.0.0/8"
