@@ -5,10 +5,6 @@ metadata:
   namespace: coder
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - "*.coder.limtaehyun.dev"
-      secretName: limtaehyun-dev-tls
   rules:
     - host: "*.coder.limtaehyun.dev"
       http:
