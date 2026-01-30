@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: couchdb
+  name: clickhouse
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: couchdb
+      app: clickhouse
   template:
     metadata:
       labels:
-        app: couchdb
+        app: clickhouse
     spec:
       containers:
-        - name: couchdb
+        - name: clickhouse
           image: clickhouse/clickhouse-server:latest
           ports:
             - containerPort: 9000
@@ -26,12 +26,12 @@ spec:
             - name: CLICKHOUSE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: couchdb-secret
-                  key: adminPassword
+                  name: clickhouse-secret
+                  key: CLICKHOUSE_PASSWORD
           volumeMounts:
-            - mountPath: /opt/couchdb/data
-              name: couchdb-storage
+            - mountPath: /var/lib/clickhouse
+              name: clickhouse-storage
       volumes:
-        - name: couchdb-storage
+        - name: clickhouse-storage
           persistentVolumeClaim:
-            claimName: couchdb-pvc
+            claimName: clickhouse-pvc
