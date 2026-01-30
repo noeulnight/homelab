@@ -3,8 +3,6 @@ kind: Kustomization
 namespace: spotify
 resources:
   - ./secret.yml
-  - ./server-deployment.yml
-  - ./server-service.yml
-  - ./web-deployment.yml
-  - ./web-service.yml
+  - ./deployment.yml
+  - ./service.yml
   - ./ingress.yml
