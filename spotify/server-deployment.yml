@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spotify-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spotify-server
+  template:
+    metadata:
+      labels:
+        app: spotify-server
+    spec:
+      containers:
+        - name: server
+          image: yooooomi/your_spotify_server
+          ports:
+            - containerPort: 8080
+          env:
+            - name: API_ENDPOINT
+              value: https://spotify.limtaehyun.dev/api
+            - name: CLIENT_ENDPOINT
+              value: https://spotify.limtaehyun.dev
+            - name: SPOTIFY_PUBLIC
+              valueFrom:
+                secretKeyRef:
+                  name: spotify-secret
+                  key: SPOTIFY_PUBLIC
+            - name: SPOTIFY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: spotify-secret
+                  key: SPOTIFY_SECRET
+            - name: TIMEZONE
+              value: Asia/Seoul
+            - name: MONGO_ENDPOINT
+              value: mongodb://mongo-service.mongo.svc.cluster.local:27017/your_spotify
