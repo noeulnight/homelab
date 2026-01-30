@@ -4,8 +4,8 @@ metadata:
   name: spotify-ingress
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-
 spec:
   ingressClassName: nginx
   rules:
@@ -13,7 +13,7 @@ spec:
       http:
         paths:
           - path: /api(/|$)(.*)
-            pathType: ImplementationSpecific
+            pathType: Prefix
             backend:
               service:
                 name: spotify-server-service
