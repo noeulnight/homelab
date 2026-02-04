@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: yooooomi/your_spotify_server
+          image: ghcr.io/noeulnight/sspotify_server
           ports:
             - containerPort: 8080
           env:
@@ -53,7 +53,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: yooooomi/your_spotify_client
+          image: ghcr.io/noeulnight/sspotify_client
           ports:
             - containerPort: 3000
           env:
