@@ -9,3 +9,27 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotify-server-service
+spec:
+  selector:
+    app: spotify-server
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotify-canvas-service
+spec:
+  selector:
+    app: spotify-canvas-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

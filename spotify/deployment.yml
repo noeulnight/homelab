@@ -60,14 +60,36 @@ spec:
             - name: API_ENDPOINT
               value: https://spotify.limtaehyun.dev/api
 ---
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: spotify-server-service
+  name: spotify-canvas-api
 spec:
+  replicas: 1
   selector:
-    app: spotify-server
-  ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
+    matchLabels:
+      app: spotify-canvas-api
+  template:
+    metadata:
+      labels:
+        app: spotify-canvas-api
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/noeulnight/spotify-canvas-api
+          ports:
+            - containerPort: 3000
+          env:
+            - name: SPOTIFY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: spotify-canvas-secret
+                  key: SPOTIFY_TOKEN
+            - name: REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_DB
+              value: "3"
+            - name: NODE_ENV
+              value: production
