@@ -93,3 +93,5 @@ spec:
               value: "3"
             - name: NODE_ENV
               value: production
+            - name: NODE_OPTIONS
+              value: "--dns-result-order=ipv4first"
