@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: limtaehyun-pi.tail6de6ea.ts.net
+  name: pi
+spec:
+  externalName: pi
+  type: ExternalName
+  ports:
+    - port: 8000
+      protocol: TCP
