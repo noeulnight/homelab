@@ -18,6 +18,12 @@ spec:
           ingress:
             enabled: false
           resources: {}
+          rbac:
+            extraClusterRoleBindings:
+              - name: use-view-role
+                roleRef:
+                  name: view
+                  external: true
   syncPolicy:
     automated:
       prune: true
