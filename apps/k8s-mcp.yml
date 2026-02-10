@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mcp
+  namespace: argocd
+spec:
+  destination:
+    namespace: default
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - chart: kubernetes-mcp-server
+      repoURL: oci://ghcr.io/containers/charts/kubernetes-mcp-server
+      targetRevision: "*"
+      helm:
+        releaseName: mcp
+        values: |
+          ingress:
+            enabled: false
+          resources: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
