@@ -7,4 +7,3 @@ resources:
   - ./pv.yml
   - ./pvc.yml
   - ./service.yml
-  - ./ingress.yml

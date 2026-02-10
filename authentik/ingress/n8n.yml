@@ -2,9 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: n8n-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-
 spec:
   ingressClassName: nginx
   rules:
@@ -15,6 +12,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: n8n-service
+                name: ak-outpost-n8n
                 port:
-                  number: 5678
+                  number: 9000

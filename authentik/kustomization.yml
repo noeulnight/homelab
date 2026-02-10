@@ -9,3 +9,4 @@ resources:
   - ./rbac.yml
   - ./ingress.yml
   - ./ingress/adguard.yml
+  - ./ingress/n8n.yml

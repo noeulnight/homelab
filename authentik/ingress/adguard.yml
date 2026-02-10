@@ -12,6 +12,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ak-outpost-proxy
+                name: ak-outpost-adguard
                 port:
                   number: 9000
