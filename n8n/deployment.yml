@@ -47,6 +47,10 @@ spec:
               value: "1"
             - name: N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE
               value: "true"
+            - name: N8N_LOG_LEVEL
+              value: "debug"
+            - name: N8N_LOG_FORMAT
+              value: "json"
           volumeMounts:
             - mountPath: /home/node/.n8n
               name: n8n-storage
