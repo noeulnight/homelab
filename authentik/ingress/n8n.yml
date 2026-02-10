@@ -8,6 +8,13 @@ spec:
     - host: workflow.limtaehyun.dev
       http:
         paths:
+          - path: /signin
+            pathType: Exact
+            backend:
+              service:
+                name: ak-outpost-n8n
+                port:
+                  number: 9000
           - path: /
             pathType: Prefix
             backend:
@@ -15,3 +22,33 @@ spec:
                 name: ak-outpost-n8n
                 port:
                   number: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: n8n-signout-redirect
+spec:
+  type: ExternalName
+  externalName: workflow.limtaehyun.dev
+  ports:
+    - port: 443
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: n8n-signout-redirect
+  annotations:
+    nginx.ingress.kubernetes.io/permanent-redirect: https://workflow.limtaehyun.dev/outpost.goauthentik.io/sign_out
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: workflow.limtaehyun.dev
+      http:
+        paths:
+          - path: /signin
+            pathType: Exact
+            backend:
+              service:
+                name: n8n-signout-redirect
+                port:
+                  number: 443
