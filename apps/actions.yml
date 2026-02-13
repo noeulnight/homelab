@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: actions-runner-controller
+  namespace: argocd
+spec:
+  destination:
+    namespace: actions-runner-system
+    server: https://kubernetes.default.svc
+  project: default
+  ignoreDifferences:
+    - jsonPointers:
+        - /data
+      kind: Secret
+  sources:
+    - chart: actions-runner-controller
+      repoURL: https://actions-runner-controller.github.io/actions-runner-controller
+      targetRevision: "*"
+      helm:
+        releaseName: actions-runner-controller
+        valuesObject:
+          authSecret:
+            create: false
+            name: actions-runner-controller-secret
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
