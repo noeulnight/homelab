@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bridge-service
+spec:
+  selector:
+    app: bridge
+  ports:
+    - name: web
+      protocol: TCP
+      port: 8081
+      targetPort: 8081
+    - name: smtp
+      protocol: TCP
+      port: 1025
+      targetPort: 1025
+    - name: imap
+      protocol: TCP
+      port: 1143
+      targetPort: 1143
