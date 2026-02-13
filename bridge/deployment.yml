@@ -26,7 +26,7 @@ spec:
             - name: BRIDGE_WEB_ADMIN_USER
               value: admin
             - name: BRIDGE_WEB_ALLOW_NON_LOOPBACK
-              value: "0"
+              value: "true"
             - name: BRIDGE_BIND_HOST
               value: "0.0.0.0"
             - name: BRIDGE_WEB_ADMIN_PASS
