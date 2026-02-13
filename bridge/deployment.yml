@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bridge
+  template:
+    metadata:
+      labels:
+        app: bridge
+    spec:
+      containers:
+        - name: bridge
+          image: ghcr.io/noeulnight/bridge:latest
+          ports:
+            - containerPort: 8081
+            - containerPort: 1025
+            - containerPort: 1143
+          volumeMounts:
+            - name: bridge-data
+              mountPath: /home/bridge
+          env:
+            - name: BRIDGE_WEB_ADMIN_USER
+              value: admin
+            - name: BRIDGE_WEB_ALLOW_NON_LOOPBACK
+              value: "0"
+            - name: BRIDGE_BIND_HOST
+              value: "0.0.0.0"
+            - name: BRIDGE_WEB_ADMIN_PASS
+              valueFrom:
+                secretKeyRef:
+                  key: BRIDGE_WEB_ADMIN_PASS
+                  name: bridge-secret
+
+      volumes:
+        - name: bridge-data
+          persistentVolumeClaim:
+            claimName: bridge-pvc
