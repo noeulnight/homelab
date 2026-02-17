@@ -18,6 +18,9 @@ spec:
       releaseName: istiod
       values: |
         profile: ambient
+        pilot:
+          cni:
+            enabled: true
   syncPolicy:
     automated:
       prune: false
