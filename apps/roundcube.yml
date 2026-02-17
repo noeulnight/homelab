@@ -7,6 +7,12 @@ spec:
   destination:
     namespace: roundcube
     server: https://kubernetes.default.svc
+  ignoreDifferences:
+    - kind: Secret
+      name: roundcube
+      namespace: roundcube
+      jsonPointers:
+        - /data
   project: default
   sources:
     - chart: roundcube
