@@ -15,6 +15,16 @@ spec:
               exact: visualized.limtaehyun.dev
       redirect:
         authority: visualized.lth.so
+    - match:
+        - uri:
+            prefix: /api
+        - uri:
+            prefix: /events
+      route:
+        - destination:
+            host: kube-visualizer-backend.kube-visualizer.svc.cluster.local
+            port:
+              number: 3000
     - route:
         - destination:
             host: kube-visualizer-visualizer.kube-visualizer.svc.cluster.local
