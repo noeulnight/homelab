@@ -16,13 +16,14 @@ spec:
         releaseName: kube-visualizer
         valuesObject:
           ingress:
-            enabled: true
-            className: nginx
-            host: visualized.limtaehyun.dev
+            enabled: false
           visualizer:
             resources: {}
           backend:
             resources: {}
+    - path: kube-visualizer
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true

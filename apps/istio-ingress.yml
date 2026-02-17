@@ -10,15 +10,18 @@ spec:
     namespace: istio-ingress
     server: https://kubernetes.default.svc
   project: default
-  source:
-    chart: gateway
-    repoURL: https://istio-release.storage.googleapis.com/charts
-    targetRevision: "*"
-    helm:
-      releaseName: istio-ingress
-      values: |
-        service:
-          type: LoadBalancer
+  sources:
+    - chart: gateway
+      repoURL: https://istio-release.storage.googleapis.com/charts
+      targetRevision: "*"
+      helm:
+        releaseName: istio-ingress
+        values: |
+          service:
+            type: LoadBalancer
+    - path: istio-ingress
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
   syncPolicy:
     automated:
       prune: false

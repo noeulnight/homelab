@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: grafana
+namespace: istio-ingress
 resources:
-  - ./pv.yml
-  - ./virtual-service.yml
+  - ./gateway.yml
+  - ./redirect-limtaehyun.yml

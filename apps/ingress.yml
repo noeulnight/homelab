@@ -20,6 +20,9 @@ spec:
         releaseName: ingress-nginx
         values: |
           controller:
+            replicaCount: 0
+            service:
+              type: ClusterIP
             config:
               proxy-body-size: "100m"
             extraArgs:

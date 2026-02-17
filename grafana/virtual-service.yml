@@ -1,22 +1,22 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: bridge
+  name: grafana
 spec:
   hosts:
-    - "bridge.lth.so"
-    - "bridge.limtaehyun.dev"
+    - "monitoring.lth.so"
+    - "monitoring.limtaehyun.dev"
   gateways:
     - istio-ingress/public-gateway
   http:
     - match:
         - headers:
             :authority:
-              exact: bridge.limtaehyun.dev
+              exact: monitoring.limtaehyun.dev
       redirect:
-        authority: bridge.lth.so
+        authority: monitoring.lth.so
     - route:
         - destination:
-            host: ak-outpost-bridge.authentik.svc.cluster.local
+            host: grafana.grafana.svc.cluster.local
             port:
-              number: 9000
+              number: 80

@@ -42,7 +42,7 @@ spec:
                   name: authentik-secrets
                   key: AUTHENTIK_POSTGRESQL__PASSWORD
             - name: AUTHENTIK_HOST
-              value: "https://auth.limtaehyun.dev"
+              value: "https://auth.lth.so"
             - name: AUTHENTIK_USE_X_FORWARDED_HOST
               value: "true"
             - name: AUTHENTIK_USE_X_FORWARDED_PORT

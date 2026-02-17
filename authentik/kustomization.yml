@@ -8,6 +8,5 @@ resources:
   - ./service.yml
   - ./rbac.yml
   - ./ingress.yml
-  - ./ingress/adguard.yml
   - ./ingress/n8n.yml
   - ./ingress/bridge.yml

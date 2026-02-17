@@ -1,22 +1,22 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: bridge
+  name: badges
 spec:
   hosts:
-    - "bridge.lth.so"
-    - "bridge.limtaehyun.dev"
+    - "badges.lth.so"
+    - "badges.limtaehyun.dev"
   gateways:
     - istio-ingress/public-gateway
   http:
     - match:
         - headers:
             :authority:
-              exact: bridge.limtaehyun.dev
+              exact: badges.limtaehyun.dev
       redirect:
-        authority: bridge.lth.so
+        authority: badges.lth.so
     - route:
         - destination:
-            host: ak-outpost-bridge.authentik.svc.cluster.local
+            host: badges.badges.svc.cluster.local
             port:
-              number: 9000
+              number: 80

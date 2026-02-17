@@ -60,7 +60,7 @@ spec:
                   name: wakapi-secrets
                   key: WAKAPI_OIDC_ENDPOINT
             - name: WAKAPI_PUBLIC_URL
-              value: https://wakatime.limtaehyun.dev
+              value: https://wakatime.lth.so
           volumeMounts:
             - name: data
               mountPath: /data

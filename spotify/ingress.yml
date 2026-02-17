@@ -1,41 +1,37 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1
+kind: VirtualService
 metadata:
-  name: spotify-api-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: spotify
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: spotify.limtaehyun.dev
-      http:
-        paths:
-          - path: /api(/|$)(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: spotify-server-service
-                port:
-                  number: 8080
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: spotify-web-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: spotify.limtaehyun.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: spotify-web-service
-                port:
-                  number: 3000
+  hosts:
+    - "spotify.lth.so"
+    - "spotify.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: spotify.limtaehyun.dev
+      redirect:
+        authority: spotify.lth.so
+    - match:
+        - uri:
+            regex: /api(/|$)(.*)
+      rewrite:
+        uriRegexRewrite:
+          match: ^/api(/|$)(.*)
+          rewrite: "/\\2"
+      route:
+        - destination:
+            host: spotify-server-service.spotify.svc.cluster.local
+            port:
+              number: 8080
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: spotify-web-service.spotify.svc.cluster.local
+            port:
+              number: 3000

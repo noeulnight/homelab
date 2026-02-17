@@ -47,7 +47,7 @@ spec:
                   name: n8n-secrets
                   key: N8N_USER_MANAGEMENT_JWT_SECRET
             - name: WEBHOOK_URL
-              value: https://workflow.limtaehyun.dev
+              value: https://workflow.lth.so
             - name: N8N_PROXY_HOPS
               value: "1"
             - name: N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE

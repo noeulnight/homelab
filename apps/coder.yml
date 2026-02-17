@@ -33,15 +33,15 @@ spec:
                     name: coder-secret
                     key: CODER_PG_CONNECTION_URL
               - name: CODER_ACCESS_URL
-                value: https://coder.limtaehyun.dev
+                value: https://coder.lth.so
               - name: CODER_WILDCARD_ACCESS_URL
-                value: "*.coder.limtaehyun.dev"
+                value: "*.coder.lth.so"
               - name: CODER_OIDC_ICON_URL
-                value: https://auth.limtaehyun.dev/static/dist/assets/icons/icon.png
+                value: https://auth.lth.so/static/dist/assets/icons/icon.png
               - name: CODER_OIDC_ISSUER_URL
-                value: https://auth.limtaehyun.dev/application/o/coder/
+                value: https://auth.lth.so/application/o/coder/
               - name: CODER_OIDC_EMAIL_DOMAIN
-                value: limtaehyun.dev,naver.com
+                value: lth.so,naver.com
               - name: CODER_OIDC_SIGN_IN_TEXT
                 value: Sign in with HomeLab
               - name: CODER_OIDC_CLIENT_ID
@@ -63,9 +63,7 @@ spec:
               enable: true
               type: ClusterIP
             ingress:
-              enable: true
-              className: nginx
-              host: coder.limtaehyun.dev
+              enable: false
     - path: coder
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD

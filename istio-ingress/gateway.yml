@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: public-gateway
+spec:
+  selector:
+    istio: ingress
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: limtaehyun-dev-tls
+      hosts:
+        - "*.lth.so"
+        - "*.coder.lth.so"
+        - "lth.so"
+        - "*.limtaehyun.dev"
+        - "limtaehyun.dev"

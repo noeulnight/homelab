@@ -5,7 +5,7 @@ metadata:
   namespace: tailscale
 data:
   webfinger.json: |
-    {"subject":"acct:admin@limtaehyun.dev","links":[{"href":"https://auth.limtaehyun.dev/application/o/tailscale/","rel":"http://openid.net/specs/connect/1.0/issuer"}]}
+    {"subject":"acct:admin@lth.so","links":[{"href":"https://auth.lth.so/application/o/tailscale/","rel":"http://openid.net/specs/connect/1.0/issuer"}]}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -50,24 +50,28 @@ spec:
     - port: 80
       targetPort: 80
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1
+kind: VirtualService
 metadata:
   name: tailscale-webfinger
-  namespace: tailscale
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: limtaehyun.dev
-      http:
-        paths:
-          - path: /.well-known/webfinger
-            pathType: Exact
-            backend:
-              service:
-                name: tailscale-webfinger
-                port:
-                  number: 80
+  hosts:
+    - "lth.so"
+    - "limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: limtaehyun.dev
+      redirect:
+        authority: lth.so
+    - match:
+        - uri:
+            exact: /.well-known/webfinger
+      route:
+        - destination:
+            host: tailscale-webfinger.tailscale.svc.cluster.local
+            port:
+              number: 80

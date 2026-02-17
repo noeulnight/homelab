@@ -21,7 +21,7 @@ spec:
         values: |
           grafana.ini:
             server:
-              domain: monitoring.limtaehyun.dev
+              domain: monitoring.lth.so
               root_url: "%(protocol)s://%(domain)s"
           persistence:
             type: pvc

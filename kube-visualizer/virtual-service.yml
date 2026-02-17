@@ -1,24 +1,22 @@
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: coder
+  name: kube-visualizer
 spec:
   hosts:
-    - "coder.lth.so"
-    - "*.coder.lth.so"
-    - "coder.limtaehyun.dev"
-    - "*.coder.limtaehyun.dev"
+    - "visualized.lth.so"
+    - "visualized.limtaehyun.dev"
   gateways:
     - istio-ingress/public-gateway
   http:
     - match:
         - headers:
             :authority:
-              exact: coder.limtaehyun.dev
+              exact: visualized.limtaehyun.dev
       redirect:
-        authority: coder.lth.so
+        authority: visualized.lth.so
     - route:
         - destination:
-            host: coder.coder.svc.cluster.local
+            host: kube-visualizer-visualizer.kube-visualizer.svc.cluster.local
             port:
               number: 80

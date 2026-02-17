@@ -1,20 +1,22 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1
+kind: VirtualService
 metadata:
-  name: authentik-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-
+  name: authentik
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: auth.limtaehyun.dev
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: authentik-service
-                port:
-                  number: 9000
+  hosts:
+    - "auth.lth.so"
+    - "auth.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: auth.limtaehyun.dev
+      redirect:
+        authority: auth.lth.so
+    - route:
+        - destination:
+            host: authentik-service.authentik.svc.cluster.local
+            port:
+              number: 9000

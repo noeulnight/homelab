@@ -19,9 +19,9 @@ spec:
             - containerPort: 8080
           env:
             - name: API_ENDPOINT
-              value: https://spotify.limtaehyun.dev/api
+              value: https://spotify.lth.so/api
             - name: CLIENT_ENDPOINT
-              value: https://spotify.limtaehyun.dev
+              value: https://spotify.lth.so
             - name: SPOTIFY_PUBLIC
               valueFrom:
                 secretKeyRef:
@@ -58,7 +58,7 @@ spec:
             - containerPort: 3000
           env:
             - name: API_ENDPOINT
-              value: https://spotify.limtaehyun.dev/api
+              value: https://spotify.lth.so/api
 ---
 apiVersion: apps/v1
 kind: Deployment

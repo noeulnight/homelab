@@ -1,54 +1,30 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.istio.io/v1
+kind: VirtualService
 metadata:
-  name: n8n-ingress
+  name: n8n
 spec:
-  ingressClassName: nginx
-  rules:
-    - host: workflow.limtaehyun.dev
-      http:
-        paths:
-          - path: /signin
-            pathType: Exact
-            backend:
-              service:
-                name: ak-outpost-n8n
-                port:
-                  number: 9000
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: ak-outpost-n8n
-                port:
-                  number: 9000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: n8n-signout-redirect
-spec:
-  type: ExternalName
-  externalName: workflow.limtaehyun.dev
-  ports:
-    - port: 443
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: n8n-signout-redirect
-  annotations:
-    nginx.ingress.kubernetes.io/permanent-redirect: https://workflow.limtaehyun.dev/outpost.goauthentik.io/sign_out
-spec:
-  ingressClassName: nginx
-  rules:
-    - host: workflow.limtaehyun.dev
-      http:
-        paths:
-          - path: /signin
-            pathType: Exact
-            backend:
-              service:
-                name: n8n-signout-redirect
-                port:
-                  number: 443
+  hosts:
+    - "workflow.lth.so"
+    - "workflow.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: workflow.limtaehyun.dev
+      redirect:
+        authority: workflow.lth.so
+    - match:
+        - uri:
+            exact: /signin
+      redirect:
+        uri: /outpost.goauthentik.io/sign_out
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: ak-outpost-n8n.authentik.svc.cluster.local
+            port:
+              number: 9000
