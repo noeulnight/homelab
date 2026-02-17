@@ -37,6 +37,7 @@ spec:
             username: placeholder
             password: placeholder
           deployment:
+            replicas: 1
             resources: {}
     - path: roundcube
       repoURL: git@github.com:noeulnight/homelab.git
