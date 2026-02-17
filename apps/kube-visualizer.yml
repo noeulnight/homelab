@@ -28,6 +28,9 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
     syncOptions:
       - RespectIgnoreDifferences=true
       - ApplyOutOfSyncOnly=true

@@ -12,6 +12,8 @@ kind: Deployment
 metadata:
   name: tailscale-webfinger
   namespace: tailscale
+  labels:
+    app.kubernetes.io/version: v1
 spec:
   replicas: 1
   selector:
@@ -21,6 +23,7 @@ spec:
     metadata:
       labels:
         app: tailscale-webfinger
+        app.kubernetes.io/version: v1
     spec:
       containers:
         - name: nginx

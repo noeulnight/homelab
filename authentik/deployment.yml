@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: authentik-server
+  labels:
+    app.kubernetes.io/version: v1
 spec:
   replicas: 1
   selector:
@@ -13,6 +15,7 @@ spec:
         app: authentik-server
         app.kubernetes.io/component: server
         app.kubernetes.io/name: authentik
+        app.kubernetes.io/version: v1
     spec:
       serviceAccountName: authentik
       containers:
@@ -65,6 +68,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: authentik-worker
+  labels:
+    app.kubernetes.io/version: v1
 spec:
   replicas: 1
   selector:
@@ -74,6 +79,7 @@ spec:
     metadata:
       labels:
         app: authentik-worker
+        app.kubernetes.io/version: v1
     spec:
       serviceAccountName: authentik
       containers:

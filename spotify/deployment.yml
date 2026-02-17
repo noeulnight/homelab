@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotify-server
+  labels:
+    app.kubernetes.io/version: v1
 spec:
   replicas: 1
   selector:
@@ -11,6 +13,7 @@ spec:
     metadata:
       labels:
         app: spotify-server
+        app.kubernetes.io/version: v1
     spec:
       containers:
         - name: server
@@ -41,6 +44,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotify-web
+  labels:
+    app.kubernetes.io/version: v1
 spec:
   replicas: 1
   selector:
@@ -50,6 +55,7 @@ spec:
     metadata:
       labels:
         app: spotify-web
+        app.kubernetes.io/version: v1
     spec:
       containers:
         - name: web
@@ -64,6 +70,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spotify-canvas-api
+  labels:
+    app.kubernetes.io/version: v1
 spec:
   replicas: 1
   selector:
@@ -73,6 +81,7 @@ spec:
     metadata:
       labels:
         app: spotify-canvas-api
+        app.kubernetes.io/version: v1
     spec:
       containers:
         - name: web
