@@ -42,7 +42,7 @@ spec:
       selfHeal: true
     managedNamespaceMetadata:
       labels:
-        istio.io/dataplane-mode: ambient
+        istio.io/dataplane-mode: none
     syncOptions:
       - RespectIgnoreDifferences=true
       - ApplyOutOfSyncOnly=true
