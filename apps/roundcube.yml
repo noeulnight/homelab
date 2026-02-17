@@ -42,6 +42,17 @@ spec:
             encryption: none
             username: placeholder
             password: placeholder
+          config:
+            customRoundcubeConfig: |
+              $config['oauth_provider'] = 'generic';
+              $config['oauth_provider_name'] = 'authentik';
+              $config['oauth_client_id'] = getenv('ROUNDCUBEMAIL_OAUTH_CLIENT_ID');
+              $config['oauth_client_secret'] = getenv('ROUNDCUBEMAIL_OAUTH_CLIENT_SECRET');
+              $config['oauth_auth_uri'] = 'https://auth.lth.so/application/o/authorize/';
+              $config['oauth_token_uri'] = 'https://auth.lth.so/application/o/token/';
+              $config['oauth_identity_uri'] = 'https://auth.lth.so/application/o/userinfo/';
+              $config['oauth_scope'] = 'openid profile email';
+              $config['oauth_identity_fields'] = ['email'];
           secret:
             additionalAnnotations:
               sealedsecrets.bitnami.com/managed: "true"
@@ -50,6 +61,17 @@ spec:
             strategy:
               type: Recreate
             resources: {}
+            additionalEnv:
+              - name: ROUNDCUBEMAIL_OAUTH_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: roundcube
+                    key: oauthClientId
+              - name: ROUNDCUBEMAIL_OAUTH_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: roundcube
+                    key: oauthClientSecret
     - path: roundcube
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
