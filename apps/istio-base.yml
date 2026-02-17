@@ -10,6 +10,18 @@ spec:
     namespace: istio-system
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: istiod-default-validator
+      jsonPointers:
+        - /webhooks
+      managedFieldsManagers:
+        - pilot-discovery
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
   source:
     chart: base
     repoURL: https://istio-release.storage.googleapis.com/charts
@@ -23,3 +35,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
