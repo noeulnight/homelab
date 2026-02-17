@@ -10,3 +10,4 @@ resources:
   - ./ingress.yml
   - ./ingress/n8n.yml
   - ./ingress/bridge.yml
+  - ./ingress/adguard.yml
