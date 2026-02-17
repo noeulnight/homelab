@@ -20,3 +20,7 @@ spec:
             host: ak-outpost-bridge.authentik.svc.cluster.local
             port:
               number: 9000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

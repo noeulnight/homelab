@@ -25,8 +25,16 @@ spec:
             host: kube-visualizer-backend.kube-visualizer.svc.cluster.local
             port:
               number: 3000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
     - route:
         - destination:
             host: kube-visualizer-visualizer.kube-visualizer.svc.cluster.local
             port:
               number: 80
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
