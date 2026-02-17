@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: roundcube
+spec:
+  hosts:
+    - "mail.lth.so"
+    - "mail.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: mail.limtaehyun.dev
+      redirect:
+        authority: mail.lth.so
+    - route:
+        - destination:
+            host: roundcube.roundcube.svc.cluster.local
+            port:
+              number: 80

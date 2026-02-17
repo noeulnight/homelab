@@ -1,0 +1,77 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: roundcube
+  namespace: argocd
+spec:
+  destination:
+    namespace: roundcube
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - chart: roundcube
+      repoURL: https://helm-charts.mlohr.com
+      targetRevision: "*"
+      helm:
+        releaseName: roundcube
+        valuesObject:
+          ingress:
+            enabled: false
+          database:
+            source: external
+          externalDatabase:
+            type: pgsql
+            host: postgres-service.postgres.svc.cluster.local
+            port: 5432
+            name: roundcube
+            user: roundcube
+            password: placeholder
+          imap:
+            host: bridge-service.bridge.svc.cluster.local
+            port: 1143
+            encryption: none
+          smtp:
+            host: bridge-service.bridge.svc.cluster.local
+            port: 1025
+            encryption: none
+            username: placeholder
+            password: placeholder
+          deployment:
+            resources: {}
+            additionalEnv:
+              - name: ROUNDCUBEMAIL_DB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: roundcube-secret
+                    key: db-user
+              - name: ROUNDCUBEMAIL_DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: roundcube-secret
+                    key: db-password
+              - name: ROUNDCUBEMAIL_SMTP_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: roundcube-secret
+                    key: smtp-user
+              - name: ROUNDCUBEMAIL_SMTP_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: roundcube-secret
+                    key: smtp-password
+    - path: roundcube
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
