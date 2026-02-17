@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kiali
+spec:
+  hosts:
+    - "kiali.lth.so"
+    - "kiali.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: kiali.limtaehyun.dev
+      redirect:
+        authority: kiali.lth.so
+    - route:
+        - destination:
+            host: kiali.kiali.svc.cluster.local
+            port:
+              number: 20001

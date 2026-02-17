@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kiali
+  namespace: argocd
+spec:
+  destination:
+    namespace: kiali
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - chart: kiali-server
+      repoURL: https://kiali.org/helm-charts
+      targetRevision: "*"
+      helm:
+        releaseName: kiali
+        values: |
+          auth:
+            strategy: anonymous
+          external_services:
+            prometheus:
+              url: http://prometheus-kube-prometheus-prometheus.prometheus.svc.cluster.local:9090
+            grafana:
+              enabled: true
+              internal_url: http://grafana.grafana.svc.cluster.local
+              external_url: https://monitoring.lth.so
+    - path: kiali
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
