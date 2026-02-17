@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: kiali-ambient-hbone
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: kiali
+      app.kubernetes.io/name: kiali
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 15008
