@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-limtaehyun-dev
-  namespace: cert-manager
+  namespace: istio-ingress
 spec:
   secretName: lth-tls
   commonName: lth.so
@@ -20,7 +20,3 @@ spec:
     - "limtaehyun.dev"
     - "*.limtaehyun.dev"
     - "*.coder.limtaehyun.dev"
-  secretTemplate:
-    annotations:
-      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
