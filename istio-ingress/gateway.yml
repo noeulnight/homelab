@@ -18,7 +18,7 @@ spec:
         protocol: HTTPS
       tls:
         mode: SIMPLE
-        credentialName: limtaehyun-dev-tls
+        credentialName: lth-tls
       hosts:
         - "*.lth.so"
         - "*.coder.lth.so"
