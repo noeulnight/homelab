@@ -47,6 +47,8 @@ spec:
               sealedsecrets.bitnami.com/managed: "true"
           deployment:
             replicas: 1
+            strategy:
+              type: Recreate
             resources: {}
     - path: roundcube
       repoURL: git@github.com:noeulnight/homelab.git
