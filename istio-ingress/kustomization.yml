@@ -4,3 +4,5 @@ namespace: istio-ingress
 resources:
   - ./gateway.yml
   - ./redirect-limtaehyun.yml
+  - ./argocd-virtual-service.yml
+  - ./argocd-destination-rule.yml

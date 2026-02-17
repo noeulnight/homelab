@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: argocd
+spec:
+  hosts:
+    - "argo.lth.so"
+    - "argo.limtaehyun.dev"
+  gateways:
+    - public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: argo.limtaehyun.dev
+      redirect:
+        authority: argo.lth.so
+    - route:
+        - destination:
+            host: argocd-server.argocd.svc.cluster.local
+            port:
+              number: 443
+      headers:
+        request:
+          set:
+            x-forwarded-proto: https
