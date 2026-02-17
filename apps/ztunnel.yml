@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ztunnel
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  destination:
+    namespace: istio-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: ztunnel
+    repoURL: https://istio-release.storage.googleapis.com/charts
+    targetRevision: "*"
+    helm:
+      releaseName: ztunnel
+      values: |
+        profile: ambient
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
