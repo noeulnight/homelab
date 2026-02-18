@@ -24,9 +24,3 @@ spec:
         cipherSuites:
           - ECDHE-ECDSA-AES256-GCM-SHA384
           - ECDHE-ECDSA-CHACHA20-POLY1305
-      hosts:
-        - "*.lth.so"
-        - "*.coder.lth.so"
-        - "lth.so"
-        - "*.limtaehyun.dev"
-        - "limtaehyun.dev"
