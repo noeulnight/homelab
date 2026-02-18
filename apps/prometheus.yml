@@ -18,6 +18,9 @@ spec:
       targetRevision: "*"
       helm:
         releaseName: prometheus
+    - path: prometheus
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
