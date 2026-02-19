@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: coder
 resources:
   - ./secret.yml
-  - ./wivirtual-service.yml
+  - ./virtual-service.yml
