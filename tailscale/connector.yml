@@ -5,6 +5,7 @@ metadata:
 spec:
   replicas: 1
   hostname: homelab
+  exitNode: true
   subnetRouter:
     advertiseRoutes:
       - "10.0.0.0/8"
