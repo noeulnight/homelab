@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: technitium
+spec:
+  hosts:
+    - "dns.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: technitium-service.technitium.svc.cluster.local
+            port:
+              number: 5380

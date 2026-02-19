@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: technitium
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: technitium
+  template:
+    metadata:
+      labels:
+        app: technitium
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: technitium/dns-server:latest
+          ports:
+            - containerPort: 5380
+            - containerPort: 53
+          env:
+            - name: DNS_SERVER_DOMAIN
+              value: dns-server
+            - name: DNS_SERVER_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: technitium-secret
+                  key: DNS_SERVER_ADMIN_PASSWORD
+          volumeMounts:
+            - name: technitium-data
+              mountPath: /etc/dns
+      volumes:
+        - name: technitium-data
+          persistentVolumeClaim:
+            claimName: technitium-pvc
