@@ -7,7 +7,7 @@ resources:
   - ./secret.yml
   - ./service.yml
   - ./rbac.yml
-  - ./ingress.yml
-  - ./ingress/n8n.yml
-  - ./ingress/bridge.yml
-  - ./ingress/adguard.yml
+  - ./virtual-service.yml
+  - ./virtual-service/n8n.yml
+  - ./virtual-service/bridge.yml
+  - ./virtual-service/adguard.yml

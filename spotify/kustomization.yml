@@ -5,4 +5,4 @@ resources:
   - ./secret.yml
   - ./deployment.yml
   - ./service.yml
-  - ./ingress.yml
+  - ./virtual-service.yml

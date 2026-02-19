@@ -7,4 +7,4 @@ resources:
   - ./pv.yml
   - ./pvc.yml
   - ./service.yml
-  - ./ingress.yml
+  - ./virtual-service.yml

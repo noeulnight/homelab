@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: coder
 resources:
   - ./secret.yml
-  - ./wildcard-ingress.yml
+  - ./wivirtual-service.yml

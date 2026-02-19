@@ -6,5 +6,5 @@ resources:
   - ./pv.yml
   - ./pvc.yml
   - ./service.yml
-  - ./dns-ingress.yml
+  - ./virtual-service.yml
   - ./destination-rule.yml
