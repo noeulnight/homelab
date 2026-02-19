@@ -11,13 +11,21 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "*"
+        -  "lth.so"
+        - "*.lth.so"
+        - "*.coder.lth.so"
+        - "limtaehyun.dev"
+        - "*.limtaehyun.dev"
     - port:
         number: 443
         name: https
         protocol: HTTPS
       hosts:
-        - "*"
+        -  "lth.so"
+        - "*.lth.so"
+        - "*.coder.lth.so"
+        - "limtaehyun.dev"
+        - "*.limtaehyun.dev"
       tls:
         mode: SIMPLE
         credentialName: lth-tls
