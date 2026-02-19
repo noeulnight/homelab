@@ -16,6 +16,8 @@ spec:
         number: 443
         name: https
         protocol: HTTPS
+      hosts:
+        - "*"
       tls:
         mode: SIMPLE
         credentialName: lth-tls
