@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: wakapi-pv
+  name: slash-pv
 spec:
   capacity:
     storage: 10Gi
@@ -10,5 +10,5 @@ spec:
   storageClassName: local-path-retain
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /mnt/data/wakapi
+    path: /mnt/data/slash
     type: DirectoryOrCreate
