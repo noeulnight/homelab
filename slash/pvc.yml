@@ -6,7 +6,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: local-path-retain
-  volumeName: wakapi-pv
+  volumeName: slash-pv
   resources:
     requests:
       storage: 5Gi

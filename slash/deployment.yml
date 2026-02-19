@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slash
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: slash
+  template:
+    metadata:
+      labels:
+        app: slash
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: yourselfhosted/slash:latest
+          ports:
+            - containerPort: 5231
+          env:
+            - name: SLASH_DRIVER
+              value: postgres
+            - name: SLASH_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: slash-secret
+                  key: SLASH_DSN
+          volumeMounts:
+            - name: slash-data
+              mountPath: /var/opt/slash
+      volumes:
+        - name: slash-data
+          persistentVolumeClaim:
+            claimName: slash-pvc

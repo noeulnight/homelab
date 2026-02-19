@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: slash-service
+spec:
+  selector:
+    app: slash
+  ports:
+    - protocol: TCP
+      port: 5231
+      targetPort: 5231

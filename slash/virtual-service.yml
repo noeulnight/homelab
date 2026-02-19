@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: slash
+spec:
+  hosts:
+    - "s.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: slash-service.slash.svc.cluster.local
+            port:
+              number: 5231
