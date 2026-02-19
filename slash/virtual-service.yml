@@ -39,6 +39,8 @@ spec:
             exact: /robots.txt
         - uri:
             regex: ".+\\.(js|mjs|css|map|png|jpg|jpeg|gif|svg|ico|webp|woff|woff2|ttf)$"
+        - uri:
+            prefix: "/slash.api"
       route:
         - destination:
             host: slash-service.slash.svc.cluster.local
