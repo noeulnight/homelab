@@ -58,10 +58,7 @@ spec:
                   name: wakapi-secrets
                   key: WAKAPI_OIDC_CLIENT_SECRET
             - name: WAKAPI_OIDC_PROVIDERS_0_ENDPOINT
-              valueFrom:
-                secretKeyRef:
-                  name: wakapi-secrets
-                  key: WAKAPI_OIDC_ENDPOINT
+              value: https://auth.lth.so/application/o/wakatime/
             - name: WAKAPI_PUBLIC_URL
               value: https://wakatime.lth.so
           volumeMounts:
