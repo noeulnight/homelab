@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: architecture
+spec:
+  hosts:
+    - "arch.lth.so"
+    - "arch.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: architecture-service.architecture.svc.cluster.local
+            port:
+              number: 80
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

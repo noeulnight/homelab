@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: architecture-service
+spec:
+  selector:
+    app: architecture
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
