@@ -41,7 +41,7 @@ spec:
               - name: CODER_OIDC_ISSUER_URL
                 value: https://auth.lth.so/application/o/coder/
               - name: CODER_OIDC_EMAIL_DOMAIN
-                value: lth.so,naver.com
+                value: lth.so,limtaehyun.dev,naver.com
               - name: CODER_OIDC_SIGN_IN_TEXT
                 value: Sign in with HomeLab
               - name: CODER_OIDC_CLIENT_ID
