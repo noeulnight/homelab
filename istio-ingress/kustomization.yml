@@ -4,3 +4,5 @@ namespace: istio-ingress
 resources:
   - ./gateway.yml
   - ./filter/spotify.yml
+  - ./filter/technitium.yml
+  - ./script/scripts.yml

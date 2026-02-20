@@ -5,6 +5,5 @@ resources:
   - ./secret.yml
   - ./deployment.yml
   - ./service.yml
-  - ./virtual-service.yml
   - ./pvc.yml
   - ./pv.yml

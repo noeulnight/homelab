@@ -10,6 +10,10 @@ spec:
   http:
     - route:
         - destination:
-            host: technitium-service.technitium.svc.cluster.local
+            host: ak-outpost-technitium.authentik.svc.cluster.local
             port:
-              number: 5380
+              number: 9000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
