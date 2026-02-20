@@ -5,9 +5,16 @@ metadata:
 spec:
   hosts:
     - "lth.so"
+    - "limtaehyun.dev"
   gateways:
     - istio-ingress/public-gateway
   http:
+    - match:
+        - headers:
+            :authority:
+              exact: limtaehyun.dev
+      redirect:
+        authority: lth.so
     - match:
         - uri:
             prefix: /s/
