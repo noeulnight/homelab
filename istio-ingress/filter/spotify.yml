@@ -1,0 +1,48 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: spotify-filter
+  namespace: istio-ingress
+spec:
+  workloadSelector:
+    labels:
+      istio: ingress
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: GATEWAY
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.filters.network.http_connection_manager"
+            subFilter:
+              name: "envoy.filters.http.router"
+    patch:
+      operation: INSERT_BEFORE
+      value:
+       name: envoy.filters.http.lua
+       typed_config:
+          "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+          defaultSourceCode:
+            inlineString: |
+              function envoy_on_request(request_handle)
+                local authority = request_handle:headers():get(":authority")
+                if authority ~= "spotify.lth.so" and authority ~= "spotify.limtaehyun.dev" then
+                  return
+                end
+
+                local path = request_handle:headers():get(":path")
+                if path == nil then
+                  return
+                end
+
+                local path_only, query = string.match(path, "^([^?]*)%??(.*)$")
+                if query == "" then
+                  request_handle:headers():replace(":path", path_only .. "?token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
+                  return
+                end
+
+                if not string.find(query, "(^|&)token=[^&]*") then
+                  request_handle:headers():replace(":path", path_only .. "?" .. query .. "&token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
+                end
+              end

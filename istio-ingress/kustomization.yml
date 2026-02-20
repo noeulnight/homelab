@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: istio-ingress
 resources:
   - ./gateway.yml
+  - ./filter/spotify.yml
