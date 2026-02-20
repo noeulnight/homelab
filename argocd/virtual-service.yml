@@ -7,7 +7,7 @@ spec:
     - "argo.lth.so"
     - "argo.limtaehyun.dev"
   gateways:
-    - public-gateway
+    - istio-ingress/public-gateway
   http:
     - match:
         - headers:
