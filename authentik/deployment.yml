@@ -51,7 +51,26 @@ spec:
             - name: AUTHENTIK_USE_X_FORWARDED_PORT
               value: "true"
             - name: AUTHENTIK_TRUSTED_PROXY
-              value: "10.42.0.0/16" # k3s 기본 Pod CIDR 또는 ingress controller IP 대역
+              value: "10.42.0.0/16" 
+            - name: AUTHENTIK_EMAIL__HOST
+              value: bridge-service.bridge.svc.cluster.local
+            - name: AUTHENTIK_EMAIL__PORT
+              value: '1025'
+            - name: AUTHENTIK_EMAIL__USERNAME
+              value: limtaehyun@lth.so
+            - name: AUTHENTIK_EMAIL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: AUTHENTIK_EMAIL__PASSWORD
+            - name: AUTHENTIK_EMAIL__USE_TLS
+              value: 'false'
+            - name: AUTHENTIK_EMAIL__USE_SSL
+              value: 'false'
+            - name: AUTHENTIK_EMAIL__TIMEOUT
+              value: '30'
+            - name: AUTHENTIK_EMAIL__FROM
+              value: limtaehyun@lth.so
           volumeMounts:
             - mountPath: /media
               name: authentik-storage
@@ -106,6 +125,26 @@ spec:
                 secretKeyRef:
                   name: authentik-secrets
                   key: AUTHENTIK_POSTGRESQL__PASSWORD
+            - name: AUTHENTIK_EMAIL__HOST
+              value: bridge-service.bridge.svc.cluster.local
+            - name: AUTHENTIK_EMAIL__PORT
+              value: '1025'
+            - name: AUTHENTIK_EMAIL__USERNAME
+              value: limtaehyun@lth.so
+            - name: AUTHENTIK_EMAIL__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: authentik-secrets
+                  key: AUTHENTIK_EMAIL__PASSWORD
+            - name: AUTHENTIK_EMAIL__USE_TLS
+              value: 'false'
+            - name: AUTHENTIK_EMAIL__USE_SSL
+              value: 'false'
+            - name: AUTHENTIK_EMAIL__TIMEOUT
+              value: '30'
+            - name: AUTHENTIK_EMAIL__FROM
+              value: limtaehyun@lth.so
+
           volumeMounts:
             - mountPath: /media
               name: authentik-storage
