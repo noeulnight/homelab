@@ -5,7 +5,8 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
+  storageClassName: local-path-retain
+  volumeName: authentik-pv
   resources:
     requests:
       storage: 10Gi
