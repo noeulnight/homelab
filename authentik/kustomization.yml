@@ -10,4 +10,3 @@ resources:
   - ./virtual-service.yml
   - ./virtual-service/n8n.yml
   - ./virtual-service/bridge.yml
-  - ./virtual-service/adguard.yml
