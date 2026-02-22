@@ -1,0 +1,22 @@
+name: ArgoCD Diff
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  argocd-diff:
+    name: Generate ArgoCD Diff
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: argocd-diff-action/argocd-diff-action@v0
+        with:
+          argocd-extra-cli-args: "--grpc-web"
+          argocd-server-fqdn: "argo.lth.so"
+          argocd-token: "${{ secrets.ARGOCD_TOKEN }}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          timezone: "Asia/Seoul"
