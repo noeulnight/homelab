@@ -23,6 +23,8 @@ spec:
           env:
             - name: NODE_ENV
               value: production
+            - name: url
+              value: https://blog.lth.so
             - name: database__client
               value: mysql
             - name: database__connection__host
