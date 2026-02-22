@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gateway-api
+    path: gateway
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:
