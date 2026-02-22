@@ -4,3 +4,4 @@ namespace: prometheus
 resources:
   - ./istiod-servicemonitor.yml
   - ./ztunnel-podmonitor.yml
+  - ./waypoint-servicemonitor.yml
