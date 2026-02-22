@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: ghost
+spec:
+  hosts:
+    - "blog.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: ghost-service.ghost.svc.cluster.local
+            port:
+              number: 80

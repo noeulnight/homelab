@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ghost-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path-retain
+  volumeName: ghost-pv
+  resources:
+    requests:
+      storage: 5Gi

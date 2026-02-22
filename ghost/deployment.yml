@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: ghost:6-alpine
+          ports:
+            - containerPort: 2368
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: database__client
+              value: mysql
+            - name: database__connection__host
+              value: mysql-service.mysql.svc.cluster.local
+            - name: database__connection__user
+              value: ghost
+            - name: database__connection__password
+              valueFrom:
+                secretKeyRef:
+                  name: ghost-secrets
+                  key: DB_PASSWORD
+            - name: database__connection__database
+              value: ghost
+            - name: mail__transport
+              value: SMTP
+            - name: mail__options__host
+              value: bridge-service.bridge.svc.clsuter.local
+            - name: mail__options__port
+              value: "1025"
+            - name: mail__options__secure
+              value: "false"
+            - name: mail__options__auth__user
+              value: limtaehyun@lth.so
+            - name: mail__options__auth__pass
+              valueFrom:
+                secretKeyRef:
+                  name: ghost-secrets
+                  key: MAIL_PASSWORD
+            - name: mail__from
+              value: "'Taehyun Lim' <contact@lth.so>"
+          volumeMounts:
+            - name: ghost-data
+              mountPath: /var/lib/ghost/content
+      volumes:
+        - name: ghost-data
+          persistentVolumeClaim:
+            claimName: ghost-pvc
