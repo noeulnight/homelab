@@ -6,3 +6,4 @@ resources:
   - ./deployment.yml
   - ./service.yml
   - ./virtual-service.yml
+  - ./waypoint.yml

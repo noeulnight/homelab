@@ -4,3 +4,4 @@ namespace: kiali
 resources:
   - ./virtual-service.yml
   - ./networkpolicy-ambient-hbone.yml
+  - ./waypoint.yml

@@ -33,7 +33,8 @@ spec:
       selfHeal: true
     managedNamespaceMetadata:
       labels:
-        istio.io/dataplane-mode: none
+        istio.io/dataplane-mode: ambient
+        istio.io/use-waypoint: waypoint
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
