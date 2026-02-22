@@ -4,3 +4,4 @@ namespace: grafana
 resources:
   - ./pv.yml
   - ./virtual-service.yml
+  - ./waypoint.yml

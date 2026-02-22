@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: kube-visualizer
 resources:
   - ./virtual-service.yml
+  - ./waypoint.yml

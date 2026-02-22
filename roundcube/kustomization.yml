@@ -4,3 +4,4 @@ namespace: roundcube
 resources:
   - ./secret.yml
   - ./virtual-service.yml
+  - ./waypoint.yml
