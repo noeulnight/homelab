@@ -7,3 +7,4 @@ resources:
   - ./waypoint-servicemonitor.yml
   - ./argocd-servicemonitor.yml
   - ./technitium-servicemonitor.yml
+  - ./authentik-servicemonitor.yml
