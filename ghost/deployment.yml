@@ -41,10 +41,12 @@ spec:
             - name: mail__transport
               value: SMTP
             - name: mail__options__host
-              value: bridge-service.bridge.svc.clsuter.local
+              value: bridge-service.bridge.svc.cluster.local
             - name: mail__options__port
               value: "1025"
             - name: mail__options__secure
+              value: "false"
+            - name: mail__options__tls__rejectUnauthorized
               value: "false"
             - name: mail__options__auth__user
               value: limtaehyun@lth.so
@@ -53,8 +55,10 @@ spec:
                 secretKeyRef:
                   name: ghost-secrets
                   key: MAIL_PASSWORD
+            - name: mail__options__envelope__from
+              value: "limtaehyun@lth.so"
             - name: mail__from
-              value: "'Taehyun Lim' <contact@lth.so>"
+              value: "limtaehyun@lth.so"
           volumeMounts:
             - name: ghost-data
               mountPath: /var/lib/ghost/content
