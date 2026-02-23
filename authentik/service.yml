@@ -6,6 +6,11 @@ spec:
   selector:
     app: authentik-server
   ports:
-    - protocol: TCP
+    - name: web
+      protocol: TCP
       port: 9000
       targetPort: 9000
+    - name: metrics
+      protocol: TCP
+      port: 9300
+      targetPort: 9300
