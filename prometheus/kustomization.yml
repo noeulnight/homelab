@@ -5,3 +5,4 @@ resources:
   - ./istiod-servicemonitor.yml
   - ./ztunnel-podmonitor.yml
   - ./waypoint-servicemonitor.yml
+  - ./argocd-servicemonitor.yml
