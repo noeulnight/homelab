@@ -18,3 +18,20 @@ spec:
       protocol: UDP
       port: 53
       targetPort: 53
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: technitium-prometheus-exporter
+  labels:
+    app.kubernetes.io/name: technitium-prometheus-exporter
+    app.kubernetes.io/part-of: technitium
+spec:
+  selector:
+    app: technitium-prometheus-exporter
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

@@ -36,3 +36,36 @@ spec:
         - name: technitium-data
           persistentVolumeClaim:
             claimName: technitium-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: technitium-prometheus-exporter
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: technitium-prometheus-exporter
+  template:
+    metadata:
+      labels:
+        app: technitium-prometheus-exporter
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/brioche-works/technitium-dns-prometheus-exporter:master
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TECHNITIUM_API_DNS_BASE_URL
+              value: http://technitium-service.technitium.svc.cluster.local:5380
+            - name: TECHNITIUM_API_DNS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: technitium-secret
+                  key: DNS_API_TOKEN
+            - name: TECHNITIUM_API_DNS_LABEL
+              value: "dns"

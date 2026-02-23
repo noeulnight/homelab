@@ -6,3 +6,4 @@ resources:
   - ./ztunnel-podmonitor.yml
   - ./waypoint-servicemonitor.yml
   - ./argocd-servicemonitor.yml
+  - ./technitium-servicemonitor.yml

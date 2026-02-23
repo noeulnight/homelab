@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: technitium
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - technitium
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: technitium-prometheus-exporter
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
