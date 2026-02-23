@@ -23,6 +23,10 @@ spec:
             server:
               domain: monitoring.lth.so
               root_url: "%(protocol)s://%(domain)s"
+            auth.anonymous:
+              enabled: true
+              org_name: Main Org.
+              org_role: Viewer
           persistence:
             type: pvc
             enabled: true
