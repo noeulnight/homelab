@@ -56,7 +56,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/brioche-works/technitium-dns-prometheus-exporter:master
+          image: ghcr.io/noeulnight/technitium-exporter:master
           ports:
             - containerPort: 8080
           env:
