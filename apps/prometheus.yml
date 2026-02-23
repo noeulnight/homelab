@@ -18,6 +18,9 @@ spec:
       targetRevision: "*"
       helm:
         releaseName: prometheus
+        values: |
+          grafana:
+            enabled: false
     - path: prometheus
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
