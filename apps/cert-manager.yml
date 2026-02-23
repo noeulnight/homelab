@@ -24,6 +24,12 @@ spec:
           global:
             leaderElection:
               namespace: cert-manager
+          prometheus:
+            servicemonitor:
+              enabled: true
+              namespace: prometheus
+              labels:
+                release: prometheus
     - path: cert-manager
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
