@@ -19,7 +19,11 @@ spec:
       helm:
         releaseName: grafana
         values: |
+          plugins:
+            - https://github.com/haohanyang/mongodb-datasource/releases/download/v0.4.1/haohanyang-mongodb-datasource-0.4.1.zip;haohanyang-mongodb-datasource
           grafana.ini:
+            plugins:
+              allow_loading_unsigned_plugins: haohanyang-mongodb-datasource
             server:
               domain: monitoring.lth.so
               root_url: "%(protocol)s://%(domain)s"
