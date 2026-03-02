@@ -40,7 +40,7 @@ spec:
             - name: MONGO_ENDPOINT
               value: mongodb://mongo-service.mongo.svc.cluster.local:27017/your_spotify
             - name: CORS
-              value: spotify.lth.so,lth.so,localhost
+              value: https://spotify.lth.so,https://lth.so,http://localhost,http://localhost:3000,http://localhost:5173
 ---
 apiVersion: apps/v1
 kind: Deployment
