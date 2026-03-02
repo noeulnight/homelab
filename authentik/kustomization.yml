@@ -12,4 +12,3 @@ resources:
   - ./virtual-service/n8n.yml
   - ./virtual-service/bridge.yml
   - ./virtual-service/technitium.yml
-  - ./waypoint.yml

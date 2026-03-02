@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: root
 resources:
   - ./virtual-service.yml
-  - ./waypoint.yml
