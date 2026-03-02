@@ -20,3 +20,8 @@ spec:
             prefix: /s/
       redirect:
         authority: s.lth.so
+    - route:
+        - destination:
+            host: root-service.root.svc.cluster.local
+            port:
+              number: 80
