@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: root
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: root
+  template:
+    metadata:
+      labels:
+        app: root
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/noeulnight/root
+          ports:
+            - containerPort: 80
