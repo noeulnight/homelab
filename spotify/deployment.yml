@@ -39,6 +39,8 @@ spec:
               value: Asia/Seoul
             - name: MONGO_ENDPOINT
               value: mongodb://mongo-service.mongo.svc.cluster.local:27017/your_spotify
+            - name: CORS
+              value: spotify.lth.so,lth.so,localhost
 ---
 apiVersion: apps/v1
 kind: Deployment
