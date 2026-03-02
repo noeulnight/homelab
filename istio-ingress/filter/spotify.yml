@@ -8,41 +8,83 @@ spec:
     labels:
       istio: ingress
   configPatches:
-  - applyTo: HTTP_FILTER
-    match:
-      context: GATEWAY
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
-            subFilter:
-              name: "envoy.filters.http.router"
-    patch:
-      operation: INSERT_BEFORE
-      value:
-       name: envoy.filters.http.lua
-       typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
-          defaultSourceCode:
-            inlineString: |
-              function envoy_on_request(request_handle)
-                local authority = request_handle:headers():get(":authority")
-                if authority ~= "spotify.lth.so" and authority ~= "spotify.limtaehyun.dev" then
-                  return
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+              subFilter:
+                name: "envoy.filters.http.router"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.lua
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            defaultSourceCode:
+              inlineString: |
+                local function is_allowed_origin(origin)
+                  if origin == nil then
+                    return false
+                  end
+
+                  if string.match(origin, "^https?://lth%.so(:%d+)?$") then
+                    return true
+                  end
+
+                  if string.match(origin, "^https?://localhost(:%d+)?$") then
+                    return true
+                  end
+
+                  if string.match(origin, "^https?://[%w%-]+%.lth%.so(:%d+)?$") then
+                    return true
+                  end
+
+                  return false
                 end
 
-                local path = request_handle:headers():get(":path")
-                if path == nil then
-                  return
+                function envoy_on_request(request_handle)
+                  local authority = request_handle:headers():get(":authority")
+                  if authority ~= "spotify.lth.so" and authority ~= "spotify.limtaehyun.dev" then
+                    return
+                  end
+                  request_handle:streamInfo():dynamicMetadata():set("spotify_filter", "enabled", "1")
+
+                  local origin = request_handle:headers():get("origin")
+                  if is_allowed_origin(origin) then
+                    request_handle:streamInfo():dynamicMetadata():set("spotify_filter", "cors_origin", origin)
+                  end
+
+                  local path = request_handle:headers():get(":path")
+                  if path == nil then
+                    return
+                  end
+
+                  local path_only, query = string.match(path, "^([^?]*)%??(.*)$")
+                  if query == "" then
+                    request_handle:headers():replace(":path", path_only .. "?token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
+                    return
+                  end
+
+                  if not string.find(query, "(^|&)token=[^&]*") then
+                    request_handle:headers():replace(":path", path_only .. "?" .. query .. "&token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
+                  end
                 end
 
-                local path_only, query = string.match(path, "^([^?]*)%??(.*)$")
-                if query == "" then
-                  request_handle:headers():replace(":path", path_only .. "?token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
-                  return
-                end
+                function envoy_on_response(response_handle)
+                  local metadata = response_handle:streamInfo():dynamicMetadata():get("spotify_filter")
+                  if metadata == nil or metadata["enabled"] ~= "1" then
+                    return
+                  end
 
-                if not string.find(query, "(^|&)token=[^&]*") then
-                  request_handle:headers():replace(":path", path_only .. "?" .. query .. "&token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
+                  local cors_origin = metadata["cors_origin"]
+                  if cors_origin == nil then
+                    return
+                  end
+
+                  response_handle:headers():replace("access-control-allow-origin", cors_origin)
+                  response_handle:headers():replace("access-control-allow-credentials", "true")
+                  response_handle:headers():add("vary", "Origin")
                 end
-              end
