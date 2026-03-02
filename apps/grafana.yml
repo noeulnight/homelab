@@ -48,7 +48,6 @@ spec:
     managedNamespaceMetadata:
       labels:
         istio.io/dataplane-mode: ambient
-        istio.io/use-waypoint: waypoint
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
