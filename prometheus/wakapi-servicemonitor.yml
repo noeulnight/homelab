@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: wakapi
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - wakapi
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wakapi-service
+  endpoints:
+    - port: metrics
+      path: /api/metrics
+      interval: 1m
+      bearerTokenSecret:
+        key: WAKAPI_TOKEN
+        name: prometheus-secrets
