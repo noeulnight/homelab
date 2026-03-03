@@ -145,7 +145,6 @@ spec:
               value: '30'
             - name: AUTHENTIK_EMAIL__FROM
               value: limtaehyun@lth.so
-
           volumeMounts:
             - mountPath: /media
               name: authentik-storage

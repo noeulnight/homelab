@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: wakapi-service
+  labels:
+    app.kubernetes.io/name: wakapi-service
+    app.kubernetes.io/part-of: wakapi
 spec:
   selector:
     app: wakapi

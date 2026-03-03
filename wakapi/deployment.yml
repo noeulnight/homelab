@@ -61,6 +61,23 @@ spec:
               value: https://auth.lth.so/application/o/wakatime/
             - name: WAKAPI_PUBLIC_URL
               value: https://wakatime.lth.so
+            - name: WAKAPI_MAIL_SMTP_HOST
+              value: bridge-service.bridge.svc.cluster.local
+            - name: WAKAPI_MAIL_SMTP_PORT
+              value: '1025'
+            - name: WAKAPI_MAIL_SMTP_USER
+              value: limtaehyun@lth.so
+            - name: WAKAPI_MAIL_SMTP_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: wakapi-secrets
+                  key: WAKAPI_MAIL_SMTP_PASS
+            - name: WAKAPI_MAIL_SMTP_TLS
+              value: 'false'
+            - name: WAKAPI_MAIL_SMTP_SKIP_VERIFY
+              value: 'true'
+            - name: WAKAPI_EXPOSE_METRICS
+              value: 'true'
           volumeMounts:
             - name: data
               mountPath: /data
