@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailscale-exporter
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tailscale-exporter
+  template:
+    metadata:
+      labels:
+        app: tailscale-exporter
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: tailscale-exporter
+          image: adinhodovic/tailscale-exporter:latest
+          ports:
+            - containerPort: 9250
+          env:
+            - name: TAILSCALE_OAUTH_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: tailscale-secret
+                  key: TAILSCALE_OAUTH_CLIENT_ID
+            - name: TAILSCALE_OAUTH_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: tailscale-secret
+                  key: TAILSCALE_OAUTH_CLIENT_SECRET
+            - name: TAILSCALE_TAILNET
+              value: "tail6de6ea.ts.net"

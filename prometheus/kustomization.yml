@@ -8,4 +8,5 @@ resources:
   - ./technitium-servicemonitor.yml
   - ./authentik-servicemonitor.yml
   - ./wakapi-servicemonitor.yml
+  - ./tailscale-servicemonitor.yml
   - ./secret.yml

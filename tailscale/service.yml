@@ -10,3 +10,18 @@ spec:
   ports:
     - port: 8000
       protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tailscale-exporter
+  labels:
+    app.kubernetes.io/name: tailscale-exporter
+spec:
+  selector:
+    app: tailscale-exporter
+  ports:
+    - name: metrics
+      protocol: TCP
+      port: 9250
+      targetPort: 9250
