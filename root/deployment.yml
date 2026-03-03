@@ -20,3 +20,14 @@ spec:
           image: ghcr.io/noeulnight/root
           ports:
             - containerPort: 80
+          env:
+            - name: WAKAPI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: root-secret
+                  key: WAKAPI_API_KEY
+            - name: GHOST_CONTENT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: root-secret
+                  key: GHOST_CONTENT_API_KEY
