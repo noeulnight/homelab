@@ -1,10 +1,10 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: wakapi
-  namespace: tailscale
+  name: tailscale
+  namespace: prometheus
   labels:
-    release: tailscale
+    release: prometheus
 spec:
   namespaceSelector:
     matchNames:
