@@ -13,7 +13,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: wakapi-service
   endpoints:
-    - port: metrics
+    - port: web
       path: /api/metrics
       interval: 1m
       bearerTokenSecret:

@@ -9,6 +9,7 @@ spec:
   selector:
     app: wakapi
   ports:
-    - protocol: TCP
+    - name: web
+      protocol: TCP
       port: 3000
       targetPort: 3000
