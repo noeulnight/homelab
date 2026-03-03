@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: wakapi
+  namespace: tailscale
+  labels:
+    release: tailscale
+spec:
+  namespaceSelector:
+    matchNames:
+      - tailscale
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tailscale-exporter
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s

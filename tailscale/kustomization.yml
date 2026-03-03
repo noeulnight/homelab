@@ -6,3 +6,4 @@ resources:
   - ./webfinger.yml
   - ./connector.yml
   - ./service.yml
+  - ./deployment.yml
