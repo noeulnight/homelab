@@ -24,7 +24,7 @@ spec:
           image: ghcr.io/noeulnight/hole:latest
           ports:
             - containerPort: 3000
-            - containerPort: 2233
+            - containerPort: 22
 
           env:
             - name: DOMAIN
@@ -32,7 +32,7 @@ spec:
             - name: HTTP_PORT
               value: "3000"
             - name: SSH_PORT
-              value: "2233"
+              value: "22"
             - name: SSH_AUTH_MODE
               value: noauth
             - name: TUNNEL_PORT_RANGE

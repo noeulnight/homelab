@@ -12,5 +12,5 @@ spec:
       targetPort: 3000
     - name: ssh
       protocol: TCP
-      port: 2233
-      targetPort: 2233
+      port: 22
+      targetPort: 22
