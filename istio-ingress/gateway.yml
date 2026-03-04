@@ -11,7 +11,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        -  "lth.so"
+        - "lth.so"
         - "*.lth.so"
         - "tunnel.lth.so"
         - "*.tunnel.lth.so"
@@ -23,13 +23,19 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        -  "lth.so"
+        - "lth.so"
         - "*.lth.so"
         - "tunnel.lth.so"
         - "*.tunnel.lth.so"
         - "*.coder.lth.so"
         - "limtaehyun.dev"
         - "*.limtaehyun.dev"
+    - port:
+        number: 22
+        name: tcp-ssh
+        protocol: TCP
+      hosts:
+        - "*"
       tls:
         mode: SIMPLE
         credentialName: lth-tls
