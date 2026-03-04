@@ -24,14 +24,15 @@ spec:
           image: ghcr.io/noeulnight/hole:latest
           ports:
             - containerPort: 3000
-            - containerPort: 2222
+            - containerPort: 2233
+
           env:
             - name: DOMAIN
               value: tunnel.lth.so
             - name: HTTP_PORT
               value: "3000"
             - name: SSH_PORT
-              value: "2222"
+              value: "2233"
             - name: SSH_AUTH_MODE
               value: noauth
             - name: TUNNEL_PORT_RANGE

@@ -29,4 +29,4 @@ spec:
         - destination:
             host: tunnel-service.tunnel.svc.cluster.local
             port:
-              number: 2222
+              number: 2233
