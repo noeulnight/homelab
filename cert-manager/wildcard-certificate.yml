@@ -16,7 +16,6 @@ spec:
   dnsNames:
     - "lth.so"
     - "*.lth.so"
-    - "tunnel.lth.so"
     - "*.tunnel.lth.so"
     - "*.coder.lth.so"
     - "limtaehyun.dev"
