@@ -36,8 +36,10 @@ spec:
               value: noauth
             - name: TUNNEL_PORT_RANGE
               value: 40000-50000
+            - name: SSH_HOST_KEY_PATH
+              value: /data/host.key
           volumeMounts:
-            - mountPath: /app
+            - mountPath: /data
               name: tunnel-storage
       volumes:
         - name: tunnel-storage
