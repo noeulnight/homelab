@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tunnel-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path-retain
+  volumeName: tunnel-pv
+  resources:
+    requests:
+      storage: 10Gi

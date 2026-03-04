@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tunnel
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tunnel
+  template:
+    metadata:
+      labels:
+        app: tunnel
+        app.kubernetes.io/version: v1
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: server
+          image: ghcr.io/noeulnight/hole:latest
+          ports:
+            - containerPort: 3000
+            - containerPort: 2222
+          env:
+            - name: DOMAIN
+              value: tunnel.lth.so
+            - name: HTTP_PORT
+              value: "3000"
+            - name: SSH_PORT
+              value: "2222"
+            - name: SSH_AUTH_MODE
+              value: noauth
+            - name: TUNNEL_PORT_RANGE
+              value: 40000-50000
+          volumeMounts:
+            - mountPath: /app
+              name: tunnel-storage
+      volumes:
+        - name: tunnel-storage
+          persistentVolumeClaim:
+            claimName: tunnel-pvc
