@@ -15,9 +15,9 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - "lth.so"
+    - "limtaehyun.dev"
     - "*.lth.so"
     - "*.tunnel.lth.so"
     - "*.coder.lth.so"
-    - "limtaehyun.dev"
     - "*.limtaehyun.dev"
     - "*.coder.limtaehyun.dev"
