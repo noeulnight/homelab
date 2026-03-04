@@ -18,6 +18,7 @@ spec:
         - "*.coder.lth.so"
         - "limtaehyun.dev"
         - "*.limtaehyun.dev"
+
     - port:
         number: 443
         name: https
@@ -30,12 +31,6 @@ spec:
         - "*.coder.lth.so"
         - "limtaehyun.dev"
         - "*.limtaehyun.dev"
-    - port:
-        number: 22
-        name: tcp-ssh
-        protocol: TCP
-      hosts:
-        - "*"
       tls:
         mode: SIMPLE
         credentialName: lth-tls
@@ -44,3 +39,10 @@ spec:
         cipherSuites:
           - ECDHE-ECDSA-AES256-GCM-SHA384
           - ECDHE-ECDSA-CHACHA20-POLY1305
+
+    - port:
+        number: 22
+        name: tcp-ssh
+        protocol: TCP
+      hosts:
+        - "*"
