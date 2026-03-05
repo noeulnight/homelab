@@ -9,4 +9,5 @@ resources:
   - ./authentik-servicemonitor.yml
   - ./wakapi-servicemonitor.yml
   - ./tailscale-servicemonitor.yml
+  - ./tunnel-servicemonitor.yml
   - ./secret.yml

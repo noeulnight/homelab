@@ -14,19 +14,3 @@ spec:
             host: tunnel-service.tunnel.svc.cluster.local
             port:
               number: 3000
----
-apiVersion: networking.istio.io/v1
-kind: VirtualService
-metadata:
-  name: tunnel-ssh
-spec:
-  hosts:
-    - "tunnel.lth.so"
-  tcp:
-    - match:
-        - port: 22
-      route:
-        - destination:
-            host: tunnel-service.tunnel.svc.cluster.local
-            port:
-              number: 2233

@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: tunnel
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - tunnel
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tunnel-service
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
