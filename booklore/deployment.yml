@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booklore
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booklore
+  template:
+    metadata:
+      labels:
+        app: booklore
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: booklore/booklore:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: BOOKLORE_PORT
+              value: "3000"
+            - name: TZ
+              value: "Asia/Seoul"
+            - name: DATABASE_URL
+              value: "jdbc:mariadb://mysql-service.mysql.svc.cluster.local:3306/booklore"
+            - name: DATABASE_USERNAME
+              value: booklore
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: booklore-secret
+                  key: DATABASE_PASSWORD
+          volumeMounts:
+            - name: booklore-data
+              mountPath: /app/data
+              subPath: data
+            - name: booklore-books
+              mountPath: /books
+              subPath: books
+            - name: booklore-backdrop
+              mountPath: /backdrop
+              subPath: backdrop
+      volumes:
+        - name: booklore-data
+          persistentVolumeClaim:
+            claimName: booklore-pvc
+        - name: booklore-backdrop
+          persistentVolumeClaim:
+            claimName: booklore-pvc
+        - name: booklore-books
+          persistentVolumeClaim:
+            claimName: booklore-pvc

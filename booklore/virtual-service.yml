@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: booklore
+spec:
+  hosts:
+    - "s.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+
+    - route:
+        - destination:
+            host: booklore-service.booklore.svc.cluster.local
+            port:
+              number: 3000
