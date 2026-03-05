@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: tunnel-service
   labels:
-    app.kubernetes.io/name: tunntunnel-service
+    app.kubernetes.io/name: tunnel-service
 spec:
   selector:
     app: tunnel
