@@ -35,22 +35,16 @@ spec:
                   name: booklore-secret
                   key: DATABASE_PASSWORD
           volumeMounts:
-            - name: booklore-data
+            - name: booklore-volume
               mountPath: /app/data
               subPath: data
-            - name: booklore-books
+            - name: booklore-volume
               mountPath: /books
               subPath: books
-            - name: booklore-backdrop
+            - name: booklore-volume
               mountPath: /backdrop
               subPath: backdrop
       volumes:
-        - name: booklore-data
-          persistentVolumeClaim:
-            claimName: booklore-pvc
-        - name: booklore-backdrop
-          persistentVolumeClaim:
-            claimName: booklore-pvc
-        - name: booklore-books
+        - name: booklore-volume
           persistentVolumeClaim:
             claimName: booklore-pvc
