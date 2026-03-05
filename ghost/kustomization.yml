@@ -8,4 +8,3 @@ resources:
   - ./virtual-service.yml
   - ./pvc.yml
   - ./pv.yml
-  - ./waypoint.yml
