@@ -26,7 +26,7 @@ spec:
             - name: TZ
               value: "Asia/Seoul"
             - name: DATABASE_URL
-              value: "jdbc:mariadb://mysql-service.mysql.svc.cluster.local:3306/booklore?allowPublicKeyRetrieval=true&useSSL=false"
+              value: "jdbc:mariadb://mariadb-service.mariadb.svc.cluster.local:3306/booklore?allowPublicKeyRetrieval=true&useSSL=false"
             - name: DATABASE_USERNAME
               value: booklore
             - name: DATABASE_PASSWORD
