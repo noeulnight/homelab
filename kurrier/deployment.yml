@@ -1,0 +1,700 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-db
+  labels:
+    app.kubernetes.io/name: kurrier-db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kurrier-db
+  template:
+    metadata:
+      labels:
+        app: kurrier-db
+        app.kubernetes.io/name: kurrier-db
+    spec:
+      containers:
+        - name: db
+          image: supabase/postgres:15.8.1.085
+          command:
+            - postgres
+            - -c
+            - config_file=/etc/postgresql/postgresql.conf
+            - -c
+            - log_min_messages=fatal
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_HOST
+              value: /var/run/postgresql
+            - name: PGPORT
+              value: "5432"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: PGDATABASE
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: JWT_SECRET
+            - name: JWT_EXP
+              value: "3600"
+            - name: RLS_CLIENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: RLS_CLIENT_PASSWORD
+          volumeMounts:
+            - name: db-migrations
+              mountPath: /docker-entrypoint-initdb.d/migrations
+              readOnly: true
+            - name: db-initscripts
+              mountPath: /docker-entrypoint-initdb.d/init-scripts
+              readOnly: true
+            - name: db-storage
+              mountPath: /var/lib/postgresql/data
+            - name: db-config
+              mountPath: /etc/postgresql-custom
+      volumes:
+        - name: db-migrations
+          configMap:
+            name: kurrier-db-migrations-config
+        - name: db-initscripts
+          configMap:
+            name: kurrier-db-initscripts-config
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: kurrier-db-pvc
+        - name: db-config
+          emptyDir: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-typesense
+  labels:
+    app.kubernetes.io/name: kurrier-typesense
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kurrier-typesense
+  template:
+    metadata:
+      labels:
+        app: kurrier-typesense
+        app.kubernetes.io/name: kurrier-typesense
+    spec:
+      containers:
+        - name: typesense
+          image: typesense/typesense:29.0
+          command:
+            - /bin/sh
+            - -ec
+            - exec /opt/typesense-server --data-dir /data --api-key "$TYPESENSE_API_KEY" --enable-cors
+          ports:
+            - containerPort: 8108
+          env:
+            - name: TYPESENSE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: TYPESENSE_API_KEY
+          volumeMounts:
+            - name: typesense-storage
+              mountPath: /data
+      volumes:
+        - name: typesense-storage
+          persistentVolumeClaim:
+            claimName: kurrier-typesense-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-dav
+  labels:
+    app.kubernetes.io/name: kurrier-dav
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kurrier-dav
+  template:
+    metadata:
+      labels:
+        app: kurrier-dav
+        app.kubernetes.io/name: kurrier-dav
+    spec:
+      initContainers:
+        - name: dav-init
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -ec
+            - mkdir -p /data/db && touch /data/INSTALL_DISABLED
+          volumeMounts:
+            - name: dav-data
+              mountPath: /data
+      containers:
+        - name: dav
+          image: ckulka/baikal:nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: dav-config
+              mountPath: /var/www/baikal/config/baikal.yaml
+              subPath: baikal.yaml
+              readOnly: true
+            - name: dav-data
+              mountPath: /var/www/baikal/Specific
+      volumes:
+        - name: dav-config
+          configMap:
+            name: kurrier-dav-config
+        - name: dav-data
+          persistentVolumeClaim:
+            claimName: kurrier-dav-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-webdav
+  labels:
+    app.kubernetes.io/name: kurrier-webdav
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kurrier-webdav
+  template:
+    metadata:
+      labels:
+        app: kurrier-webdav
+        app.kubernetes.io/name: kurrier-webdav
+    spec:
+      containers:
+        - name: webdav
+          image: ghcr.io/hacdias/webdav:v5.10.1
+          args:
+            - -c
+            - /config.yml
+          ports:
+            - containerPort: 6065
+          volumeMounts:
+            - name: webdav-config
+              mountPath: /config.yml
+              subPath: config.yml
+              readOnly: true
+            - name: webdav-data
+              mountPath: /data
+      volumes:
+        - name: webdav-config
+          configMap:
+            name: kurrier-webdav-config
+        - name: webdav-data
+          persistentVolumeClaim:
+            claimName: kurrier-webdav-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-auth
+  labels:
+    app.kubernetes.io/name: kurrier-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kurrier-auth
+  template:
+    metadata:
+      labels:
+        app: kurrier-auth
+        app.kubernetes.io/name: kurrier-auth
+    spec:
+      containers:
+        - name: auth
+          image: supabase/gotrue:v2.183.0
+          ports:
+            - containerPort: 9999
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: JWT_SECRET
+            - name: SMTP_USER
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: SMTP_USER
+            - name: SMTP_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: SMTP_PASS
+            - name: GOTRUE_API_HOST
+              value: 0.0.0.0
+            - name: GOTRUE_API_PORT
+              value: "9999"
+            - name: API_EXTERNAL_URL
+              value: https://kurrier.lth.so
+            - name: GOTRUE_DB_DRIVER
+              value: postgres
+            - name: GOTRUE_DB_DATABASE_URL
+              value: postgres://supabase_auth_admin:$(POSTGRES_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: GOTRUE_SITE_URL
+              value: https://kurrier.lth.so
+            - name: GOTRUE_URI_ALLOW_LIST
+              value: https://kurrier.lth.so/*,https://kurrier.limtaehyun.dev/*
+            - name: GOTRUE_DISABLE_SIGNUP
+              value: "false"
+            - name: GOTRUE_JWT_ADMIN_ROLES
+              value: service_role
+            - name: GOTRUE_JWT_AUD
+              value: authenticated
+            - name: GOTRUE_JWT_DEFAULT_GROUP_NAME
+              value: authenticated
+            - name: GOTRUE_JWT_EXP
+              value: "3600"
+            - name: GOTRUE_JWT_SECRET
+              value: $(JWT_SECRET)
+            - name: GOTRUE_EXTERNAL_EMAIL_ENABLED
+              value: "true"
+            - name: GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED
+              value: "false"
+            - name: GOTRUE_MAILER_AUTOCONFIRM
+              value: "true"
+            - name: GOTRUE_SMTP_ADMIN_EMAIL
+              value: noreply@kurrier.lth.so
+            - name: GOTRUE_SMTP_HOST
+              value: bridge-service.bridge.svc.cluster.local
+            - name: GOTRUE_SMTP_PORT
+              value: "1025"
+            - name: GOTRUE_SMTP_USER
+              value: $(SMTP_USER)
+            - name: GOTRUE_SMTP_PASS
+              value: $(SMTP_PASS)
+            - name: GOTRUE_SMTP_SENDER_NAME
+              value: Kurrier
+            - name: GOTRUE_MAILER_URLPATHS_INVITE
+              value: /auth/v1/verify
+            - name: GOTRUE_MAILER_URLPATHS_CONFIRMATION
+              value: /auth/v1/verify
+            - name: GOTRUE_MAILER_URLPATHS_RECOVERY
+              value: /auth/v1/verify
+            - name: GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE
+              value: /auth/v1/verify
+            - name: GOTRUE_EXTERNAL_PHONE_ENABLED
+              value: "false"
+            - name: GOTRUE_SMS_AUTOCONFIRM
+              value: "false"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-rest
+  labels:
+    app.kubernetes.io/name: kurrier-rest
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kurrier-rest
+  template:
+    metadata:
+      labels:
+        app: kurrier-rest
+        app.kubernetes.io/name: kurrier-rest
+    spec:
+      containers:
+        - name: rest
+          image: postgrest/postgrest:v14.1
+          command:
+            - postgrest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: JWT_SECRET
+            - name: PGRST_DB_URI
+              value: postgres://authenticator:$(POSTGRES_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: PGRST_DB_SCHEMAS
+              value: public,storage,graphql_public
+            - name: PGRST_DB_ANON_ROLE
+              value: anon
+            - name: PGRST_JWT_SECRET
+              value: $(JWT_SECRET)
+            - name: PGRST_DB_USE_LEGACY_GUCS
+              value: "false"
+            - name: PGRST_APP_SETTINGS_JWT_SECRET
+              value: $(JWT_SECRET)
+            - name: PGRST_APP_SETTINGS_JWT_EXP
+              value: "3600"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-storage
+  labels:
+    app.kubernetes.io/name: kurrier-storage
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kurrier-storage
+  template:
+    metadata:
+      labels:
+        app: kurrier-storage
+        app.kubernetes.io/name: kurrier-storage
+    spec:
+      containers:
+        - name: storage
+          image: supabase/storage-api:v1.33.0
+          ports:
+            - containerPort: 5000
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: JWT_SECRET
+            - name: ANON_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: ANON_KEY
+            - name: SERVICE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: SERVICE_ROLE_KEY
+            - name: POSTGREST_URL
+              value: http://kurrier-rest-service:3000
+            - name: PGRST_JWT_SECRET
+              value: $(JWT_SECRET)
+            - name: DATABASE_URL
+              value: postgres://supabase_storage_admin:$(POSTGRES_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: REQUEST_ALLOW_X_FORWARDED_PATH
+              value: "true"
+            - name: FILE_SIZE_LIMIT
+              value: "52428800"
+            - name: STORAGE_BACKEND
+              value: file
+            - name: FILE_STORAGE_BACKEND_PATH
+              value: /var/lib/storage
+            - name: TENANT_ID
+              value: stub
+            - name: REGION
+              value: stub
+            - name: GLOBAL_S3_BUCKET
+              value: stub
+            - name: ENABLE_IMAGE_TRANSFORMATION
+              value: "false"
+          volumeMounts:
+            - name: storage-data
+              mountPath: /var/lib/storage
+      volumes:
+        - name: storage-data
+          persistentVolumeClaim:
+            claimName: kurrier-storage-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  name: kurrier-kong
+  labels:
+    app.kubernetes.io/name: kurrier-kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kurrier-kong
+  template:
+    metadata:
+      labels:
+        app: kurrier-kong
+        app.kubernetes.io/name: kurrier-kong
+    spec:
+      containers:
+        - name: kong
+          image: kong:2.8.1
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              eval "echo \"$$(cat /home/kong/temp.yml)\"" > /home/kong/kong.yml
+              exec /docker-entrypoint.sh kong docker-start
+          ports:
+            - containerPort: 8000
+            - containerPort: 8443
+          env:
+            - name: SUPABASE_ANON_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: ANON_KEY
+            - name: SUPABASE_SERVICE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: SERVICE_ROLE_KEY
+            - name: KONG_DATABASE
+              value: "off"
+            - name: KONG_DECLARATIVE_CONFIG
+              value: /home/kong/kong.yml
+            - name: KONG_DNS_ORDER
+              value: LAST,A,CNAME
+            - name: KONG_PLUGINS
+              value: request-transformer,cors,key-auth,acl,request-termination
+            - name: KONG_NGINX_PROXY_PROXY_BUFFER_SIZE
+              value: 160k
+            - name: KONG_NGINX_PROXY_PROXY_BUFFERS
+              value: 64 160k
+          volumeMounts:
+            - name: kong-config
+              mountPath: /home/kong/temp.yml
+              subPath: kong.yml
+              readOnly: true
+      volumes:
+        - name: kong-config
+          configMap:
+            name: kurrier-kong-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: kurrier-web
+  labels:
+    app.kubernetes.io/name: kurrier-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kurrier-web
+  template:
+    metadata:
+      labels:
+        app: kurrier-web
+        app.kubernetes.io/name: kurrier-web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/kurrier-org/kurrier-web:v1.1.13
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: RLS_CLIENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: RLS_CLIENT_PASSWORD
+            - name: ANON_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: ANON_KEY
+            - name: SERVICE_ROLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: SERVICE_ROLE_KEY
+            - name: TYPESENSE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: TYPESENSE_API_KEY
+            - name: WEB_PORT
+              value: "3000"
+            - name: WEB_URL
+              value: https://kurrier.lth.so
+            - name: DATABASE_URL
+              value: postgres://postgres:$(POSTGRES_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: DATABASE_RLS_URL
+              value: postgres://rls_client:$(RLS_CLIENT_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: API_PUBLIC_URL
+              value: https://kurrier.lth.so
+            - name: API_URL
+              value: http://kurrier-kong-service:8000
+            - name: REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: TYPESENSE_PORT
+              value: "8108"
+            - name: TYPESENSE_PROTOCOL
+              value: http
+            - name: TYPESENSE_HOST
+              value: kurrier-typesense-service
+            - name: SEARCH_REBUILD_ON_BOOT
+              value: "false"
+            - name: WORKER_URL
+              value: http://kurrier-worker-service:3001
+            - name: DAV_URL
+              value: http://kurrier-dav-service:80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: kurrier-worker
+  labels:
+    app.kubernetes.io/name: kurrier-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kurrier-worker
+  template:
+    metadata:
+      labels:
+        app: kurrier-worker
+        app.kubernetes.io/name: kurrier-worker
+    spec:
+      containers:
+        - name: worker
+          image: ghcr.io/kurrier-org/kurrier-worker:v1.1.13
+          ports:
+            - containerPort: 3001
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: RLS_CLIENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: RLS_CLIENT_PASSWORD
+            - name: ANON_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: ANON_KEY
+            - name: SERVICE_ROLE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: SERVICE_ROLE_KEY
+            - name: TYPESENSE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: TYPESENSE_API_KEY
+            - name: WEB_PORT
+              value: "3000"
+            - name: WEB_URL
+              value: https://kurrier.lth.so
+            - name: NITRO_PORT
+              value: "3001"
+            - name: DATABASE_URL
+              value: postgres://postgres:$(POSTGRES_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: DATABASE_RLS_URL
+              value: postgres://rls_client:$(RLS_CLIENT_PASSWORD)@kurrier-db-service:5432/postgres
+            - name: API_PUBLIC_URL
+              value: https://kurrier.lth.so
+            - name: API_URL
+              value: http://kurrier-kong-service:8000
+            - name: REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: TYPESENSE_PORT
+              value: "8108"
+            - name: TYPESENSE_PROTOCOL
+              value: http
+            - name: TYPESENSE_HOST
+              value: kurrier-typesense-service
+            - name: SEARCH_REBUILD_ON_BOOT
+              value: "false"
+            - name: DAV_URL
+              value: http://kurrier-dav-service:80
+            - name: WEB_DAV_URL
+              value: http://kurrier-webdav-service:6065
+          volumeMounts:
+            - name: dav-config
+              mountPath: /dav-config
+              readOnly: true
+            - name: dav-data
+              mountPath: /dav-data
+            - name: webdav-data
+              mountPath: /data
+      volumes:
+        - name: dav-config
+          configMap:
+            name: kurrier-dav-config
+        - name: dav-data
+          persistentVolumeClaim:
+            claimName: kurrier-dav-pvc
+        - name: webdav-data
+          persistentVolumeClaim:
+            claimName: kurrier-webdav-pvc

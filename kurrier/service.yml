@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-db-service
+spec:
+  selector:
+    app: kurrier-db
+  ports:
+    - name: postgres
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-typesense-service
+spec:
+  selector:
+    app: kurrier-typesense
+  ports:
+    - name: typesense
+      protocol: TCP
+      port: 8108
+      targetPort: 8108
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-dav-service
+spec:
+  selector:
+    app: kurrier-dav
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-webdav-service
+spec:
+  selector:
+    app: kurrier-webdav
+  ports:
+    - name: http
+      protocol: TCP
+      port: 6065
+      targetPort: 6065
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-auth-service
+spec:
+  selector:
+    app: kurrier-auth
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9999
+      targetPort: 9999
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-rest-service
+spec:
+  selector:
+    app: kurrier-rest
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-storage-service
+spec:
+  selector:
+    app: kurrier-storage
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-kong-service
+spec:
+  selector:
+    app: kurrier-kong
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+    - name: https
+      protocol: TCP
+      port: 8443
+      targetPort: 8443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-web-service
+spec:
+  selector:
+    app: kurrier-web
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kurrier-worker-service
+spec:
+  selector:
+    app: kurrier-worker
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3001
+      targetPort: 3001

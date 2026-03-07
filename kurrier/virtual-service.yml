@@ -1,0 +1,46 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kurrier
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+spec:
+  hosts:
+    - "kurrier.lth.so"
+    - "kurrier.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: kurrier.limtaehyun.dev
+      redirect:
+        authority: kurrier.lth.so
+    - match:
+        - uri:
+            prefix: /auth/v1
+        - uri:
+            prefix: /rest/v1
+        - uri:
+            prefix: /graphql/v1
+        - uri:
+            prefix: /storage/v1
+      route:
+        - destination:
+            host: kurrier-kong-service.kurrier.svc.cluster.local
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /webdav
+      route:
+        - destination:
+            host: kurrier-worker-service.kurrier.svc.cluster.local
+            port:
+              number: 3001
+    - route:
+        - destination:
+            host: kurrier-web-service.kurrier.svc.cluster.local
+            port:
+              number: 3000
