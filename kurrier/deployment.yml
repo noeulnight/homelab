@@ -19,11 +19,22 @@ spec:
         app: kurrier-db
         app.kubernetes.io/name: kurrier-db
     spec:
+      securityContext:
+        fsGroup: 106
+      initContainers:
+        - name: db-permissions
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -ec
+            - chown -R 105:106 /var/lib/postgresql/data
+          volumeMounts:
+            - name: db-storage
+              mountPath: /var/lib/postgresql/data
       containers:
         - name: db
           image: supabase/postgres:15.8.1.085
-          command:
-            - postgres
+          args:
             - -c
             - config_file=/etc/postgresql/postgresql.conf
             - -c
@@ -31,6 +42,8 @@ spec:
           ports:
             - containerPort: 5432
           env:
+            - name: POSTGRES_USER
+              value: postgres
             - name: POSTGRES_HOST
               value: /var/run/postgresql
             - name: PGPORT
@@ -63,6 +76,9 @@ spec:
                 secretKeyRef:
                   name: kurrier-secrets
                   key: RLS_CLIENT_PASSWORD
+          securityContext:
+            runAsUser: 105
+            runAsGroup: 106
           volumeMounts:
             - name: db-migrations
               mountPath: /docker-entrypoint-initdb.d/migrations
@@ -158,10 +174,17 @@ spec:
           command:
             - /bin/sh
             - -ec
-            - mkdir -p /data/db && touch /data/INSTALL_DISABLED
+            - |
+              mkdir -p /data/db /config
+              touch /data/INSTALL_DISABLED
+              cp /seed/baikal.yaml /config/baikal.yaml
           volumeMounts:
             - name: dav-data
               mountPath: /data
+            - name: dav-config-seed
+              mountPath: /seed
+            - name: dav-config
+              mountPath: /config
       containers:
         - name: dav
           image: ckulka/baikal:nginx
@@ -169,15 +192,15 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: dav-config
-              mountPath: /var/www/baikal/config/baikal.yaml
-              subPath: baikal.yaml
-              readOnly: true
+              mountPath: /var/www/baikal/config
             - name: dav-data
               mountPath: /var/www/baikal/Specific
       volumes:
-        - name: dav-config
+        - name: dav-config-seed
           configMap:
             name: kurrier-dav-config
+        - name: dav-config
+          emptyDir: {}
         - name: dav-data
           persistentVolumeClaim:
             claimName: kurrier-dav-pvc
@@ -483,7 +506,10 @@ spec:
             - /bin/sh
             - -ec
             - |
-              eval "echo \"$$(cat /home/kong/temp.yml)\"" > /home/kong/kong.yml
+              sed \
+                -e "s|\\$SUPABASE_ANON_KEY|$SUPABASE_ANON_KEY|g" \
+                -e "s|\\$SUPABASE_SERVICE_KEY|$SUPABASE_SERVICE_KEY|g" \
+                /home/kong/temp.yml > /home/kong/kong.yml
               exec /docker-entrypoint.sh kong docker-start
           ports:
             - containerPort: 8000
