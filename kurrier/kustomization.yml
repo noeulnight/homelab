@@ -1,0 +1,56 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: kurrier
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+  - name: kurrier-webdav-config
+    files:
+      - config.yml=./assets/webdav/config.yml
+  - name: kurrier-dav-config
+    files:
+      - baikal.yaml=./assets/dav/baikal.yaml
+  - name: kurrier-kong-config
+    files:
+      - kong.yml=./assets/kong/kong.yml
+  - name: kurrier-db-migrations-config
+    files:
+      - _supabase.sql=./assets/db-migrations/_supabase.sql
+      - logs.sql=./assets/db-migrations/logs.sql
+      - pooler.sql=./assets/db-migrations/pooler.sql
+      - realtime.sql=./assets/db-migrations/realtime.sql
+  - name: kurrier-db-initscripts-config
+    files:
+      - jwt.sql=./assets/db-initscripts/jwt.sql
+      - roles.sql=./assets/db-initscripts/roles.sql
+      - webhooks.sql=./assets/db-initscripts/webhooks.sql
+  - name: kurrier-db-bootstrap-script
+    files:
+      - db-bootstrap.sh=./assets/bootstrap/db-bootstrap.sh
+  - name: kurrier-db-bootstrap-migrations
+    files:
+      - 001_rls_client.sql=./assets/bootstrap/migrations/001_rls_client.sql
+      - 002_migration.sql=./assets/bootstrap/migrations/002_migration.sql
+      - 003_migration.sql=./assets/bootstrap/migrations/003_migration.sql
+      - 004_migration.sql=./assets/bootstrap/migrations/004_migration.sql
+      - 005_migration.sql=./assets/bootstrap/migrations/005_migration.sql
+      - 006_migration.sql=./assets/bootstrap/migrations/006_migration.sql
+      - 007_migration.sql=./assets/bootstrap/migrations/007_migration.sql
+      - 008_migration.sql=./assets/bootstrap/migrations/008_migration.sql
+      - 009_migration.sql=./assets/bootstrap/migrations/009_migration.sql
+      - 010_migration.sql=./assets/bootstrap/migrations/010_migration.sql
+      - 011_migration.sql=./assets/bootstrap/migrations/011_migration.sql
+      - 012_migration.sql=./assets/bootstrap/migrations/012_migration.sql
+      - 013_migration.sql=./assets/bootstrap/migrations/013_migration.sql
+      - 014_migration.sql=./assets/bootstrap/migrations/014_migration.sql
+      - 015_migration.sql=./assets/bootstrap/migrations/015_migration.sql
+      - 016_migration.sql=./assets/bootstrap/migrations/016_migration.sql
+      - 017_migration.sql=./assets/bootstrap/migrations/017_migration.sql
+resources:
+  - ./secret.yml
+  - ./deployment.yml
+  - ./service.yml
+  - ./job.yml
+  - ./virtual-service.yml
+  - ./pv.yml
+  - ./pvc.yml

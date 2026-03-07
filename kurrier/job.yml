@@ -1,0 +1,64 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+    argocd.argoproj.io/sync-wave: "2"
+  name: kurrier-db-bootstrap
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app: kurrier-db-bootstrap
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: db-bootstrap
+          image: postgres:15
+          command:
+            - /bin/bash
+            - /scripts/db-bootstrap.sh
+          env:
+            - name: PGHOST
+              value: kurrier-db-service
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+            - name: PGDATABASE
+              value: postgres
+            - name: RLS_CLIENT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kurrier-secrets
+                  key: RLS_CLIENT_PASSWORD
+          volumeMounts:
+            - name: bootstrap-script
+              mountPath: /scripts/db-bootstrap.sh
+              subPath: db-bootstrap.sh
+              readOnly: true
+            - name: bootstrap-migrations
+              mountPath: /scripts/migrations
+              readOnly: true
+      volumes:
+        - name: bootstrap-script
+          configMap:
+            defaultMode: 493
+            name: kurrier-db-bootstrap-script
+        - name: bootstrap-migrations
+          configMap:
+            name: kurrier-db-bootstrap-migrations
