@@ -1,0 +1,37 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: korail
+spec:
+  hosts:
+    - "train.lth.so"
+    - "train.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: train.limtaehyun.dev
+      redirect:
+        authority: train.lth.so
+    - match:
+        - uri:
+            regex: /api(/|$)(.*)
+      rewrite:
+        uriRegexRewrite:
+          match: ^/api(/|$)(.*)
+          rewrite: "/\\2"
+      route:
+        - destination:
+            host: korail-backend-service.korail.svc.cluster.local
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: korail-frontend-service.korail.svc.cluster.local
+            port:
+              number: 80

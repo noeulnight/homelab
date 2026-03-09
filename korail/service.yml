@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: korail-backend-service
+spec:
+  selector:
+    app: korail-backend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: korail-frontend-service
+spec:
+  selector:
+    app: korail-frontend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80

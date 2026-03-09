@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: korail-backend
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: korail-backend
+  template:
+    metadata:
+      labels:
+        app: korail-backend
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/noeulnight/korail-backend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "3000"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: korail-secret
+                  key: DATABASE_URL
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: korail-frontend
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: korail-frontend
+  template:
+    metadata:
+      labels:
+        app: korail-frontend
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/noeulnight/korail-frontend:latest
+          ports:
+            - containerPort: 80
