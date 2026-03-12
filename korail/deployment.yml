@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ghcr.io/noeulnight/korail-backend:latest
+          image: ghcr.io/noeulnight/railroad-backend:latest
           ports:
             - containerPort: 3000
           env:
@@ -50,6 +50,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/noeulnight/korail-frontend:latest
+          image: ghcr.io/noeulnight/railroad-frontend:latest
           ports:
             - containerPort: 80
