@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: remodex-relay
+  labels:
+    app.kubernetes.io/name: remodex-relay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: remodex-relay
+  template:
+    metadata:
+      labels:
+        app: remodex-relay
+        app.kubernetes.io/name: remodex-relay
+    spec:
+      containers:
+        - name: relay
+          image: ghcr.io/noeulnight/remodex-relay:latest
+          ports:
+            - containerPort: 9000
+          env:
+            - name: PORT
+              value: "9000"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: remodex-web
+  labels:
+    app.kubernetes.io/name: remodex-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: remodex-web
+  template:
+    metadata:
+      labels:
+        app: remodex-web
+        app.kubernetes.io/name: remodex-web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/noeulnight/remodex-web:latest
+          ports:
+            - containerPort: 8080
