@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: vnc
+spec:
+  hosts:
+    - "mac.lth.so"
+    - "mac.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: mac.limtaehyun.dev
+      redirect:
+        authority: mac.lth.so
+    - route:
+        - destination:
+            host: ak-outpost-mac.authentik.svc.cluster.local
+            port:
+              number: 9000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

@@ -14,6 +14,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: limtaehyuns-mac-mini.tail6de6ea.ts.net
+  name: mac-mini
+spec:
+  externalName: mac-mini
+  type: ExternalName
+  ports:
+    - name: vnc-tcp
+      port: 5900
+      protocol: TCP
+    - name: vnc-udp
+      port: 5900
+      protocol: UDP
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: tailscale-exporter
   labels:
     app.kubernetes.io/name: tailscale-exporter
