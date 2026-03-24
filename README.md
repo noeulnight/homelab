@@ -21,7 +21,7 @@ flowchart LR
   K8s --> Data["Data Layer (Postgres/MySQL/Redis/Mongo)"]
 ```
 
-### Public Endpoints (16)
+### Public Endpoints (15)
 
 | App               | Namespace         | URL                         |
 | ----------------- | ----------------- | --------------------------- |
@@ -37,7 +37,6 @@ flowchart LR
 | `remodex`         | `remodex`         | <https://remodex.lth.so>    |
 | `roundcube`       | `roundcube`       | <https://mail.lth.so>       |
 | `slash`           | `slash`           | <https://s.lth.so>          |
-| `solidtime`       | `solidtime`       | <https://time.lth.so>       |
 | `spotify`         | `spotify`         | <https://spotify.lth.so>    |
 | `wakapi`          | `wakapi`          | <https://wakatime.lth.so>   |
 | `architecture`    | `architecture`    | <https://arch.lth.so>       |
