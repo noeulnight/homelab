@@ -34,7 +34,7 @@ spec:
             live_env_existingSecret: plane-live-secrets
             silo_env_existingSecret: plane-silo-secrets
           env:
-            storageClass: local-path-retain
+            storageClass: local-path
             web_url: https://plane.lth.so
             cors_allowed_origins: https://plane.limtaehyun.dev
             silo_envs:
