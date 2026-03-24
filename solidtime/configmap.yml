@@ -11,7 +11,7 @@ data:
   APP_FORCE_HTTPS: "true"
   APP_ENABLE_REGISTRATION: "true"
   TRUSTED_PROXIES: 0.0.0.0/0,2000:0:0:0:0:0:0:0/3
-  SUPER_ADMINS: ""
+  SUPER_ADMINS: "limtaehyun@lth.so"
   LOG_CHANNEL: stderr_daily
   LOG_LEVEL: debug
   DB_CONNECTION: pgsql
