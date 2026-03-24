@@ -84,6 +84,9 @@ spec:
             - name: php-config
               mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
               subPath: zz-memory-limit.ini
+            - name: octane-config
+              mountPath: /etc/supervisor/conf.d/supervisord.frankenphp.conf
+              subPath: supervisord.frankenphp.conf
           startupProbe:
             httpGet:
               path: /health-check/up
@@ -112,6 +115,9 @@ spec:
         - name: php-config
           configMap:
             name: solidtime-php-config
+        - name: octane-config
+          configMap:
+            name: solidtime-octane-config
 ---
 apiVersion: apps/v1
 kind: Deployment

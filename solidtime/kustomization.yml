@@ -5,6 +5,7 @@ resources:
   - ./secret.yml
   - ./configmap.yml
   - ./php-config.yml
+  - ./octane-config.yml
   - ./pv.yml
   - ./pvc.yml
   - ./deployment.yml
