@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: solidtime
+spec:
+  hosts:
+    - "time.lth.so"
+    - "time.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: time.limtaehyun.dev
+      redirect:
+        authority: time.lth.so
+    - route:
+        - destination:
+            host: solidtime-service.solidtime.svc.cluster.local
+            port:
+              number: 8000

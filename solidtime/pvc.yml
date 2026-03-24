@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: solidtime-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path-retain
+  volumeName: solidtime-pv
+  resources:
+    requests:
+      storage: 5Gi
