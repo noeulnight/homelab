@@ -5,3 +5,9 @@ metadata:
 data:
   zz-memory-limit.ini: |
     memory_limit = 512M
+  docker-php-ext-vips.ini: |
+    ; Disabled on ARM as a workaround for FrankenPHP/Octane segfaults.
+  docker-php-ext-uv.ini: |
+    ; Disabled on ARM as a workaround for FrankenPHP/Octane segfaults.
+  docker-php-ext-rdkafka.ini: |
+    ; Disabled on ARM as a workaround for FrankenPHP/Octane segfaults.

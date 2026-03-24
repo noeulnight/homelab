@@ -65,6 +65,15 @@ spec:
             - name: php-config
               mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
               subPath: zz-memory-limit.ini
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/docker-php-ext-vips.ini
+              subPath: docker-php-ext-vips.ini
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/docker-php-ext-uv.ini
+              subPath: docker-php-ext-uv.ini
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/docker-php-ext-rdkafka.ini
+              subPath: docker-php-ext-rdkafka.ini
       containers:
         - name: app
           image: solidtime/solidtime:latest
@@ -84,6 +93,15 @@ spec:
             - name: php-config
               mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
               subPath: zz-memory-limit.ini
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/docker-php-ext-vips.ini
+              subPath: docker-php-ext-vips.ini
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/docker-php-ext-uv.ini
+              subPath: docker-php-ext-uv.ini
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/docker-php-ext-rdkafka.ini
+              subPath: docker-php-ext-rdkafka.ini
             - name: octane-config
               mountPath: /etc/supervisor/conf.d/supervisord.frankenphp.conf
               subPath: supervisord.frankenphp.conf
