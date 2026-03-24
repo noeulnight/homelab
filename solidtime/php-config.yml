@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: solidtime-php-config
+data:
+  zz-memory-limit.ini: |
+    memory_limit = 512M

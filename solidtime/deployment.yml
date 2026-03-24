@@ -62,6 +62,9 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /var/www/html/storage
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
+              subPath: zz-memory-limit.ini
       containers:
         - name: app
           image: solidtime/solidtime:latest
@@ -103,6 +106,9 @@ spec:
         - name: storage
           persistentVolumeClaim:
             claimName: solidtime-pvc
+        - name: php-config
+          configMap:
+            name: solidtime-php-config
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -173,10 +179,16 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /var/www/html/storage
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
+              subPath: zz-memory-limit.ini
       volumes:
         - name: storage
           persistentVolumeClaim:
             claimName: solidtime-pvc
+        - name: php-config
+          configMap:
+            name: solidtime-php-config
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -249,10 +261,16 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /var/www/html/storage
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
+              subPath: zz-memory-limit.ini
       volumes:
         - name: storage
           persistentVolumeClaim:
             claimName: solidtime-pvc
+        - name: php-config
+          configMap:
+            name: solidtime-php-config
 ---
 apiVersion: apps/v1
 kind: Deployment

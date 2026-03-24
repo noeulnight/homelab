@@ -4,6 +4,7 @@ namespace: solidtime
 resources:
   - ./secret.yml
   - ./configmap.yml
+  - ./php-config.yml
   - ./pv.yml
   - ./pvc.yml
   - ./deployment.yml
