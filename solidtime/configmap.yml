@@ -23,7 +23,6 @@ data:
   MAIL_MAILER: smtp
   MAIL_HOST: bridge-service.bridge.svc.cluster.local
   MAIL_PORT: "1025"
-  MAIL_ENCRYPTION: "null"
   MAIL_FROM_ADDRESS: limtaehyun@lth.so
   MAIL_FROM_NAME: solidtime
   MAIL_USERNAME: limtaehyun@lth.so
