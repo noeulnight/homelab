@@ -13,58 +13,48 @@ spec:
       kind: Secret
   project: default
   sources:
-    - chart: plane-enterprise
+    - chart: plane-ce
       repoURL: https://helm.plane.so/
-      targetRevision: 2.2.6
+      targetRevision: 1.4.1
       helm:
         releaseName: plane-app
         valuesObject:
-          planeVersion: v2.5.1
-          license:
-            licenseServer: https://prime.plane.so
-            licenseDomain: plane.lth.so
+          planeVersion: v1.2.0
           ingress:
+            appHost: plane.lth.so
             enabled: false
           ssl:
             tls_secret_name: lth-tls
           external_secrets:
-            rabbitmq_existingSecret: plane-rabbitmq-secrets
-            doc_store_existingSecret: plane-doc-store-secrets
             app_env_existingSecret: plane-app-secrets
+            doc_store_existingSecret: plane-doc-store-secrets
             live_env_existingSecret: plane-live-secrets
-            silo_env_existingSecret: plane-silo-secrets
+            rabbitmq_existingSecret: plane-rabbitmq-secrets
           env:
-            storageClass: local-path
-            web_url: https://plane.lth.so
             cors_allowed_origins: https://plane.limtaehyun.dev
-            silo_envs:
-              cors_allowed_origins: https://plane.limtaehyun.dev
-          services:
-            redis:
-              local_setup: false
-            postgres:
-              local_setup: false
-            rabbitmq:
-              assign_cluster_ip: true
-            minio:
-              assign_cluster_ip: true
-            iframely:
-              enabled: true
-              assign_cluster_ip: true
-            web:
-              assign_cluster_ip: true
-            monitor:
-              assign_cluster_ip: true
-            space:
-              assign_cluster_ip: true
-            admin:
-              assign_cluster_ip: true
-            live:
-              assign_cluster_ip: true
-            api:
-              assign_cluster_ip: true
-            silo:
-              assign_cluster_ip: true
+            default_cluster_domain: cluster.local
+          postgres:
+            local_setup: false
+          redis:
+            local_setup: false
+          rabbitmq:
+            local_setup: true
+            storageClass: local-path
+            assign_cluster_ip: true
+          minio:
+            local_setup: true
+            storageClass: local-path
+            assign_cluster_ip: true
+          web:
+            assign_cluster_ip: true
+          space:
+            assign_cluster_ip: true
+          admin:
+            assign_cluster_ip: true
+          live:
+            assign_cluster_ip: true
+          api:
+            assign_cluster_ip: true
     - path: plane
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD

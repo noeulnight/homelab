@@ -41,14 +41,6 @@ spec:
               number: 3000
     - match:
         - uri:
-            prefix: /silo/
-      route:
-        - destination:
-            host: plane-app-silo.plane.svc.cluster.local
-            port:
-              number: 3000
-    - match:
-        - uri:
             prefix: /api/
       route:
         - destination:
