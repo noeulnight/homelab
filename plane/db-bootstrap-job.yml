@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: plane-db-bootstrap
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: bootstrap
+          image: public.ecr.aws/docker/library/postgres:14
+          envFrom:
+            - secretRef:
+                name: plane-db-bootstrap-secret
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              export PGPASSWORD="${POSTGRES_ADMIN_PASSWORD}"
+
+              psql_base=(
+                psql
+                -v ON_ERROR_STOP=1
+                -h postgres-service.postgres.svc.cluster.local
+                -U "${POSTGRES_ADMIN_USER}"
+                -d postgres
+              )
+
+              if ! "${psql_base[@]}" -tAc "SELECT 1 FROM pg_roles WHERE rolname='${PLANE_DB_USER}'" | grep -q 1; then
+                "${psql_base[@]}" -c "CREATE ROLE \"${PLANE_DB_USER}\" LOGIN PASSWORD '${PLANE_DB_PASSWORD}'"
+              fi
+
+              if ! "${psql_base[@]}" -tAc "SELECT 1 FROM pg_database WHERE datname='${PLANE_DB_NAME}'" | grep -q 1; then
+                "${psql_base[@]}" -c "CREATE DATABASE \"${PLANE_DB_NAME}\" OWNER \"${PLANE_DB_USER}\""
+              fi
+
+              "${psql_base[@]}" -c "ALTER DATABASE \"${PLANE_DB_NAME}\" OWNER TO \"${PLANE_DB_USER}\""
+              "${psql_base[@]}" -d "${PLANE_DB_NAME}" -c "ALTER SCHEMA public OWNER TO \"${PLANE_DB_USER}\""
+              "${psql_base[@]}" -d "${PLANE_DB_NAME}" -c "GRANT ALL PRIVILEGES ON DATABASE \"${PLANE_DB_NAME}\" TO \"${PLANE_DB_USER}\""
+              "${psql_base[@]}" -d "${PLANE_DB_NAME}" -c "GRANT ALL ON SCHEMA public TO \"${PLANE_DB_USER}\""

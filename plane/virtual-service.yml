@@ -1,0 +1,98 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: plane
+spec:
+  hosts:
+    - "plane.lth.so"
+    - "plane.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: plane.limtaehyun.dev
+      redirect:
+        authority: plane.lth.so
+    - match:
+        - uri:
+            prefix: /spaces/
+      route:
+        - destination:
+            host: plane-app-space.plane.svc.cluster.local
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /god-mode/
+      route:
+        - destination:
+            host: plane-app-admin.plane.svc.cluster.local
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /live/
+      route:
+        - destination:
+            host: plane-app-live.plane.svc.cluster.local
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /silo/
+      route:
+        - destination:
+            host: plane-app-silo.plane.svc.cluster.local
+            port:
+              number: 3000
+    - match:
+        - uri:
+            prefix: /api/
+      route:
+        - destination:
+            host: plane-app-api.plane.svc.cluster.local
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /auth/
+      route:
+        - destination:
+            host: plane-app-api.plane.svc.cluster.local
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /graphql/
+      route:
+        - destination:
+            host: plane-app-api.plane.svc.cluster.local
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /marketplace/
+      route:
+        - destination:
+            host: plane-app-api.plane.svc.cluster.local
+            port:
+              number: 8000
+    - match:
+        - uri:
+            prefix: /uploads
+      route:
+        - destination:
+            host: plane-app-minio.plane.svc.cluster.local
+            port:
+              number: 9000
+    - route:
+        - destination:
+            host: plane-app-web.plane.svc.cluster.local
+            port:
+              number: 3000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
