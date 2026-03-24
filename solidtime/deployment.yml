@@ -81,6 +81,9 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: /var/www/html/storage
+            - name: php-config
+              mountPath: /usr/local/etc/php/conf.d/zz-memory-limit.ini
+              subPath: zz-memory-limit.ini
           startupProbe:
             httpGet:
               path: /health-check/up
