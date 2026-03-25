@@ -20,7 +20,7 @@ spec:
       serviceAccountName: authentik
       containers:
         - name: authentik
-          image: ghcr.io/goauthentik/server:2025.12.4
+          image: ghcr.io/goauthentik/server:2026.2.1
           args:
             - server
           ports:
@@ -52,11 +52,11 @@ spec:
             - name: AUTHENTIK_USE_X_FORWARDED_PORT
               value: "true"
             - name: AUTHENTIK_TRUSTED_PROXY
-              value: "10.42.0.0/16" 
+              value: "10.42.0.0/16"
             - name: AUTHENTIK_EMAIL__HOST
               value: bridge-service.bridge.svc.cluster.local
             - name: AUTHENTIK_EMAIL__PORT
-              value: '1025'
+              value: "1025"
             - name: AUTHENTIK_EMAIL__USERNAME
               value: limtaehyun@lth.so
             - name: AUTHENTIK_EMAIL__PASSWORD
@@ -65,11 +65,11 @@ spec:
                   name: authentik-secrets
                   key: AUTHENTIK_EMAIL__PASSWORD
             - name: AUTHENTIK_EMAIL__USE_TLS
-              value: 'false'
+              value: "false"
             - name: AUTHENTIK_EMAIL__USE_SSL
-              value: 'false'
+              value: "false"
             - name: AUTHENTIK_EMAIL__TIMEOUT
-              value: '30'
+              value: "30"
             - name: AUTHENTIK_EMAIL__FROM
               value: limtaehyun@lth.so
           volumeMounts:
@@ -104,7 +104,7 @@ spec:
       serviceAccountName: authentik
       containers:
         - name: authentik
-          image: ghcr.io/goauthentik/server:2025.12.4
+          image: ghcr.io/goauthentik/server:2026.2.1
           args:
             - worker
           env:
@@ -129,7 +129,7 @@ spec:
             - name: AUTHENTIK_EMAIL__HOST
               value: bridge-service.bridge.svc.cluster.local
             - name: AUTHENTIK_EMAIL__PORT
-              value: '1025'
+              value: "1025"
             - name: AUTHENTIK_EMAIL__USERNAME
               value: limtaehyun@lth.so
             - name: AUTHENTIK_EMAIL__PASSWORD
@@ -138,11 +138,11 @@ spec:
                   name: authentik-secrets
                   key: AUTHENTIK_EMAIL__PASSWORD
             - name: AUTHENTIK_EMAIL__USE_TLS
-              value: 'false'
+              value: "false"
             - name: AUTHENTIK_EMAIL__USE_SSL
-              value: 'false'
+              value: "false"
             - name: AUTHENTIK_EMAIL__TIMEOUT
-              value: '30'
+              value: "30"
             - name: AUTHENTIK_EMAIL__FROM
               value: limtaehyun@lth.so
           volumeMounts:
