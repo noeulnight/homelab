@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: dozzle
+spec:
+  hosts:
+    - "dozzle.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: ak-outpost-dozzle.authentik.svc.cluster.local
+            port:
+              number: 9000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

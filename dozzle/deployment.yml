@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dozzle
+  labels:
+    app.kubernetes.io/version: v10.2.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dozzle
+  template:
+    metadata:
+      labels:
+        app: dozzle
+        app.kubernetes.io/version: v10.2.0
+    spec:
+      serviceAccountName: dozzle
+      containers:
+        - name: dozzle
+          image: amir20/dozzle:v10.2.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DOZZLE_MODE
+              value: k8s
