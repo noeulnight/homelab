@@ -5,11 +5,29 @@ metadata:
 spec:
   hosts:
     - "s.lth.so"
+    - "s"
   gateways:
     - istio-ingress/public-gateway
   http:
-
-    - route:
+    - match:
+        - headers:
+            :authority:
+              exact: s
+          uri:
+            prefix: /
+      rewrite:
+        uriRegexRewrite:
+          match: ^/(.*)$
+          rewrite: "/s/\\1"
+      route:
+        - destination:
+            host: slash-service.slash.svc.cluster.local
+            port:
+              number: 5231
+    - match:
+        - uri:
+            prefix: /
+      route:
         - destination:
             host: slash-service.slash.svc.cluster.local
             port:
