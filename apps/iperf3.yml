@@ -8,21 +8,10 @@ spec:
     namespace: iperf3
     server: https://kubernetes.default.svc
   project: default
-  sources:
-    - chart: iperf3
-      repoURL: oci://registry-1.docker.io/gradiantcharts/iperf3
-      targetRevision: "0.1.3"
-      helm:
-        releaseName: iperf3
-        valuesObject:
-          image:
-            repository: networkstatic/iperf3
-          replicaCount: 1
-          format: M
-          interval: 1
-          service:
-            type: ClusterIP
-          resources: {}
+  source:
+    path: iperf3
+    repoURL: git@github.com:noeulnight/homelab.git
+    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
