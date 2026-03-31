@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: chatwoot
+spec:
+  hosts:
+    - "chat.lth.so"
+    - "chat.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: chat.limtaehyun.dev
+      redirect:
+        authority: chat.lth.so
+    - route:
+        - destination:
+            host: chatwoot.chatwoot.svc.cluster.local
+            port:
+              number: 3000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

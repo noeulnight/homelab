@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatwoot-worker
+  labels:
+    app: chatwoot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatwoot
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: chatwoot
+        role: worker
+    spec:
+      serviceAccountName: chatwoot
+      containers:
+        - name: chatwoot-worker
+          image: chatwoot/chatwoot:v4.12.1
+          imagePullPolicy: IfNotPresent
+          args:
+            - bundle
+            - exec
+            - sidekiq
+            - -C
+            - config/sidekiq.yml
+          envFrom:
+            - secretRef:
+                name: chatwoot-env
+          volumeMounts:
+            - name: cache
+              mountPath: /app/tmp
+      volumes:
+        - name: cache
+          emptyDir: {}
