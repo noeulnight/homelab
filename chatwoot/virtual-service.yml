@@ -4,17 +4,17 @@ metadata:
   name: chatwoot
 spec:
   hosts:
-    - "chat.lth.so"
-    - "chat.limtaehyun.dev"
+    - "support.lth.so"
+    - "support.limtaehyun.dev"
   gateways:
     - istio-ingress/public-gateway
   http:
     - match:
         - headers:
             :authority:
-              exact: chat.limtaehyun.dev
+              exact: support.limtaehyun.dev
       redirect:
-        authority: chat.lth.so
+        authority: support.lth.so
     - route:
         - destination:
             host: chatwoot.chatwoot.svc.cluster.local

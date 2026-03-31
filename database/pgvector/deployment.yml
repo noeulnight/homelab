@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgvector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgvector
+  template:
+    metadata:
+      labels:
+        app: pgvector
+    spec:
+      containers:
+        - name: pgvector
+          image: pgvector/pgvector:pg16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: admin
+            - name: POSTGRES_DB
+              value: admin
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pgvector-root-password
+                  key: password
+            - name: POSTGRES_INITDB_ARGS
+              value: --data-checksums
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: pgvector-storage
+            - mountPath: /docker-entrypoint-initdb.d
+              name: pgvector-initdb
+      volumes:
+        - name: pgvector-storage
+          persistentVolumeClaim:
+            claimName: pgvector-pvc
+        - name: pgvector-initdb
+          configMap:
+            name: pgvector-initdb
