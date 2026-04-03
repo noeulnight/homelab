@@ -21,7 +21,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: server
-          image: ghcr.io/noeulnight/hole:latest
+          image: ghcr.io/noeulnight/hole-api:latest
           ports:
             - containerPort: 3000
             - containerPort: 22
@@ -46,3 +46,28 @@ spec:
         - name: tunnel-storage
           persistentVolumeClaim:
             claimName: tunnel-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tunnel-web
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tunnel-web
+  template:
+    metadata:
+      labels:
+        app: tunnel-web
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/noeulnight/hole-web:latest
+          ports:
+            - containerPort: 80

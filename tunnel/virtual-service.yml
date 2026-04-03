@@ -9,8 +9,23 @@ spec:
   gateways:
     - istio-ingress/public-gateway
   http:
-    - route:
+    - match:
+        - uri:
+            regex: /api(/|$)(.*)
+      rewrite:
+        uriRegexRewrite:
+          match: ^/api(/|$)(.*)
+          rewrite: "/\\2"
+      route:
         - destination:
             host: tunnel-service.tunnel.svc.cluster.local
             port:
               number: 3000
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: tunnel-web-service.tunnel.svc.cluster.local
+            port:
+              number: 80
