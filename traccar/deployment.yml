@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traccar
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traccar
+  template:
+    metadata:
+      labels:
+        app: traccar
+        app.kubernetes.io/version: v1
+    spec:
+      hostname: traccar
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: traccar
+          image: traccar/traccar:latest
+          ports:
+            - name: web
+              containerPort: 8082
+              protocol: TCP
+          env:
+            - name: CONFIG_USE_ENVIRONMENT_VARIABLES
+              value: "true"
+          envFrom:
+            - secretRef:
+                name: traccar-secret
+          volumeMounts:
+            - name: traccar-logs
+              mountPath: /opt/traccar/logs
+            - name: traccar-data
+              mountPath: /opt/traccar/data
+      volumes:
+        - name: traccar-logs
+          persistentVolumeClaim:
+            claimName: traccar-logs-pvc
+        - name: traccar-data
+          persistentVolumeClaim:
+            claimName: traccar-data-pvc
+        - name: traccar-config
+          hostPath:
+            path: /opt/traccar/traccar.xml
+            type: FileOrCreate
