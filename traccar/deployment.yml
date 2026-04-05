@@ -43,7 +43,3 @@ spec:
         - name: traccar-data
           persistentVolumeClaim:
             claimName: traccar-data-pvc
-        - name: traccar-config
-          hostPath:
-            path: /opt/traccar/traccar.xml
-            type: FileOrCreate
