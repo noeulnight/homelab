@@ -20,7 +20,7 @@ spec:
       serviceAccountName: authentik
       containers:
         - name: authentik
-          image: ghcr.io/goauthentik/server:2026.2.1
+          image: ghcr.io/goauthentik/server:2026.2.2
           args:
             - server
           ports:
@@ -104,7 +104,7 @@ spec:
       serviceAccountName: authentik
       containers:
         - name: authentik
-          image: ghcr.io/goauthentik/server:2026.2.1
+          image: ghcr.io/goauthentik/server:2026.2.2
           args:
             - worker
           env:
