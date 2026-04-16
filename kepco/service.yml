@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kepco-service
+  labels:
+    app.kubernetes.io/name: kepco-service
+    app.kubernetes.io/part-of: kepco
+spec:
+  selector:
+    app: kepco
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

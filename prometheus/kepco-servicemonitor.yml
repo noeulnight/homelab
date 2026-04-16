@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kepco
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - kepco
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kepco-service
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 1m

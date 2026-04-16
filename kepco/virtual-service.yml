@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: kepco
+spec:
+  hosts:
+    - "kepco.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: kepco-service.kepco.svc.cluster.local
+            port:
+              number: 3000

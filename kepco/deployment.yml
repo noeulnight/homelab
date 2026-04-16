@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kepco
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kepco
+  template:
+    metadata:
+      labels:
+        app: kepco
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: kepco
+          image: ghcr.io/noeulnight/kepco:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: KEPCO_ID
+              valueFrom:
+                secretKeyRef:
+                  name: kepco-secret
+                  key: KEPCO_ID
+            - name: KEPCO_PW
+              valueFrom:
+                secretKeyRef:
+                  name: kepco-secret
+                  key: KEPCO_PW
