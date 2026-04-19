@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toolbox
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: toolbox
+  template:
+    metadata:
+      labels:
+        app: toolbox
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: toolbox
+          image: ghcr.io/noeulnight/toolbox:latest
+          ports:
+            - containerPort: 80

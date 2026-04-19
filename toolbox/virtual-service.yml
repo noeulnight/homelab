@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: toolbox
+spec:
+  hosts:
+    - "toolbox.lth.so"
+    - "tool.lth.so"
+    - "t.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: toolbox-service.toolbox.svc.cluster.local
+            port:
+              number: 80
