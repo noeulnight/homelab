@@ -27,6 +27,8 @@ spec:
             enabled: false
           gatewayApi:
             enabled: false
+          secret:
+            existingSecret: rustfs-secret
           service:
             type: ClusterIP
           resources: {}
