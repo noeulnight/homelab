@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: rustfs
+spec:
+  hosts:
+    - "rustfs.lth.so"
+    - "s3.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: s3.lth.so
+      route:
+        - destination:
+            host: rustfs-svc.rustfs.svc.cluster.local
+            port:
+              number: 9000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
+    - route:
+        - destination:
+            host: rustfs-svc.rustfs.svc.cluster.local
+            port:
+              number: 9001
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

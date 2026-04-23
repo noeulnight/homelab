@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rustfs
+  namespace: argocd
+spec:
+  destination:
+    namespace: rustfs
+    server: https://kubernetes.default.svc
+  project: default
+  sources:
+    - chart: rustfs
+      repoURL: https://charts.rustfs.com
+      targetRevision: "*"
+      helm:
+        releaseName: rustfs
+        valuesObject:
+          mode:
+            standalone:
+              enabled: true
+              existingClaim:
+                dataClaim: rustfs-data-pvc
+                logsClaim: rustfs-logs-pvc
+            distributed:
+              enabled: false
+          ingress:
+            enabled: false
+          gatewayApi:
+            enabled: false
+          service:
+            type: ClusterIP
+          resources: {}
+    - path: rustfs
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    syncOptions:
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true
