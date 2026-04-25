@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memos
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memos
+  template:
+    metadata:
+      labels:
+        app: memos
+        app.kubernetes.io/version: v1
+    spec:
+      securityContext:
+        fsGroup: 10001
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: memos
+          image: neosmemo/memos:stable
+          ports:
+            - containerPort: 5230
+          env:
+            - name: MEMOS_PORT
+              value: "5230"
+            - name: MEMOS_DRIVER
+              value: sqlite
+            - name: MEMOS_INSTANCE_URL
+              value: https://memo.lth.so
+            - name: TZ
+              value: Asia/Seoul
+          volumeMounts:
+            - name: memos-data
+              mountPath: /var/opt/memos
+      volumes:
+        - name: memos-data
+          persistentVolumeClaim:
+            claimName: memos-pvc

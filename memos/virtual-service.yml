@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: memos
+spec:
+  hosts:
+    - "memo.lth.so"
+    - "memo.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: memo.limtaehyun.dev
+      redirect:
+        authority: memo.lth.so
+    - route:
+        - destination:
+            host: memos-service.memos.svc.cluster.local
+            port:
+              number: 5230
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
