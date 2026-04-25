@@ -27,6 +27,8 @@ spec:
           extraArgs:
             - --dns01-recursive-nameservers-only
             - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
+          podLabels:
+            homelab.lth.so/ambient-disabled: "true"
           prometheus:
             servicemonitor:
               enabled: true
@@ -42,7 +44,7 @@ spec:
       selfHeal: true
     managedNamespaceMetadata:
       labels:
-        istio.io/dataplane-mode: ambient
+        istio.io/dataplane-mode: disabled
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
