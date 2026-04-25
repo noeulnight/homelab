@@ -17,6 +17,7 @@ spec:
     - "lth.so"
     - "limtaehyun.dev"
     - "*.lth.so"
+    - "*.s3.lth.so"
     - "*.tunnel.lth.so"
     - "*.coder.lth.so"
     - "*.limtaehyun.dev"

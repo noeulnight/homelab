@@ -6,6 +6,7 @@ spec:
   hosts:
     - "rustfs.lth.so"
     - "s3.lth.so"
+    - "*.s3.lth.so"
   gateways:
     - istio-ingress/public-gateway
   http:
@@ -13,6 +14,9 @@ spec:
         - headers:
             :authority:
               exact: s3.lth.so
+        - headers:
+            :authority:
+              regex: ".+\\.s3\\.lth\\.so"
       route:
         - destination:
             host: rustfs-svc.rustfs.svc.cluster.local

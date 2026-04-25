@@ -27,6 +27,9 @@ spec:
             enabled: false
           gatewayApi:
             enabled: false
+          config:
+            rustfs:
+              domains: "s3.lth.so"
           secret:
             existingSecret: rustfs-secret
           service:

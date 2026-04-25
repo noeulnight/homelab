@@ -13,6 +13,7 @@ spec:
       hosts:
         - "lth.so"
         - "*.lth.so"
+        - "*.s3.lth.so"
         - "tunnel.lth.so"
         - "*.tunnel.lth.so"
         - "*.coder.lth.so"
@@ -26,6 +27,7 @@ spec:
       hosts:
         - "lth.so"
         - "*.lth.so"
+        - "*.s3.lth.so"
         - "tunnel.lth.so"
         - "*.tunnel.lth.so"
         - "*.coder.lth.so"
