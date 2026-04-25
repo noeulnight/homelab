@@ -32,12 +32,7 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: pgvector-storage
-            - mountPath: /docker-entrypoint-initdb.d
-              name: pgvector-initdb
       volumes:
         - name: pgvector-storage
           persistentVolumeClaim:
             claimName: pgvector-pvc
-        - name: pgvector-initdb
-          configMap:
-            name: pgvector-initdb

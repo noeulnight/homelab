@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pgvector-initdb
-data:
-  01-init-chatwoot.sql: |
-    CREATE EXTENSION IF NOT EXISTS vector;

@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: pgvector
 resources:
   - ./secret.yml
-  - ./init-config.yml
   - ./deployment.yml
   - ./pv.yml
   - ./pvc.yml
