@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: termix
+spec:
+  hosts:
+    - "terminal.lth.so"
+    - "terminal.limtaehyun.dev"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - headers:
+            :authority:
+              exact: terminal.limtaehyun.dev
+      redirect:
+        authority: terminal.lth.so
+    - route:
+        - destination:
+            host: termix-service.termix.svc.cluster.local
+            port:
+              number: 8080
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: termix
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: termix
+  template:
+    metadata:
+      labels:
+        app: termix
+        app.kubernetes.io/version: v1
+    spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: termix
+          image: ghcr.io/lukegus/termix:latest
+          ports:
+            - name: web
+              containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: DATA_DIR
+              value: /app/data
+            - name: ENABLE_GUACAMOLE
+              value: "true"
+            - name: GUACD_HOST
+              value: localhost
+            - name: GUACD_PORT
+              value: "4822"
+            - name: TZ
+              value: Asia/Seoul
+          volumeMounts:
+            - name: termix-data
+              mountPath: /app/data
+        - name: guacd
+          image: guacamole/guacd:1.6.0
+          ports:
+            - name: guacd
+              containerPort: 4822
+      volumes:
+        - name: termix-data
+          persistentVolumeClaim:
+            claimName: termix-pvc

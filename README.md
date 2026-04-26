@@ -16,12 +16,12 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (16)"]
+  Gateway --> PublicApps["Public Apps (17)"]
   K8s --> InternalApps["Internal/Infra Apps (17)"]
   K8s --> Data["Data Layer (Postgres/MySQL/Redis/Mongo)"]
 ```
 
-### Public Endpoints (16)
+### Public Endpoints (17)
 
 | App               | Namespace         | URL                         |
 | ----------------- | ----------------- | --------------------------- |
@@ -39,6 +39,7 @@ flowchart LR
 | `roundcube`       | `roundcube`       | <https://mail.lth.so>       |
 | `slash`           | `slash`           | <https://s.lth.so>          |
 | `spotify`         | `spotify`         | <https://spotify.lth.so>    |
+| `termix`          | `termix`          | <https://termix.lth.so>     |
 | `wakapi`          | `wakapi`          | <https://wakatime.lth.so>   |
 | `architecture`    | `architecture`    | <https://arch.lth.so>       |
 
