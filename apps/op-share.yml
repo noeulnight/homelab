@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: op-share
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:noeulnight/homelab.git
+    targetRevision: HEAD
+    path: op-share
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: op-share
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true

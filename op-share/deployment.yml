@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: op-share
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: op-share
+  template:
+    metadata:
+      labels:
+        app: op-share
+        app.kubernetes.io/version: v1
+    spec:
+      securityContext:
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: op-share
+          image: ghcr.io/noeulnight/op-share:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: HOSTNAME
+              value: "0.0.0.0"
+            - name: PORT
+              value: "3000"
+            - name: NEXTAUTH_URL
+              value: https://op.lth.so
+            - name: OIDC_ISSUER
+              valueFrom:
+                secretKeyRef:
+                  name: op-share-secret
+                  key: OIDC_ISSUER
+                  optional: true
+            - name: OP_SERVICE_ACCOUNT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: op-share-secret
+                  key: OP_SERVICE_ACCOUNT_TOKEN
+                  optional: true
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: op-share-secret
+                  key: OIDC_CLIENT_ID
+                  optional: true
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: op-share-secret
+                  key: OIDC_CLIENT_SECRET
+                  optional: true
+            - name: NEXTAUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: op-share-secret
+                  key: NEXTAUTH_SECRET
+                  optional: true
+            - name: TZ
+              value: Asia/Seoul
+          volumeMounts:
+            - name: op-share-data
+              mountPath: /app/data
+      volumes:
+        - name: op-share-data
+          persistentVolumeClaim:
+            claimName: op-share-pvc

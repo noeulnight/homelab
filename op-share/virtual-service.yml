@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: op-share
+spec:
+  hosts:
+    - op.lth.so
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: op-share-service.op-share.svc.cluster.local
+            port:
+              number: 3000
