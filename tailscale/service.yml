@@ -8,7 +8,11 @@ spec:
   externalName: pi
   type: ExternalName
   ports:
-    - port: 8000
+    - name: homebridge
+      port: 8000
+      protocol: TCP
+    - name: ssh
+      port: 22
       protocol: TCP
 ---
 apiVersion: v1
@@ -27,6 +31,9 @@ spec:
     - name: vnc-udp
       port: 5900
       protocol: UDP
+    - name: ssh
+      port: 22
+      protocol: TCP
 ---
 apiVersion: v1
 kind: Service
