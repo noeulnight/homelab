@@ -32,9 +32,11 @@ spec:
             - name: ENABLE_GUACAMOLE
               value: "true"
             - name: GUACD_HOST
-              value: localhost
+              value: guacd
             - name: GUACD_PORT
               value: "4822"
+            - name: LOG_LEVEL
+              value: "debug"
             - name: TZ
               value: Asia/Seoul
           volumeMounts:

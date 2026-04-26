@@ -10,3 +10,16 @@ spec:
       protocol: TCP
       port: 8080
       targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: guacd
+spec:
+  selector:
+    app: termix
+  ports:
+    - name: guacd
+      protocol: TCP
+      port: 4822
+      targetPort: 4822
