@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: fallback-lth-redirect
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "*.lth.so"
+  gateways:
+    - public-gateway
+  http:
+    - redirect:
+        authority: lth.so
