@@ -38,6 +38,26 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: lth-company-mac.tail6de6ea.ts.net
+  name: company-mac
+spec:
+  externalName: company-mac
+  type: ExternalName
+  ports:
+    - name: vnc-tcp
+      port: 5900
+      protocol: TCP
+    - name: vnc-udp
+      port: 5900
+      protocol: UDP
+    - name: ssh
+      port: 22
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: tailscale-exporter
   labels:
     app.kubernetes.io/name: tailscale-exporter
