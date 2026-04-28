@@ -21,7 +21,7 @@ spec:
         fsGroup: 1000
       containers:
         - name: n8n
-          image: docker.n8n.io/n8nio/n8n:2.10.4
+          image: docker.n8n.io/n8nio/n8n:stable
           ports:
             - containerPort: 5678
           env:
