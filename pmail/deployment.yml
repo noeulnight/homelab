@@ -15,22 +15,9 @@ spec:
         app: pmail
         app.kubernetes.io/version: v1
     spec:
-      initContainers:
-        - name: migrate
-          image: ghcr.io/noeulnight/pmail:latest
-          command:
-            - sh
-            - -lc
-            - pnpm exec drizzle-kit push --force
-          env:
-            - name: NODE_ENV
-              value: production
-          envFrom:
-            - secretRef:
-                name: pmail-secret
       containers:
         - name: pmail
-          image: ghcr.io/noeulnight/pmail:latest
+          image: ghcr.io/pmh-only/mail:latest
           ports:
             - name: web
               containerPort: 3000
