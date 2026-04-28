@@ -16,55 +16,65 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (18)"]
+  Gateway --> PublicApps["Public Apps (28)"]
   K8s --> InternalApps["Internal/Infra Apps (17)"]
-  K8s --> Data["Data Layer (Postgres/MySQL/Redis/Mongo)"]
+  K8s --> Data["Data Layer (Postgres/MySQL/MariaDB/Pgvector/Redis/Mongo)"]
 ```
 
-### Public Endpoints (18)
+### Public Endpoints (28)
 
 | App               | Namespace         | URL                         |
 | ----------------- | ----------------- | --------------------------- |
 | `root`            | `root`            | <https://lth.so>            |
 | `argocd`          | `argocd`          | <https://argo.lth.so>       |
 | `authentik`       | `authentik`       | <https://auth.lth.so>       |
+| `booklore`        | `booklore`        | <https://book.lth.so>       |
 | `badges`          | `badges`          | <https://badges.lth.so>     |
+| `bridge`          | `bridge`          | <https://bridge.lth.so>     |
 | `coder`           | `coder`           | <https://coder.lth.so>      |
+| `couchdb`         | `couchdb`         | <https://couchdb.lth.so>    |
+| `ghost`           | `ghost`           | <https://blog.lth.so>       |
 | `grafana`         | `grafana`         | <https://monitoring.lth.so> |
+| `kepco`           | `kepco`           | <https://kepco.lth.so>      |
 | `kiali`           | `kiali`           | <https://kiali.lth.so>      |
 | `kube-visualizer` | `kube-visualizer` | <https://visualized.lth.so> |
-| `korail`          | `korail`          | <https://korail.lth.so>     |
+| `korail`          | `korail`          | <https://train.lth.so>      |
+| `n8n`             | `n8n`             | <https://workflow.lth.so>   |
+| `vnc`             | `vnc`             | <https://mac.lth.so>        |
 | `memos`           | `memos`           | <https://memo.lth.so>       |
 | `op-share`        | `op-share`        | <https://op.lth.so>         |
-| `remodex`         | `remodex`         | <https://remodex.lth.so>    |
-| `roundcube`       | `roundcube`       | <https://mail.lth.so>       |
 | `slash`           | `slash`           | <https://s.lth.so>          |
 | `spotify`         | `spotify`         | <https://spotify.lth.so>    |
-| `termix`          | `termix`          | <https://termix.lth.so>     |
+| `rustfs`          | `rustfs`          | <https://rustfs.lth.so>     |
+| `termix`          | `termix`          | <https://terminal.lth.so>   |
+| `technitium`      | `technitium`      | <https://dns.lth.so>        |
+| `toolbox`         | `toolbox`         | <https://toolbox.lth.so>    |
+| `traccar`         | `traccar`         | <https://traccar.lth.so>    |
+| `tunnel`          | `tunnel`          | <https://tunnel.lth.so>     |
 | `wakapi`          | `wakapi`          | <https://wakatime.lth.so>   |
 | `architecture`    | `architecture`    | <https://arch.lth.so>       |
 
 ### Internal/Infra Apps (17)
 
-| App               | Namespace       | Role                        |
-| ----------------- | --------------- | --------------------------- |
-| `bridge`          | `bridge`        | Mail bridge                 |
-| `cert-manager`    | `cert-manager`  | TLS certificate management  |
-| `istio-base`      | `istio-system`  | Istio CRDs/base             |
-| `istiod`          | `istio-system`  | Istio control plane         |
-| `istio-cni`       | `istio-system`  | Istio CNI                   |
-| `ztunnel`         | `istio-system`  | Ambient mesh data plane     |
-| `istio-ingress`   | `istio-ingress` | Ingress gateway             |
-| `prometheus`      | `prometheus`    | Metrics stack               |
-| `sealed-secrets`  | `kube-system`   | Encrypted secret controller |
-| `tailscale`       | `tailscale`     | Tailscale operator          |
-| `technitium`      | `technitium`    | DNS server                  |
-| `n8n`             | `n8n`           | Workflow automation         |
-| `k8s-mcp` (`mcp`) | `default`       | Kubernetes MCP server       |
-| `postgres`        | `postgres`      | PostgreSQL                  |
-| `mysql`           | `mysql`         | MySQL                       |
-| `redis`           | `redis`         | Redis                       |
-| `mongo`           | `mongo`         | MongoDB                     |
+| App               | Namespace       |
+| ----------------- | --------------- |
+| `cert-manager`    | `cert-manager`  |
+| `gateway`         | `kube-system`   |
+| `istio-base`      | `istio-system`  |
+| `istio-cni`       | `istio-system`  |
+| `istio-ingress`   | `istio-ingress` |
+| `istiod`          | `istio-system`  |
+| `k8s-mcp` (`mcp`) | `default`       |
+| `mariadb`         | `mariadb`       |
+| `mongo`           | `mongo`         |
+| `mysql`           | `mysql`         |
+| `pgvector`        | `pgvector`      |
+| `postgres`        | `postgres`      |
+| `prometheus`      | `prometheus`    |
+| `redis`           | `redis`         |
+| `sealed-secrets`  | `kube-system`   |
+| `tailscale`       | `tailscale`     |
+| `ztunnel`         | `istio-system`  |
 
 ## Repository Layout
 
