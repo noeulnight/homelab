@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pmail-service
+  labels:
+    app.kubernetes.io/name: pmail-service
+    app.kubernetes.io/part-of: pmail
+spec:
+  selector:
+    app: pmail
+  ports:
+    - name: web
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
