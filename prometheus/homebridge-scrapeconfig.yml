@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: homebridge
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  staticConfigs:
+    - targets:
+        - pi.tailscale.svc.cluster.local:8582
+      labels:
+        job: homebridge
+        service: pi
+        namespace: tailscale
+  metricsPath: /metrics
+  scrapeInterval: 1m

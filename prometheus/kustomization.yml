@@ -9,7 +9,7 @@ resources:
   - ./authentik-servicemonitor.yml
   - ./wakapi-servicemonitor.yml
   - ./tailscale-servicemonitor.yml
-  - ./homebridge-servicemonitor.yml
+  - ./homebridge-scrapeconfig.yml
   - ./tunnel-servicemonitor.yml
   - ./kepco-servicemonitor.yml
   - ./secret.yml
