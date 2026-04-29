@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: homebridge
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - tailscale
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pi
+  endpoints:
+    - port: homebridge-metric
+      path: /metrics
+      interval: 1m

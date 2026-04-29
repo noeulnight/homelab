@@ -3,16 +3,24 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: limtaehyun-pi.tail6de6ea.ts.net
+  labels:
+    app.kubernetes.io/name: pi
   name: pi
 spec:
   externalName: pi
   type: ExternalName
   ports:
-    - name: homebridge
-      port: 8000
-      protocol: TCP
     - name: ssh
       port: 22
+      protocol: TCP
+    - name: light-api
+      port: 8000
+      protocol: TCP
+    - name: homebridge-ui
+      port: 8581
+      protocol: TCP
+    - name: homebridge-metric
+      port: 8582
       protocol: TCP
 ---
 apiVersion: v1
