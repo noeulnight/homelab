@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: osmproxy
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: osmproxy
+  template:
+    metadata:
+      labels:
+        app: osmproxy
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: osmproxy
+          image: ghcr.io/noeulnight/osmproxy:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: osmproxy-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: osmproxy-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: PORT
+              value: "3000"
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: S3_BUCKET
+              value: "osm"
+            - name: S3_ENDPOINT
+              value: "https://s3.lth.so"
+            - name: S3_FORCE_PATH_STYLE
+              value: "false"
+            - name: CACHE_TTL_MS
+              value: "86400000"
+            - name: PROXY_MAPS
+              value: "base=https://tile.openstreetmap.org,satellite=https://tiles.example.com/satellite,railway=https://tiles.openrailwaymap.org/standard"

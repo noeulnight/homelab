@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: osmproxy
+spec:
+  hosts:
+    - "osm.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: osmproxy-service.osmproxy.svc.cluster.local
+            port:
+              number: 3000
