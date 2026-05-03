@@ -16,12 +16,12 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (28)"]
+  Gateway --> PublicApps["Public Apps (29)"]
   K8s --> InternalApps["Internal/Infra Apps (17)"]
   K8s --> Data["Data Layer (Postgres/MySQL/MariaDB/Pgvector/Redis/Mongo)"]
 ```
 
-### Public Endpoints (28)
+### Public Endpoints (29)
 
 | App               | Namespace         | URL                         |
 | ----------------- | ----------------- | --------------------------- |
@@ -43,6 +43,7 @@ flowchart LR
 | `vnc`             | `vnc`             | <https://mac.lth.so>        |
 | `memos`           | `memos`           | <https://memo.lth.so>       |
 | `op-share`        | `op-share`        | <https://op.lth.so>         |
+| `paperless`       | `paperless`       | <https://paper.lth.so>      |
 | `slash`           | `slash`           | <https://s.lth.so>          |
 | `spotify`         | `spotify`         | <https://spotify.lth.so>    |
 | `rustfs`          | `rustfs`          | <https://rustfs.lth.so>     |

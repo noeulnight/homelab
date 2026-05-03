@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paperless
+  template:
+    metadata:
+      labels:
+        app: paperless
+        app.kubernetes.io/version: v1
+    spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: paperless
+          image: ghcr.io/paperless-ngx/paperless-ngx:latest
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: PAPERLESS_URL
+              value: https://paper.lth.so
+            - name: PAPERLESS_ALLOWED_HOSTS
+              value: paper.lth.so
+            - name: PAPERLESS_CSRF_TRUSTED_ORIGINS
+              value: https://paper.lth.so
+            - name: PAPERLESS_USE_X_FORWARD_HOST
+              value: "true"
+            - name: PAPERLESS_USE_X_FORWARD_PORT
+              value: "true"
+            - name: PAPERLESS_PROXY_SSL_HEADER
+              value: '["HTTP_X_FORWARDED_PROTO","https"]'
+            - name: PAPERLESS_TIME_ZONE
+              value: Asia/Seoul
+            - name: PAPERLESS_PORT
+              value: "8000"
+            - name: PAPERLESS_REDIS
+              value: redis://redis-service.redis.svc.cluster.local:6379
+            - name: PAPERLESS_DBHOST
+              value: postgres-service.postgres.svc.cluster.local
+            - name: PAPERLESS_DBPORT
+              value: "5432"
+            - name: PAPERLESS_DBNAME
+              value: paperless
+            - name: PAPERLESS_DBUSER
+              value: paperless
+            - name: PAPERLESS_DBPASS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secrets
+                  key: PAPERLESS_DBPASS
+            - name: PAPERLESS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secrets
+                  key: PAPERLESS_SECRET_KEY
+            - name: PAPERLESS_OCR_LANGUAGE
+              value: kor+eng
+            - name: PAPERLESS_OCR_LANGUAGES
+              value: kor
+            - name: PAPERLESS_APPS
+              value: allauth.socialaccount.providers.openid_connect
+            - name: PAPERLESS_ACCOUNT_DEFAULT_HTTP_PROTOCOL
+              value: https
+            - name: PAPERLESS_SOCIAL_AUTO_SIGNUP
+              value: "true"
+            - name: PAPERLESS_SOCIALACCOUNT_ALLOW_SIGNUPS
+              value: "true"
+            - name: PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS
+              value: "false"
+            - name: PAPERLESS_DISABLE_REGULAR_LOGIN
+              value: "true"
+            - name: PAPERLESS_REDIRECT_LOGIN_TO_SSO
+              value: "true"
+            - name: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+              valueFrom:
+                secretKeyRef:
+                  name: paperless-secrets
+                  key: PAPERLESS_SOCIALACCOUNT_PROVIDERS
+            - name: USERMAP_UID
+              value: "1000"
+            - name: USERMAP_GID
+              value: "1000"
+          volumeMounts:
+            - name: paperless-data
+              mountPath: /usr/src/paperless/data
+              subPath: data
+            - name: paperless-data
+              mountPath: /usr/src/paperless/media
+              subPath: media
+            - name: paperless-data
+              mountPath: /usr/src/paperless/consume
+              subPath: consume
+            - name: paperless-data
+              mountPath: /usr/src/paperless/export
+              subPath: export
+      volumes:
+        - name: paperless-data
+          persistentVolumeClaim:
+            claimName: paperless-pvc

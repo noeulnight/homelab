@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: paperless
+spec:
+  hosts:
+    - "paper.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: paperless-service.paperless.svc.cluster.local
+            port:
+              number: 8000
+      headers:
+        request:
+          set:
+            x-forwarded-proto: https
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
