@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overleaf
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: overleaf
+  template:
+    metadata:
+      labels:
+        app: overleaf
+    spec:
+      containers:
+        - name: overleaf
+          image: pingwin02/sharelatex-arm:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: TZ
+              value: Asia/Seoul
+            - name: OVERLEAF_APP_NAME
+              value: Overleaf
+            - name: OVERLEAF_SITE_URL
+              value: https://overleaf.lth.so
+            - name: OVERLEAF_MONGO_URL
+              value: mongodb://mongo-service.mongo.svc.cluster.local:27017/sharelatex
+            - name: OVERLEAF_REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: OVERLEAF_FILESTORE_BACKEND
+              value: s3
+            - name: OVERLEAF_FILESTORE_USER_FILES_BUCKET
+              value: overleaf-user-files
+            - name: OVERLEAF_FILESTORE_TEMPLATE_FILES_BUCKET
+              value: overleaf-template-files
+            - name: OVERLEAF_FILESTORE_S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: overleaf-secret
+                  key: OVERLEAF_FILESTORE_S3_ACCESS_KEY_ID
+            - name: OVERLEAF_FILESTORE_S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: overleaf-secret
+                  key: OVERLEAF_FILESTORE_S3_SECRET_ACCESS_KEY
+            - name: OVERLEAF_FILESTORE_S3_ENDPOINT
+              value: https://s3.lth.so
+            - name: OVERLEAF_FILESTORE_S3_PATH_STYLE
+              value: "false"
+            - name: OVERLEAF_FILESTORE_S3_REGION
+              value: "us-east-1"
+            - name: OVERLEAF_HISTORY_BACKEND
+              value: s3
+            - name: OVERLEAF_HISTORY_PROJECT_BLOBS_BUCKET
+              value: overleaf-project-blobs
+            - name: OVERLEAF_HISTORY_CHUNKS_BUCKET
+              value: overleaf-chunks
+            - name: OVERLEAF_HISTORY_S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: overleaf-secret
+                  key: OVERLEAF_HISTORY_S3_ACCESS_KEY_ID
+            - name: OVERLEAF_HISTORY_S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: overleaf-secret
+                  key: OVERLEAF_HISTORY_S3_SECRET_ACCESS_KEY
+            - name: OVERLEAF_HISTORY_S3_ENDPOINT
+              value: https://s3.lth.so
+            - name: OVERLEAF_HISTORY_S3_PATH_STYLE
+              value: "false"
+            - name: OVERLEAF_HISTORY_S3_REGION
+              value: "us-east-1"
+          volumeMounts:
+            - mountPath: /var/lib/overleaf
+              name: overleaf-storage
+      volumes:
+        - name: overleaf-storage
+          persistentVolumeClaim:
+            claimName: overleaf-pvc
