@@ -29,7 +29,7 @@ spec:
             - name: OVERLEAF_SITE_URL
               value: https://overleaf.lth.so
             - name: OVERLEAF_MONGO_URL
-              value: mongodb://mongo-service.mongo.svc.cluster.local:27017/sharelatex
+              value: mongodb://mongo-service.mongo.svc.cluster.local:27017/sharelatex?replicaSet=rs0
             - name: OVERLEAF_REDIS_HOST
               value: redis-service.redis.svc.cluster.local
             - name: REDIS_HOST
