@@ -1,0 +1,76 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: home-alert-rules
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: home.environment
+      rules:
+        - alert: HomeCO2High
+          expr: homebridge_carbon_dioxide_sensor_carbon_dioxide_level{name="CO2 Sensor"} > 1200
+          for: 1m
+          labels:
+            namespace: prometheus
+            severity: warning
+            category: home
+          annotations:
+            summary: "CO2 is high"
+            description: "CO2 is {{ $value }} ppm for more than 1 minutes."
+
+        - alert: HomeCO2VeryHigh
+          expr: homebridge_carbon_dioxide_sensor_carbon_dioxide_level{name="CO2 Sensor"} > 2000
+          for: 1m
+          labels:
+            namespace: prometheus
+            severity: critical
+            category: home
+          annotations:
+            summary: "CO2 is very high"
+            description: "CO2 is {{ $value }} ppm for more than 1 minutes."
+
+        - alert: HomeTemperatureHigh
+          expr: homebridge_temperature_sensor_current_temperature_celsius{name="Temperature Sensor"} > 30
+          for: 1m
+          labels:
+            namespace: prometheus
+            severity: warning
+            category: home
+          annotations:
+            summary: "Room temperature is high"
+            description: "Temperature is {{ $value }} C for more than 1 minutes."
+
+        - alert: HomeTemperatureLow
+          expr: homebridge_temperature_sensor_current_temperature_celsius{name="Temperature Sensor"} < 10
+          for: 1m
+          labels:
+            namespace: prometheus
+            severity: warning
+            category: home
+          annotations:
+            summary: "Room temperature is low"
+            description: "Temperature is {{ $value }} C for more than 1 minutes."
+
+        - alert: HomeHumidityHigh
+          expr: homebridge_humidity_sensor_current_relative_humidity_percentage{name="Humidity Sensor"} > 75
+          for: 1m
+          labels:
+            namespace: prometheus
+            severity: warning
+            category: home
+          annotations:
+            summary: "Room humidity is high"
+            description: "Humidity is {{ $value }}% for more than 1 minutes."
+
+        - alert: HomeHumidityLow
+          expr: homebridge_humidity_sensor_current_relative_humidity_percentage{name="Humidity Sensor"} < 30
+          for: 1m
+          labels:
+            namespace: prometheus
+            severity: warning
+            category: home
+          annotations:
+            summary: "Room humidity is low"
+            description: "Humidity is {{ $value }}% for more than 1 minutes."

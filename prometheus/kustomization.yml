@@ -12,4 +12,7 @@ resources:
   - ./homebridge-scrapeconfig.yml
   - ./tunnel-servicemonitor.yml
   - ./kepco-servicemonitor.yml
+  - ./alertmanager-n8n-secret.yml
+  - ./alertmanager-n8n.yml
+  - ./home-alert-rules.yml
   - ./secret.yml
