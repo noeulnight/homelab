@@ -11,7 +11,7 @@ spec:
   sources:
     - chart: rustfs
       repoURL: https://charts.rustfs.com
-      targetRevision: "*"
+      targetRevision: "0.1.0"
       helm:
         releaseName: rustfs
         valuesObject:
@@ -44,7 +44,7 @@ spec:
       selfHeal: true
     managedNamespaceMetadata:
       labels:
-        istio.io/dataplane-mode: ambient
+        istio.io/dataplane-mode: none
     syncOptions:
       - RespectIgnoreDifferences=true
       - ApplyOutOfSyncOnly=true
