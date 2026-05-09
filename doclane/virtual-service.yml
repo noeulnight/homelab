@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: doclane
+spec:
+  hosts:
+    - "doclane.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: doclane-service.doclane.svc.cluster.local
+            port:
+              number: 3000

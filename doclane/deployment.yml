@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doclane
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doclane
+  template:
+    metadata:
+      labels:
+        app: doclane
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/documentlane/doclane-backend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "3000"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: DATABASE_URL
+            - name: OIDC_ISSUER_URL
+              value: https://auth.lth.so/application/o/doclane/
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: OIDC_CLIENT_ID
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: OIDC_CLIENT_SECRET
+            - name: OIDC_REDIRECT_URI
+              value: https://doclane.lth.so/auth/callback
+            - name: OIDC_SCOPES
+              value: openid email profile
+            - name: JWT_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: JWT_ACCESS_SECRET
+            - name: JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: JWT_REFRESH_SECRET
+            - name: JWT_ACCESS_TOKEN_EXPIRES_IN_SECONDS
+              value: "900"
+            - name: JWT_REFRESH_TOKEN_EXPIRES_IN_SECONDS
+              value: "1209600"
+            - name: REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_DB
+              value: "0"
+            - name: S3_REGION
+              value: us-east-1
+            - name: S3_BUCKET
+              value: doclane
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: S3_ACCESS_KEY_ID
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: doclane-secret
+                  key: S3_SECRET_ACCESS_KEY
+            - name: S3_ENDPOINT
+              value: https://s3.lth.so
+            - name: S3_FORCE_PATH_STYLE
+              value: "true"
+        - name: frontend
+          image: ghcr.io/documentlane/doclane-frontend:latest
+          ports:
+            - containerPort: 3001
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "3001"
+            - name: HOSTNAME
+              value: 0.0.0.0
+            - name: BACKEND_ORIGIN
+              value: http://127.0.0.1:3000

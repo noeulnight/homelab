@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: doclane-service
+spec:
+  selector:
+    app: doclane
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3001
