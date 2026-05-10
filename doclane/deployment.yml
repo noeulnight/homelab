@@ -1,18 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: doclane
+  name: doclane-backend
   labels:
+    app: doclane-backend
     app.kubernetes.io/version: v1
 spec:
+  revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
-      app: doclane
+      app: doclane-backend
   template:
     metadata:
       labels:
-        app: doclane
+        app: doclane-backend
         app.kubernetes.io/version: v1
     spec:
       containers:
@@ -84,16 +86,37 @@ spec:
               value: https://s3.lth.so
             - name: S3_FORCE_PATH_STYLE
               value: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doclane-frontend
+  labels:
+    app: doclane-frontend
+    app.kubernetes.io/version: v1
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doclane-frontend
+  template:
+    metadata:
+      labels:
+        app: doclane-frontend
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
         - name: frontend
           image: ghcr.io/documentlane/doclane-frontend:latest
           ports:
-            - containerPort: 3001
+            - containerPort: 3000
           env:
             - name: NODE_ENV
               value: production
             - name: PORT
-              value: "3001"
+              value: "3000"
             - name: HOSTNAME
               value: 0.0.0.0
             - name: BACKEND_ORIGIN
-              value: http://127.0.0.1:3000
+              value: http://doclane-backend-service.doclane.svc.cluster.local:3000
