@@ -45,7 +45,7 @@ spec:
                   name: doclane-secret
                   key: OIDC_CLIENT_SECRET
             - name: OIDC_REDIRECT_URI
-              value: https://doclane.lth.so/auth/callback
+              value: https://book.lth.so/auth/callback
             - name: OIDC_SCOPES
               value: openid email profile
             - name: JWT_ACCESS_SECRET
