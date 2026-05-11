@@ -19,6 +19,7 @@ spec:
         values: |
           service:
             type: LoadBalancer
+            externalTrafficPolicy: Local
           volumes:
             - name: envoy-lua-script
               secret:
