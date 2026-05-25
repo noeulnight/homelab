@@ -31,3 +31,30 @@ spec:
           envFrom:
             - secretRef:
                 name: pmail-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pmail-worker
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pmail-worker
+  template:
+    metadata:
+      labels:
+        app: pmail-worker
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: pmail-worker
+          image: ghcr.io/pmh-only/mail-worker:latest
+          env:
+            - name: NODE_ENV
+              value: production
+          envFrom:
+            - secretRef:
+                name: pmail-secret
