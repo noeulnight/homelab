@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: sikdae
+spec:
+  hosts:
+    - "sikdae.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - uri:
+            regex: /api(/|$)(.*)
+      rewrite:
+        uriRegexRewrite:
+          match: ^/api(/|$)(.*)
+          rewrite: "/\\2"
+      route:
+        - destination:
+            host: sikdae-backend-service.sikdae.svc.cluster.local
+            port:
+              number: 4000
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: sikdae-frontend-service.sikdae.svc.cluster.local
+            port:
+              number: 80

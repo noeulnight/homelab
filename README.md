@@ -18,7 +18,7 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (31)"]
+  Gateway --> PublicApps["Public Apps (32)"]
   K8s --> InternalApps["Internal/Infra Apps (17)"]
   K8s --> Data["Data Layer (CouchDB/Postgres/MySQL/MariaDB/pgvector/Redis/Mongo)"]
 ```
@@ -27,7 +27,7 @@ flowchart LR
 
 Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
-### Public Endpoints (31)
+### Public Endpoints (32)
 
 | App | Namespace | Primary URL | Aliases |
 | --- | --- | --- | --- |
@@ -53,6 +53,7 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `overleaf` | `overleaf` | <https://overleaf.lth.so> | - |
 | `pmail` | `pmail` | <https://mail.lth.so> | - |
 | `rustfs` | `rustfs` | <https://rustfs.lth.so> | <https://s3.lth.so>, `*.s3.lth.so` |
+| `sikdae` | `sikdae` | <https://sikdae.lth.so> | - |
 | `slash` | `slash` | <https://s.lth.so> | `s` |
 | `spotify` | `spotify` | <https://spotify.lth.so> | <https://spotify.limtaehyun.dev> |
 | `technitium` | `technitium` | <https://dns.lth.so> | - |

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sikdae-backend
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sikdae-backend
+  template:
+    metadata:
+      labels:
+        app: sikdae-backend
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/noeulnight/sikdae-backend:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "4000"
+            - name: REDIS_URL
+              value: redis://redis-service.redis.svc.cluster.local:6379/8
+            - name: SIKDAE_API_BASE_URL
+              value: https://api.sikdae.com
+          envFrom:
+            - secretRef:
+                name: sikdae-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sikdae-frontend
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sikdae-frontend
+  template:
+    metadata:
+      labels:
+        app: sikdae-frontend
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/noeulnight/sikdae-frontend:latest
+          ports:
+            - containerPort: 80
