@@ -8,6 +8,8 @@
   <a href="https://badges.lth.so/"><img alt="badges deployment" src="https://badges.lth.so/badge/deployment/badges/badges"></a>
 </p>
 
+GitOps-managed Kubernetes homelab manifests. Argo CD owns the applications, Istio Ambient provides the mesh, and the public surface is routed through Istio `VirtualService` resources.
+
 ## Topology
 
 ```mermaid
@@ -18,73 +20,85 @@ flowchart LR
   Istio --> Gateway["Public Gateway"]
   Gateway --> PublicApps["Public Apps (31)"]
   K8s --> InternalApps["Internal/Infra Apps (17)"]
-  K8s --> Data["Data Layer (Postgres/MySQL/MariaDB/Pgvector/Redis/Mongo)"]
+  K8s --> Data["Data Layer (CouchDB/Postgres/MySQL/MariaDB/pgvector/Redis/Mongo)"]
 ```
+
+## Applications
+
+Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
 ### Public Endpoints (31)
 
-| App               | Namespace         | URL                         |
-| ----------------- | ----------------- | --------------------------- |
-| `root`            | `root`            | <https://lth.so>            |
-| `argocd`          | `argocd`          | <https://argo.lth.so>       |
-| `authentik`       | `authentik`       | <https://auth.lth.so>       |
-| `booklore`        | `booklore`        | <https://book.lth.so>       |
-| `badges`          | `badges`          | <https://badges.lth.so>     |
-| `bridge`          | `bridge`          | <https://bridge.lth.so>     |
-| `coder`           | `coder`           | <https://coder.lth.so>      |
-| `couchdb`         | `couchdb`         | <https://couchdb.lth.so>    |
-| `doclane`         | `doclane`         | <https://doclane.lth.so>    |
-| `ghost`           | `ghost`           | <https://blog.lth.so>       |
-| `grafana`         | `grafana`         | <https://monitoring.lth.so> |
-| `kepco`           | `kepco`           | <https://kepco.lth.so>      |
-| `kiali`           | `kiali`           | <https://kiali.lth.so>      |
-| `kube-visualizer` | `kube-visualizer` | <https://visualized.lth.so> |
-| `korail`          | `korail`          | <https://train.lth.so>      |
-| `n8n`             | `n8n`             | <https://workflow.lth.so>   |
-| `vnc`             | `vnc`             | <https://mac.lth.so>        |
-| `memos`           | `memos`           | <https://memo.lth.so>       |
-| `op-share`        | `op-share`        | <https://op.lth.so>         |
-| `overleaf`        | `overleaf`        | <https://overleaf.lth.so>   |
-| `paperless`       | `paperless`       | <https://paper.lth.so>      |
-| `slash`           | `slash`           | <https://s.lth.so>          |
-| `spotify`         | `spotify`         | <https://spotify.lth.so>    |
-| `rustfs`          | `rustfs`          | <https://rustfs.lth.so>     |
-| `termix`          | `termix`          | <https://terminal.lth.so>   |
-| `technitium`      | `technitium`      | <https://dns.lth.so>        |
-| `toolbox`         | `toolbox`         | <https://toolbox.lth.so>    |
-| `traccar`         | `traccar`         | <https://traccar.lth.so>    |
-| `tunnel`          | `tunnel`          | <https://tunnel.lth.so>     |
-| `wakapi`          | `wakapi`          | <https://wakatime.lth.so>   |
-| `architecture`    | `architecture`    | <https://arch.lth.so>       |
+| App | Namespace | Primary URL | Aliases |
+| --- | --- | --- | --- |
+| `root` | `root` | <https://lth.so> | <https://limtaehyun.dev> |
+| `architecture` | `architecture` | <https://arch.lth.so> | <https://arch.limtaehyun.dev> |
+| `argocd` | `argocd` | <https://argo.lth.so> | <https://argo.limtaehyun.dev> |
+| `authentik` | `authentik` | <https://auth.lth.so> | <https://auth.limtaehyun.dev> |
+| `badges` | `badges` | <https://badges.lth.so> | <https://badges.limtaehyun.dev> |
+| `bridge` | `bridge` | <https://bridge.lth.so> | <https://bridge.limtaehyun.dev> |
+| `coder` | `coder` | <https://coder.lth.so> | `*.coder.lth.so`, <https://coder.limtaehyun.dev>, `*.coder.limtaehyun.dev` |
+| `couchdb` | `couchdb` | <https://couchdb.lth.so> | - |
+| `doclane` | `doclane` | <https://book.lth.so> | - |
+| `ghost` | `ghost` | <https://blog.lth.so> | - |
+| `grafana` | `grafana` | <https://monitoring.lth.so> | <https://monitoring.limtaehyun.dev> |
+| `kepco` | `kepco` | <https://kepco.lth.so> | - |
+| `kiali` | `kiali` | <https://kiali.lth.so> | <https://kiali.limtaehyun.dev> |
+| `korail` | `korail` | <https://train.lth.so> | <https://train.limtaehyun.dev> |
+| `kube-visualizer` | `kube-visualizer` | <https://visualized.lth.so> | <https://visualized.limtaehyun.dev> |
+| `memos` | `memos` | <https://memo.lth.so> | <https://memo.limtaehyun.dev> |
+| `n8n` | `n8n` | <https://workflow.lth.so> | <https://workflow.limtaehyun.dev> |
+| `op-share` | `op-share` | <https://op.lth.so> | - |
+| `osmproxy` | `osmproxy` | <https://osm.lth.so> | - |
+| `overleaf` | `overleaf` | <https://overleaf.lth.so> | - |
+| `pmail` | `pmail` | <https://mail.lth.so> | - |
+| `rustfs` | `rustfs` | <https://rustfs.lth.so> | <https://s3.lth.so>, `*.s3.lth.so` |
+| `slash` | `slash` | <https://s.lth.so> | `s` |
+| `spotify` | `spotify` | <https://spotify.lth.so> | <https://spotify.limtaehyun.dev> |
+| `technitium` | `technitium` | <https://dns.lth.so> | - |
+| `termix` | `termix` | <https://terminal.lth.so> | <https://terminal.limtaehyun.dev> |
+| `toolbox` | `toolbox` | <https://toolbox.lth.so> | <https://tool.lth.so>, <https://t.lth.so> |
+| `traccar` | `traccar` | <https://traccar.lth.so> | - |
+| `tunnel` | `tunnel` | <https://tunnel.lth.so> | `*.tunnel.lth.so` |
+| `vnc` | `vnc` | <https://mac.lth.so> | <https://mac.limtaehyun.dev> |
+| `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |
 
 ### Internal/Infra Apps (17)
 
-| App               | Namespace       |
-| ----------------- | --------------- |
-| `cert-manager`    | `cert-manager`  |
-| `gateway`         | `kube-system`   |
-| `istio-base`      | `istio-system`  |
-| `istio-cni`       | `istio-system`  |
-| `istio-ingress`   | `istio-ingress` |
-| `istiod`          | `istio-system`  |
-| `k8s-mcp` (`mcp`) | `default`       |
-| `mariadb`         | `mariadb`       |
-| `mongo`           | `mongo`         |
-| `mysql`           | `mysql`         |
-| `pgvector`        | `pgvector`      |
-| `postgres`        | `postgres`      |
-| `prometheus`      | `prometheus`    |
-| `redis`           | `redis`         |
-| `sealed-secrets`  | `kube-system`   |
-| `tailscale`       | `tailscale`     |
-| `ztunnel`         | `istio-system`  |
+| App | Namespace | Role |
+| --- | --- | --- |
+| `cert-manager` | `cert-manager` | TLS issuers and certificate automation |
+| `gateway` | `kube-system` | Kubernetes Gateway API resources |
+| `istio-base` | `istio-system` | Istio base chart |
+| `istio-cni` | `istio-system` | Istio CNI chart |
+| `istio-ingress` | `istio-ingress` | Public gateway, certificate, filters, and fallback routing |
+| `istiod` | `istio-system` | Istio control plane with Ambient profile |
+| `k8s-mcp` (`mcp`) | `default` | Kubernetes MCP server |
+| `mariadb` | `mariadb` | MariaDB datastore |
+| `mongo` | `mongo` | MongoDB datastore |
+| `mysql` | `mysql` | MySQL datastore |
+| `pgvector` | `pgvector` | PostgreSQL with pgvector |
+| `postgres` | `postgres` | Shared PostgreSQL datastore |
+| `prometheus` | `prometheus` | Metrics, scraping, rules, and alert routing |
+| `redis` | `redis` | Redis datastore |
+| `sealed-secrets` | `kube-system` | Sealed Secrets controller |
+| `tailscale` | `tailscale` | Tailscale connector and webfinger resources |
+| `ztunnel` | `istio-system` | Istio Ambient node proxy |
 
 ## Repository Layout
 
-| Path             | Description                          |
-| ---------------- | ------------------------------------ |
-| `apps/`          | Argo CD Application resource         |
-| `argocd/`        | Argo CD ingress/traffic policy       |
-| `istio-ingress/` | public gateway & ingress settings    |
-| `database/`      | DB layer                             |
-| `*/`             | each application deployment manifest |
+| Path | Description |
+| --- | --- |
+| `apps/` | Argo CD `Application` resources |
+| `argocd/` | Argo CD routing and destination policy |
+| `database/` | Stateful backing services |
+| `istio-ingress/` | Public gateway, certificate, Envoy filters, and wildcard fallback |
+| `<app>/` | App-local Kustomize resources such as deployments, services, storage, secrets, and routing |
+| `.github/workflows/argocd-diff.yml` | PR-time Argo CD diff workflow |
+
+## Change Workflow
+
+1. Update the target application manifests and its `apps/<name>.yml` entry when needed.
+2. Open a pull request to `main`.
+3. Review the Argo CD diff generated against `argo.lth.so`.
+4. Merge after the diff matches the intended cluster state.
