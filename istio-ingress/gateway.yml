@@ -16,7 +16,6 @@ spec:
         - "*.s3.lth.so"
         - "tunnel.lth.so"
         - "*.tunnel.lth.so"
-        - "*.coder.lth.so"
         - "limtaehyun.dev"
         - "*.limtaehyun.dev"
 
@@ -30,7 +29,6 @@ spec:
         - "*.s3.lth.so"
         - "tunnel.lth.so"
         - "*.tunnel.lth.so"
-        - "*.coder.lth.so"
         - "limtaehyun.dev"
         - "*.limtaehyun.dev"
       tls:
