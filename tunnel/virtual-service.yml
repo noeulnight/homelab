@@ -5,7 +5,6 @@ metadata:
 spec:
   hosts:
     - "tunnel.lth.so"
-    - "*.tunnel.lth.so"
   gateways:
     - istio-ingress/public-gateway
   http:
@@ -29,3 +28,19 @@ spec:
             host: tunnel-web-service.tunnel.svc.cluster.local
             port:
               number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: tunnel-target
+spec:
+  hosts:
+    - "*.tunnel.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: tunnel-service.tunnel.svc.cluster.local
+            port:
+              number: 3000
