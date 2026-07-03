@@ -31,3 +31,13 @@ spec:
                 secretKeyRef:
                   name: root-secret
                   key: GHOST_CONTENT_API_KEY
+            - name: TRACCAR_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: root-secret
+                  key: TRACCAR_TOKEN
+            - name: TRACCAR_DEVICE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: root-secret
+                  key: TRACCAR_DEVICE_ID
