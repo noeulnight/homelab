@@ -39,7 +39,11 @@ spec:
   gateways:
     - istio-ingress/public-gateway
   http:
-    - route:
+    - match:
+        - headers:
+            :authority:
+              regex: ".+\\.tunnel\\.lth\\.so"
+      route:
         - destination:
             host: tunnel-service.tunnel.svc.cluster.local
             port:
