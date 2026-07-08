@@ -10,7 +10,7 @@ spec:
   http:
     - route:
         - destination:
-            host: ak-outpost-technitium.authentik.svc.cluster.local
+            host: authentik-service.authentik.svc.cluster.local
             port:
               number: 9000
       headers:

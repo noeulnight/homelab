@@ -17,7 +17,7 @@ spec:
         authority: mac.lth.so
     - route:
         - destination:
-            host: ak-outpost-mac.authentik.svc.cluster.local
+            host: authentik-service.authentik.svc.cluster.local
             port:
               number: 9000
       headers:
