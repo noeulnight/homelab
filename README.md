@@ -18,16 +18,16 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (24)"]
-  K8s --> InternalApps["Internal/Infra Apps (17)"]
-  K8s --> Data["Data Layer (CouchDB/Postgres/MySQL/MariaDB/pgvector/Redis/Mongo)"]
+  Gateway --> PublicApps["Public Apps (23)"]
+  K8s --> InternalApps["Internal/Infra Apps (16)"]
+  K8s --> Data["Data Layer (Postgres/MySQL/MariaDB/Redis/Mongo)"]
 ```
 
 ## Applications
 
 Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
-### Public Endpoints (24)
+### Public Endpoints (23)
 
 | App | Namespace | Primary URL | Aliases |
 | --- | --- | --- | --- |
@@ -36,7 +36,6 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `authentik` | `authentik` | <https://auth.lth.so> | <https://auth.limtaehyun.dev> |
 | `badges` | `badges` | <https://badges.lth.so> | <https://badges.limtaehyun.dev> |
 | `bridge` | `bridge` | <https://bridge.lth.so> | <https://bridge.limtaehyun.dev> |
-| `couchdb` | `couchdb` | <https://couchdb.lth.so> | - |
 | `doclane` | `doclane` | <https://book.lth.so> | - |
 | `ghost` | `ghost` | <https://blog.lth.so> | - |
 | `grafana` | `grafana` | <https://monitoring.lth.so> | <https://monitoring.limtaehyun.dev> |
@@ -56,7 +55,7 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `tunnel` | `tunnel` | <https://tunnel.lth.so> | `*.tunnel.lth.so` |
 | `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |
 
-### Internal/Infra Apps (17)
+### Internal/Infra Apps (16)
 
 | App | Namespace | Role |
 | --- | --- | --- |
@@ -70,7 +69,6 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `mariadb` | `mariadb` | MariaDB datastore |
 | `mongo` | `mongo` | MongoDB datastore |
 | `mysql` | `mysql` | MySQL datastore |
-| `pgvector` | `pgvector` | PostgreSQL with pgvector |
 | `postgres` | `postgres` | Shared PostgreSQL datastore |
 | `prometheus` | `prometheus` | Metrics, scraping, rules, and alert routing |
 | `redis` | `redis` | Redis datastore |
