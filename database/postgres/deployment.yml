@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: postgres
 spec:
+  revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:

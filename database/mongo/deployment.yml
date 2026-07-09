@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: mongo
 spec:
+  revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:

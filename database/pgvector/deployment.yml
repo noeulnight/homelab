@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: pgvector
 spec:
+  revisionHistoryLimit: 0
   replicas: 1
   selector:
     matchLabels:
