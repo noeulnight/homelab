@@ -33,12 +33,6 @@ spec:
   externalName: mac-mini
   type: ExternalName
   ports:
-    - name: vnc-tcp
-      port: 5900
-      protocol: TCP
-    - name: vnc-udp
-      port: 5900
-      protocol: UDP
     - name: ssh
       port: 22
       protocol: TCP
@@ -53,12 +47,6 @@ spec:
   externalName: company-mac
   type: ExternalName
   ports:
-    - name: vnc-tcp
-      port: 5900
-      protocol: TCP
-    - name: vnc-udp
-      port: 5900
-      protocol: UDP
     - name: ssh
       port: 22
       protocol: TCP

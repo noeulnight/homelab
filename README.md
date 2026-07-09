@@ -18,7 +18,7 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (30)"]
+  Gateway --> PublicApps["Public Apps (25)"]
   K8s --> InternalApps["Internal/Infra Apps (17)"]
   K8s --> Data["Data Layer (CouchDB/Postgres/MySQL/MariaDB/pgvector/Redis/Mongo)"]
 ```
@@ -27,12 +27,11 @@ flowchart LR
 
 Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
-### Public Endpoints (30)
+### Public Endpoints (25)
 
 | App | Namespace | Primary URL | Aliases |
 | --- | --- | --- | --- |
 | `root` | `root` | <https://lth.so> | <https://limtaehyun.dev> |
-| `architecture` | `architecture` | <https://arch.lth.so> | <https://arch.limtaehyun.dev> |
 | `argocd` | `argocd` | <https://argo.lth.so> | <https://argo.limtaehyun.dev> |
 | `authentik` | `authentik` | <https://auth.lth.so> | <https://auth.limtaehyun.dev> |
 | `badges` | `badges` | <https://badges.lth.so> | <https://badges.limtaehyun.dev> |
@@ -42,12 +41,10 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `ghost` | `ghost` | <https://blog.lth.so> | - |
 | `grafana` | `grafana` | <https://monitoring.lth.so> | <https://monitoring.limtaehyun.dev> |
 | `kepco` | `kepco` | <https://kepco.lth.so> | - |
-| `kiali` | `kiali` | <https://kiali.lth.so> | <https://kiali.limtaehyun.dev> |
 | `korail` | `korail` | <https://train.lth.so> | <https://train.limtaehyun.dev> |
 | `kube-visualizer` | `kube-visualizer` | <https://visualized.lth.so> | <https://visualized.limtaehyun.dev> |
 | `memos` | `memos` | <https://memo.lth.so> | <https://memo.limtaehyun.dev> |
 | `n8n` | `n8n` | <https://workflow.lth.so> | <https://workflow.limtaehyun.dev> |
-| `op-share` | `op-share` | <https://op.lth.so> | - |
 | `osmproxy` | `osmproxy` | <https://osm.lth.so> | - |
 | `pmail` | `pmail` | <https://mail.lth.so> | - |
 | `rustfs` | `rustfs` | <https://rustfs.lth.so> | <https://s3.lth.so>, `*.s3.lth.so` |
@@ -56,10 +53,8 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `spotify` | `spotify` | <https://spotify.lth.so> | <https://spotify.limtaehyun.dev> |
 | `technitium` | `technitium` | <https://dns.lth.so> | - |
 | `termix` | `termix` | <https://terminal.lth.so> | <https://terminal.limtaehyun.dev> |
-| `toolbox` | `toolbox` | <https://toolbox.lth.so> | <https://tool.lth.so>, <https://t.lth.so> |
 | `traccar` | `traccar` | <https://traccar.lth.so> | - |
 | `tunnel` | `tunnel` | <https://tunnel.lth.so> | `*.tunnel.lth.so` |
-| `vnc` | `vnc` | <https://mac.lth.so> | <https://mac.limtaehyun.dev> |
 | `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |
 
 ### Internal/Infra Apps (17)
