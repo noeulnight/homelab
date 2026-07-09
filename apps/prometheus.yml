@@ -21,6 +21,10 @@ spec:
         values: |
           grafana:
             enabled: false
+          prometheus:
+            prometheusSpec:
+              retention: 5d
+              scrapeInterval: 60s
     - path: prometheus
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
