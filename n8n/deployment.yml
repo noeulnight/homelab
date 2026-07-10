@@ -56,6 +56,8 @@ spec:
               value: "1"
             - name: N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE
               value: "true"
+            - name: NODE_FUNCTION_ALLOW_BUILTIN
+              value: "*"
           volumeMounts:
             - mountPath: /home/node/.n8n
               name: n8n-storage
