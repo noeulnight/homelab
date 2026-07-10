@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: limtaehyun-pi.tail6de6ea.ts.net
+    tailscale.com/tailnet-fqdn: lth-pi.tail6de6ea.ts.net
   labels:
     app.kubernetes.io/name: pi
   name: pi
@@ -27,24 +27,10 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: limtaehyuns-mac-mini.tail6de6ea.ts.net
+    tailscale.com/tailnet-fqdn: lth-mac-mini.tail6de6ea.ts.net
   name: mac-mini
 spec:
   externalName: mac-mini
-  type: ExternalName
-  ports:
-    - name: ssh
-      port: 22
-      protocol: TCP
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    tailscale.com/tailnet-fqdn: lth-company-mac.tail6de6ea.ts.net
-  name: company-mac
-spec:
-  externalName: company-mac
   type: ExternalName
   ports:
     - name: ssh
