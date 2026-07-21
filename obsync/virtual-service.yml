@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: obsync
+spec:
+  hosts:
+    - vault.lth.so
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: web.obsync.svc.cluster.local
+            port:
+              number: 8080

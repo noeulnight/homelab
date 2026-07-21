@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: obsync-api
+  template:
+    metadata:
+      labels:
+        app: obsync-api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/noeulnight/obsync-api@sha256:76b82fcd454a181449e23aac68f124e8f85e408804abea17cb2f44382109af52
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: PORT
+              value: "3000"
+            - name: WEB_URL
+              value: https://vault.lth.so
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: DATABASE_URL
+            - name: JWT_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: JWT_ACCESS_SECRET
+            - name: JWT_REFRESH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: JWT_REFRESH_SECRET
+            - name: REGISTRATION_ENABLED
+              value: "true"
+            - name: MCP_PUBLIC_URL
+              value: https://vault.lth.so/mcp
+            - name: S3_ENDPOINT
+              value: https://s3.lth.so
+            - name: S3_PUBLIC_ENDPOINT
+              value: https://s3.lth.so
+            - name: S3_REGION
+              value: us-east-1
+            - name: S3_BUCKET
+              value: obsync
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: S3_ACCESS_KEY_ID
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: S3_SECRET_ACCESS_KEY
+            - name: S3_FORCE_PATH_STYLE
+              value: "true"
+          readinessProbe:
+            httpGet:
+              path: /api/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: obsync-web
+  template:
+    metadata:
+      labels:
+        app: obsync-web
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/noeulnight/obsync-web@sha256:86de15a24cb007de5b3f04bd686dd9cc2d2a34e058556b59d78cb2df49cd1a8b
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
