@@ -5,6 +5,4 @@ resources:
   - ./gateway.yml
   - ./certificate.yml
   - ./filter/spotify.yml
-  - ./filter/technitium.yml
   - ./virtual-service.yml
-  - ./script/scripts.yml

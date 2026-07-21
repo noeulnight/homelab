@@ -10,9 +10,9 @@ spec:
   http:
     - route:
         - destination:
-            host: authentik-service.authentik.svc.cluster.local
+            host: technitium-service.technitium.svc.cluster.local
             port:
-              number: 9000
+              number: 5380
       headers:
         response:
           set:
