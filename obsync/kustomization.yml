@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: obsync
 resources:
   - ./secret.yml
+  - ./bootstrap-user.yml
   - ./deployment.yml
   - ./service.yml
   - ./virtual-service.yml

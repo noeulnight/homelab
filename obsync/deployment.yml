@@ -42,7 +42,23 @@ spec:
                   name: obsync-secret
                   key: JWT_REFRESH_SECRET
             - name: REGISTRATION_ENABLED
-              value: "true"
+              value: "false"
+            - name: OIDC_ISSUER
+              value: https://auth.lth.so/application/o/obsync/
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: OIDC_CLIENT_ID
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: OIDC_CLIENT_SECRET
+            - name: OIDC_REDIRECT_URI
+              value: https://vault.lth.so/api/auth/oidc/callback
+            - name: OIDC_SCOPES
+              value: openid email profile
             - name: MCP_PUBLIC_URL
               value: https://vault.lth.so/mcp
             - name: S3_ENDPOINT

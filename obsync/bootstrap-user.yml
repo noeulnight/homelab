@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: obsync-bootstrap-user
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: bootstrap
+          image: postgres:17-alpine@sha256:742f40ea20b9ff2ff31db5458d127452988a2164df9e17441e191f3b72252193
+          command:
+            - /bin/sh
+            - -c
+            - |
+              psql "${DATABASE_URL%%\?*}" -v ON_ERROR_STOP=1 -v email="$OIDC_BOOTSTRAP_EMAIL" <<'SQL'
+              INSERT INTO users (id, email, password_hash, created_at)
+              VALUES (gen_random_uuid(), :'email', NULL, now())
+              ON CONFLICT (email) DO NOTHING;
+              SQL
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: DATABASE_URL
+            - name: OIDC_BOOTSTRAP_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: obsync-secret
+                  key: OIDC_BOOTSTRAP_EMAIL
