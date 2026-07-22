@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: ghcr.io/noeulnight/obsync-api@sha256:76b82fcd454a181449e23aac68f124e8f85e408804abea17cb2f44382109af52
+          image: ghcr.io/noeulnight/obsync-api:latest
           ports:
             - name: http
               containerPort: 3000
@@ -111,7 +111,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: ghcr.io/noeulnight/obsync-web@sha256:86de15a24cb007de5b3f04bd686dd9cc2d2a34e058556b59d78cb2df49cd1a8b
+          image: ghcr.io/noeulnight/obsync-web:latest
           ports:
             - name: http
               containerPort: 8080
