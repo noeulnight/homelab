@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: codex-lb
+spec:
+  hosts:
+    - "codex.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - uri:
+            exact: /backend-api/codex
+        - uri:
+            prefix: /backend-api/codex/
+        - uri:
+            exact: /v1
+        - uri:
+            prefix: /v1/
+      route:
+        - destination:
+            host: codex-lb-service.codex-lb.svc.cluster.local
+            port:
+              number: 2455
+    - route:
+        - destination:
+            host: authentik-service.authentik.svc.cluster.local
+            port:
+              number: 9000
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

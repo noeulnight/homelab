@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: codex-lb
+  namespace: argocd
+spec:
+  destination:
+    namespace: codex-lb
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: codex-lb
+    repoURL: git@github.com:noeulnight/homelab.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        istio.io/dataplane-mode: ambient
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - PruneLast=true

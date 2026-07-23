@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codex-lb
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: codex-lb
+  template:
+    metadata:
+      labels:
+        app: codex-lb
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: codex-lb
+          image: ghcr.io/soju06/codex-lb:latest
+          ports:
+            - name: http
+              containerPort: 2455
+          env:
+            - name: CODEX_LB_DASHBOARD_AUTH_MODE
+              value: disabled
+            - name: CODEX_LB_FIREWALL_TRUST_PROXY_HEADERS
+              value: "true"
+            - name: CODEX_LB_FIREWALL_TRUSTED_PROXY_CIDRS
+              value: 10.42.0.0/16
+          volumeMounts:
+            - name: codex-lb-data
+              mountPath: /var/lib/codex-lb
+          startupProbe:
+            httpGet:
+              path: /health/startup
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 2
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 3
+      volumes:
+        - name: codex-lb-data
+          persistentVolumeClaim:
+            claimName: codex-lb-pvc
