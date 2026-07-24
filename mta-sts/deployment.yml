@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mta-sts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mta-sts
+  template:
+    metadata:
+      labels:
+        app: mta-sts
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: policy
+              mountPath: /usr/share/nginx/html/.well-known
+      volumes:
+        - name: policy
+          configMap:
+            name: mta-sts-file
+            items:
+              - key: mta-sts.txt
+                path: mta-sts.txt

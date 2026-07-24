@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mta-sts-file
+data:
+  mta-sts.txt: |
+    version: STSv1
+    mode: enforce
+    mx: mail.protonmail.ch
+    mx: mailsec.protonmail.ch
+    max_age: 604800
