@@ -38,6 +38,8 @@ spec:
                   key: SPOTIFY_SECRET
             - name: TIMEZONE
               value: Asia/Seoul
+            - name: LOG_LEVEL
+              value: debug
             - name: MONGO_ENDPOINT
               value: mongodb://mongo-service.mongo.svc.cluster.local:27017/your_spotify
             - name: CORS
