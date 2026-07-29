@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: termix
+spec:
+  hosts:
+    - termix.lth.so
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: termix-service.termix.svc.cluster.local
+            port:
+              number: 8080
