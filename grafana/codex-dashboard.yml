@@ -71,8 +71,8 @@ data:
           "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
           "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
           "targets": [
-            {"expr": "histogram_quantile(0.95, sum by (le) (rate(codex_turn_e2e_duration_ms_bucket[$__rate_interval])))", "legendFormat": "turn p95", "refId": "A"},
-            {"expr": "histogram_quantile(0.95, sum by (le) (rate(codex_turn_ttft_duration_ms_bucket[$__rate_interval])))", "legendFormat": "TTFT p95", "refId": "B"}
+            {"expr": "histogram_quantile(0.95, sum by (le) (rate(codex_turn_e2e_duration_ms_milliseconds_bucket[$__rate_interval])))", "legendFormat": "turn p95", "refId": "A"},
+            {"expr": "histogram_quantile(0.95, sum by (le) (rate(codex_turn_ttft_duration_ms_milliseconds_bucket[$__rate_interval])))", "legendFormat": "TTFT p95", "refId": "B"}
           ],
           "fieldConfig": {"defaults": {"unit": "ms"}, "overrides": []},
           "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi", "sort": "desc"}}
