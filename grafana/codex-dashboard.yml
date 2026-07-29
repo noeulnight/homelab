@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: codex-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  codex.json: |
+    {
+      "annotations": {"list": []},
+      "editable": true,
+      "graphTooltip": 1,
+      "panels": [
+        {
+          "type": "stat",
+          "title": "Threads",
+          "gridPos": {"h": 4, "w": 4, "x": 0, "y": 0},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum(increase(codex_thread_started_total[$__range]))", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"colorMode": "value", "graphMode": "area", "reduceOptions": {"calcs": ["lastNotNull"], "values": false}, "textMode": "auto"}
+        },
+        {
+          "type": "stat",
+          "title": "Conversation Turns",
+          "gridPos": {"h": 4, "w": 4, "x": 4, "y": 0},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum(increase(codex_conversation_turn_count_total[$__range]))", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"colorMode": "value", "graphMode": "area", "reduceOptions": {"calcs": ["lastNotNull"], "values": false}, "textMode": "auto"}
+        },
+        {
+          "type": "stat",
+          "title": "Tokens",
+          "gridPos": {"h": 4, "w": 4, "x": 8, "y": 0},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum(increase(codex_turn_token_usage_sum{token_type=\"total\"}[$__range]))", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"colorMode": "value", "graphMode": "area", "reduceOptions": {"calcs": ["lastNotNull"], "values": false}, "textMode": "auto"}
+        },
+        {
+          "type": "stat",
+          "title": "API Requests",
+          "gridPos": {"h": 4, "w": 4, "x": 12, "y": 0},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum(increase(codex_api_request_total[$__range]))", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"colorMode": "value", "graphMode": "area", "reduceOptions": {"calcs": ["lastNotNull"], "values": false}, "textMode": "auto"}
+        },
+        {
+          "type": "stat",
+          "title": "Tool Success Rate",
+          "gridPos": {"h": 4, "w": 8, "x": 16, "y": 0},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum(increase(codex_tool_call_total{success=\"true\"}[$__range])) / clamp_min(sum(increase(codex_tool_call_total[$__range])), 1)", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 1, "unit": "percentunit", "min": 0, "max": 1}, "overrides": []},
+          "options": {"colorMode": "value", "graphMode": "area", "reduceOptions": {"calcs": ["lastNotNull"], "values": false}, "textMode": "auto"}
+        },
+        {
+          "type": "timeseries",
+          "title": "Token Usage",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum by (token_type) (increase(codex_turn_token_usage_sum[$__rate_interval]))", "legendFormat": "{{token_type}}", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi", "sort": "desc"}}
+        },
+        {
+          "type": "timeseries",
+          "title": "Turn Latency",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [
+            {"expr": "histogram_quantile(0.95, sum by (le) (rate(codex_turn_e2e_duration_ms_bucket[$__rate_interval])))", "legendFormat": "turn p95", "refId": "A"},
+            {"expr": "histogram_quantile(0.95, sum by (le) (rate(codex_turn_ttft_duration_ms_bucket[$__rate_interval])))", "legendFormat": "TTFT p95", "refId": "B"}
+          ],
+          "fieldConfig": {"defaults": {"unit": "ms"}, "overrides": []},
+          "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi", "sort": "desc"}}
+        },
+        {
+          "type": "timeseries",
+          "title": "Tool Calls",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum by (tool, success) (increase(codex_tool_call_total[$__rate_interval]))", "legendFormat": "{{tool}} · {{success}}", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"legend": {"displayMode": "table", "placement": "bottom"}, "tooltip": {"mode": "multi", "sort": "desc"}}
+        },
+        {
+          "type": "barchart",
+          "title": "Approval Outcomes",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12},
+          "datasource": {"type": "prometheus", "uid": "bfb6sy1drsg74c"},
+          "targets": [{"expr": "sum by (approved) (increase(codex_approval_requested_total[$__range]))", "legendFormat": "{{approved}}", "refId": "A"}],
+          "fieldConfig": {"defaults": {"decimals": 0}, "overrides": []},
+          "options": {"legend": {"displayMode": "list", "placement": "bottom"}, "tooltip": {"mode": "multi", "sort": "desc"}}
+        }
+      ],
+      "refresh": "30s",
+      "schemaVersion": 41,
+      "tags": ["codex", "opentelemetry", "prometheus"],
+      "templating": {"list": []},
+      "time": {"from": "now-24h", "to": "now"},
+      "timezone": "browser",
+      "title": "Codex",
+      "uid": "codex-prometheus",
+      "version": 1
+    }
