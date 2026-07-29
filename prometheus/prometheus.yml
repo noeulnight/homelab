@@ -59,6 +59,7 @@ spec:
     matchLabels:
       release: prometheus
   storage:
+    disableMountSubPath: true
     volumeClaimTemplate:
       spec:
         accessModes:
