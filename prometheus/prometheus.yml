@@ -38,6 +38,9 @@ kind: Prometheus
 metadata:
   name: prometheus
 spec:
+  additionalArgs:
+    - name: enable-feature
+      value: otlp-deltatocumulative
   enableOTLPReceiver: true
   image: quay.io/prometheus/prometheus:v3.13.1-distroless
   podMonitorSelector:
