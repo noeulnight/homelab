@@ -2,17 +2,24 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: prometheus
 resources:
-  - ./istiod-servicemonitor.yml
-  - ./ztunnel-podmonitor.yml
-  - ./argocd-servicemonitor.yml
-  - ./technitium-servicemonitor.yml
-  - ./authentik-servicemonitor.yml
-  - ./wakapi-servicemonitor.yml
-  - ./tailscale-servicemonitor.yml
-  - ./homebridge-scrapeconfig.yml
-  - ./tunnel-servicemonitor.yml
-  - ./kepco-servicemonitor.yml
-  - ./alertmanager-n8n-secret.yml
-  - ./alertmanager-n8n.yml
-  - ./home-alert-rules.yml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagerconfigs.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusagents.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+  - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/cluster-role-binding.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/cluster-role.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/deployment.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/service-account.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/service.yaml
+  - ./operator.yml
+  - ./pv.yml
+  - ./prometheus.yml
+  - ./node-exporter.yml
+  - ./monitors.yml
   - ./secret.yml

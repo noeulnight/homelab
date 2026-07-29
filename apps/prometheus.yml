@@ -12,22 +12,10 @@ spec:
     - jsonPointers:
         - /data
       kind: Secret
-  sources:
-    - chart: kube-prometheus-stack
-      repoURL: https://prometheus-community.github.io/helm-charts
-      targetRevision: "*"
-      helm:
-        releaseName: prometheus
-        values: |
-          grafana:
-            enabled: false
-          prometheus:
-            prometheusSpec:
-              retention: 5d
-              scrapeInterval: 60s
-    - path: prometheus
-      repoURL: git@github.com:noeulnight/homelab.git
-      targetRevision: HEAD
+  source:
+    path: prometheus
+    repoURL: git@github.com:noeulnight/homelab.git
+    targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true

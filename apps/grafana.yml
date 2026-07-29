@@ -19,6 +19,17 @@ spec:
       helm:
         releaseName: grafana
         values: |
+          datasources:
+            datasources.yaml:
+              apiVersion: 1
+              datasources:
+                - name: Local Cluster
+                  uid: bfb6sy1drsg74c
+                  type: prometheus
+                  access: proxy
+                  url: http://prometheus.prometheus.svc.cluster.local:9090
+                  isDefault: true
+                  editable: true
           plugins:
             - https://github.com/haohanyang/mongodb-datasource/releases/download/v0.4.1/haohanyang-mongodb-datasource-0.4.1.zip;haohanyang-mongodb-datasource
           grafana.ini:
