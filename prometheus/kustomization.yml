@@ -12,6 +12,14 @@ resources:
   - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_scrapeconfigs.yaml
   - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
   - https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.92.1/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/cluster-role-binding.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/cluster-role.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/deployment.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/service-account.yaml
+  - https://raw.githubusercontent.com/kubernetes/kube-state-metrics/v2.19.1/examples/standard/service.yaml
+  - ./operator.yml
   - ./pv.yml
+  - ./prometheus.yml
+  - ./node-exporter.yml
   - ./monitors.yml
   - ./secret.yml
