@@ -43,7 +43,8 @@ spec:
   podMonitorSelector:
     matchLabels:
       release: prometheus
-  retention: 5d
+  retention: 90d
+  retentionSize: 20GB
   scrapeConfigSelector:
     matchLabels:
       release: prometheus
@@ -66,7 +67,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 10Gi
+            storage: 20Gi
         selector:
           matchLabels:
             app: prometheus
