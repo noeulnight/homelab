@@ -29,6 +29,8 @@ spec:
           env:
             - name: CONFIG_USE_ENVIRONMENT_VARIABLES
               value: "true"
+            - name: WEB_MCP_ENABLE
+              value: "true"
           envFrom:
             - secretRef:
                 name: traccar-secret
