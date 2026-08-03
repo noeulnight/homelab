@@ -19,6 +19,13 @@ spec:
       securityContext:
         fsGroup: 10001
         fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: initialize-data-permissions
+          image: busybox:1.37
+          command: ["chown", "10001:10001", "/data"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
       containers:
         - name: health
           image: ghcr.io/noeulnight/health-api:latest
