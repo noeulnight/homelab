@@ -5,9 +5,27 @@ metadata:
 spec:
   hosts:
     - lobe.lth.so
+    - gateway.lth.so
+    - device-gateway.lth.so
   gateways:
     - istio-ingress/public-gateway
   http:
+    - match:
+        - authority:
+            exact: gateway.lth.so
+      route:
+        - destination:
+            host: lobehub.lobehub.svc.cluster.local
+            port:
+              number: 8787
+    - match:
+        - authority:
+            exact: device-gateway.lth.so
+      route:
+        - destination:
+            host: lobehub.lobehub.svc.cluster.local
+            port:
+              number: 8788
     - route:
         - destination:
             host: lobehub.lobehub.svc.cluster.local

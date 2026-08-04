@@ -9,6 +9,12 @@ spec:
     - name: http
       port: 3210
       targetPort: http
+    - name: agent-gateway
+      port: 8787
+      targetPort: agent-gateway
+    - name: device-gateway
+      port: 8788
+      targetPort: device-gateway
 ---
 apiVersion: v1
 kind: Service

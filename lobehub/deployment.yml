@@ -13,6 +13,19 @@ spec:
       labels:
         app: lobehub
     spec:
+      initContainers:
+        - name: install-gateway
+          image: alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              wget -q https://github.com/lobehub/lobehub-gateway/releases/download/0.3.1/gateway-linux-arm64 -O /gateway/gateway
+              echo '5fea4b844e95b49a582c9f2e504f5a94b22e84f2aa94f6d76fe9c78799ff190c  /gateway/gateway' | sha256sum -c -
+              chmod 0555 /gateway/gateway
+          volumeMounts:
+            - name: gateway-bin
+              mountPath: /gateway
       containers:
         - name: lobehub
           image: lobehub/lobehub@sha256:963a8349cbd4d95953f296f930ef6b3bdddb38cabbf64fe74742549bc76b62ae
@@ -88,6 +101,22 @@ spec:
               value: "0"
             - name: LLM_VISION_IMAGE_USE_BASE64
               value: "1"
+            - name: ENABLE_AGENT_GATEWAY
+              value: "1"
+            - name: AGENT_GATEWAY_URL
+              value: https://gateway.lth.so
+            - name: AGENT_GATEWAY_SERVICE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: GATEWAY_SERVICE_TOKEN
+            - name: DEVICE_GATEWAY_URL
+              value: https://device-gateway.lth.so
+            - name: DEVICE_GATEWAY_SERVICE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: GATEWAY_SERVICE_TOKEN
           readinessProbe:
             httpGet:
               path: /
@@ -100,6 +129,51 @@ spec:
               port: http
             initialDelaySeconds: 30
             periodSeconds: 30
+        - name: gateway
+          image: alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b
+          command: ["/gateway/gateway"]
+          ports:
+            - name: agent-gateway
+              containerPort: 8787
+            - name: device-gateway
+              containerPort: 8788
+          env:
+            - name: SERVICE_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: GATEWAY_SERVICE_TOKEN
+            - name: JWKS_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: JWKS_PUBLIC_KEY
+            - name: LOBE_API_BASE_URL
+              value: http://localhost:3210
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: agent-gateway
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: agent-gateway
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532
+          volumeMounts:
+            - name: gateway-bin
+              mountPath: /gateway
+              readOnly: true
+      volumes:
+        - name: gateway-bin
+          emptyDir: {}
 ---
 apiVersion: apps/v1
 kind: Deployment
