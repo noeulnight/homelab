@@ -111,7 +111,7 @@ spec:
                   name: lobehub-secrets
                   key: GATEWAY_SERVICE_TOKEN
             - name: DEVICE_GATEWAY_URL
-              value: https://device-gateway.lth.so
+              value: https://lobhub-gateway.lth.so
             - name: DEVICE_GATEWAY_SERVICE_TOKEN
               valueFrom:
                 secretKeyRef:

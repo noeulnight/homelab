@@ -6,7 +6,7 @@ spec:
   hosts:
     - lobe.lth.so
     - gateway.lth.so
-    - device-gateway.lth.so
+    - lobhub-gateway.lth.so
   gateways:
     - istio-ingress/public-gateway
   http:
@@ -20,7 +20,7 @@ spec:
               number: 8787
     - match:
         - authority:
-            exact: device-gateway.lth.so
+            exact: lobhub-gateway.lth.so
       route:
         - destination:
             host: lobehub.lobehub.svc.cluster.local
