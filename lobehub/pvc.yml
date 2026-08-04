@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lobehub-postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path-retain
+  volumeName: lobehub-postgres-pv
+  resources:
+    requests:
+      storage: 20Gi

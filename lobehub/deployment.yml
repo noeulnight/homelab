@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lobehub
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: lobehub
+  template:
+    metadata:
+      labels:
+        app: lobehub
+    spec:
+      containers:
+        - name: lobehub
+          image: lobehub/lobehub@sha256:963a8349cbd4d95953f296f930ef6b3bdddb38cabbf64fe74742549bc76b62ae
+          ports:
+            - name: http
+              containerPort: 3210
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: POSTGRES_PASSWORD
+            - name: DATABASE_URL
+              value: postgresql://postgres:$(POSTGRES_PASSWORD)@lobehub-postgres:5432/lobehub
+            - name: APP_URL
+              value: https://lobe.lth.so
+            - name: INTERNAL_APP_URL
+              value: http://localhost:3210
+            - name: KEY_VAULTS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: KEY_VAULTS_SECRET
+            - name: AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: AUTH_SECRET
+            - name: JWKS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: JWKS_KEY
+            - name: AUTH_SSO_PROVIDERS
+              value: authentik
+            - name: AUTH_DISABLE_EMAIL_PASSWORD
+              value: "1"
+            - name: AUTH_AUTHENTIK_ID
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: AUTH_AUTHENTIK_ID
+            - name: AUTH_AUTHENTIK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: AUTH_AUTHENTIK_SECRET
+            - name: AUTH_AUTHENTIK_ISSUER
+              value: https://auth.lth.so/application/o/lobehub/
+            - name: S3_ENDPOINT
+              value: https://s3.lth.so
+            - name: S3_BUCKET
+              value: lobe
+            - name: S3_ENABLE_PATH_STYLE
+              value: "1"
+            - name: S3_SET_ACL
+              value: "0"
+            - name: S3_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: S3_ACCESS_KEY_ID
+            - name: S3_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: S3_SECRET_ACCESS_KEY
+            - name: REDIS_URL
+              value: redis://redis-service.redis.svc.cluster.local:6379
+            - name: REDIS_PREFIX
+              value: lobehub
+            - name: REDIS_TLS
+              value: "0"
+            - name: LLM_VISION_IMAGE_USE_BASE64
+              value: "1"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lobehub-postgres
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: lobehub-postgres
+  template:
+    metadata:
+      labels:
+        app: lobehub-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: paradedb/paradedb@sha256:6a334b612cadfeb92c416ecf3816dd9a277c10976e2e931e2c33f7289867c7c9
+          args:
+            - postgres
+            - -c
+            - shared_preload_libraries=pg_search
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: lobehub
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lobehub-secrets
+                  key: POSTGRES_PASSWORD
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "lobehub"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "lobehub"]
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: lobehub-postgres-pvc
