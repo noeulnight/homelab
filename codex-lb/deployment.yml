@@ -30,7 +30,7 @@ spec:
               value: 10.42.0.0/16
           volumeMounts:
             - name: codex-lb-data
-              mountPath: /var/lib/codex-lb
+              mountPath: /home/app/.codex-lb
           startupProbe:
             httpGet:
               path: /health/startup
