@@ -12,6 +12,7 @@ data:
     auth-default-access: deny
     enable-login: true
     require-login: true
+    upstream-base-url: https://ntfy.sh
     web-push-public-key: BOzQlCpN44ZzZrcrC5GGjoJQSYBBLdszFaQkpZ8WUQAuj1bCRxpJkO44B9MS1Zww3iDZs3G4Cm-pG5MWd7MZ_iI
     web-push-file: /var/cache/ntfy/webpush.db
     web-push-email-address: me@lth.so
