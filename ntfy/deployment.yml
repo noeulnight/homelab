@@ -27,6 +27,11 @@ spec:
                 secretKeyRef:
                   name: ntfy-secret
                   key: NTFY_ADMIN_PASSWORD
+            - name: NTFY_WEB_PUSH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ntfy-secret
+                  key: NTFY_WEB_PUSH_PRIVATE_KEY
           volumeMounts:
             - name: config
               mountPath: /etc/ntfy
