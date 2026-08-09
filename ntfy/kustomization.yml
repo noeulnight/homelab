@@ -3,6 +3,9 @@ kind: Kustomization
 namespace: ntfy
 resources:
   - ./config-map.yml
+  - ./secret.yml
   - ./deployment.yml
+  - ./pv.yml
+  - ./pvc.yml
   - ./service.yml
   - ./virtual-service.yml

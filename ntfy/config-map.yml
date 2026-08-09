@@ -5,3 +5,14 @@ metadata:
 data:
   server.yml: |
     base-url: https://ntfy.lth.so
+    behind-proxy: true
+    cache-file: /var/cache/ntfy/cache.db
+    cache-duration: 60d
+    auth-file: /var/cache/ntfy/user.db
+    auth-default-access: deny
+    enable-login: true
+    require-login: true
+    web-push-public-key: BOzQlCpN44ZzZrcrC5GGjoJQSYBBLdszFaQkpZ8WUQAuj1bCRxpJkO44B9MS1Zww3iDZs3G4Cm-pG5MWd7MZ_iI
+    web-push-file: /var/cache/ntfy/webpush.db
+    web-push-email-address: me@lth.so
+    metrics-listen-http: :9090

@@ -13,6 +13,26 @@ spec:
       labels:
         app: ntfy
     spec:
+      initContainers:
+        - name: init-admin
+          image: binwiederhier/ntfy
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              timeout 2 ntfy serve >/dev/null 2>&1 || true
+              ntfy user add --ignore-exists --role=admin noeulnight
+          env:
+            - name: NTFY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ntfy-secret
+                  key: NTFY_ADMIN_PASSWORD
+          volumeMounts:
+            - name: config
+              mountPath: /etc/ntfy
+              readOnly: true
+            - name: data
+              mountPath: /var/cache/ntfy
       containers:
         - name: ntfy
           image: binwiederhier/ntfy
@@ -24,11 +44,29 @@ spec:
           ports:
             - name: http
               containerPort: 80
+            - name: metrics
+              containerPort: 9090
+          env:
+            - name: NTFY_ATTACHMENT_CACHE_DIR
+              valueFrom:
+                secretKeyRef:
+                  name: ntfy-secret
+                  key: NTFY_ATTACHMENT_CACHE_DIR
+            - name: NTFY_WEB_PUSH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ntfy-secret
+                  key: NTFY_WEB_PUSH_PRIVATE_KEY
           volumeMounts:
             - name: config
               mountPath: /etc/ntfy
               readOnly: true
+            - name: data
+              mountPath: /var/cache/ntfy
       volumes:
         - name: config
           configMap:
             name: ntfy
+        - name: data
+          persistentVolumeClaim:
+            claimName: ntfy-pvc
