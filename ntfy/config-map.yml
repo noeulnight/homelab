@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ntfy
+data:
+  server.yml: |
+    base-url: https://ntfy.lth.so
