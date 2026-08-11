@@ -4,6 +4,7 @@ namespace: health
 resources:
   - ./secret.yml
   - ./deployment.yml
+  - ./web-deployment.yml
   - ./pv.yml
   - ./pvc.yml
   - ./service.yml

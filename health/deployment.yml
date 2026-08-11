@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: health
+  name: health-api
   labels:
     app.kubernetes.io/version: v1
 spec:
@@ -9,11 +9,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: health
+      app: health-api
   template:
     metadata:
       labels:
-        app: health
+        app: health-api
         app.kubernetes.io/version: v1
     spec:
       securityContext:
@@ -27,19 +27,17 @@ spec:
             - name: data
               mountPath: /data
       containers:
-        - name: health
+        - name: health-api
           image: ghcr.io/noeulnight/health-api:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
-            - name: HEALTH_API_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: health-secrets
-                  key: HEALTH_API_TOKEN
             - name: HEALTH_DB_PATH
               value: /data/health.db
+          envFrom:
+            - secretRef:
+                name: health-secrets
           readinessProbe:
             httpGet:
               path: /healthz

@@ -8,11 +8,19 @@ spec:
   gateways:
     - istio-ingress/public-gateway
   http:
-    - route:
+    - match:
+        - uri:
+            prefix: /api
+      route:
         - destination:
-            host: health-service.health.svc.cluster.local
+            host: health-api.health.svc.cluster.local
             port:
               number: 8080
+    - route:
+        - destination:
+            host: health-web.health.svc.cluster.local
+            port:
+              number: 80
       headers:
         response:
           set:

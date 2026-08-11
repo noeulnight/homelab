@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-web
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-web
+  template:
+    metadata:
+      labels:
+        app: health-web
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: health-web
+          image: ghcr.io/noeulnight/health-web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
