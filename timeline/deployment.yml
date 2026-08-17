@@ -16,6 +16,10 @@ spec:
       containers:
         - name: app
           image: freikin/dawarich:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
           command: ["web-entrypoint.sh"]
           args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
           ports:
@@ -122,6 +126,10 @@ spec:
               mountPath: /var/app/storage
         - name: sidekiq
           image: freikin/dawarich:latest
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
           command: ["sidekiq-entrypoint.sh"]
           args: ["sidekiq"]
           envFrom:
@@ -224,6 +232,10 @@ spec:
       containers:
         - name: postgres
           image: imresamu/postgis:17-3.5-alpine
+          resources:
+            limits:
+              cpu: "1"
+              memory: 2Gi
           ports:
             - name: postgres
               containerPort: 5432
