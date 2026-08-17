@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: traccar
 resources:
   - ./secret.yml
-  - ./deployment.yml
   - ./pv.yml
   - ./pvc.yml
   - ./service.yml
