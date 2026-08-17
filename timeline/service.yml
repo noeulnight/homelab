@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: timeline
+spec:
+  selector:
+    app: timeline
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timeline-postgres
+spec:
+  selector:
+    app: timeline-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres

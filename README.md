@@ -27,7 +27,7 @@ flowchart LR
 
 Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
-### Public Endpoints (23)
+### Public Endpoints (24)
 
 | App | Namespace | Primary URL | Aliases |
 | --- | --- | --- | --- |
@@ -51,6 +51,7 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `slash` | `slash` | <https://s.lth.so> | `s` |
 | `spotify` | `spotify` | <https://spotify.lth.so> | <https://spotify.limtaehyun.dev> |
 | `technitium` | `technitium` | <https://dns.lth.so> | - |
+| `timeline` | `timeline` | <https://timeline.lth.so> | - |
 | `traccar` | `traccar` | <https://traccar.lth.so> | - |
 | `tunnel` | `tunnel` | <https://tunnel.lth.so> | `*.tunnel.lth.so` |
 | `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |

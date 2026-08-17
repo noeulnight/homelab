@@ -1,0 +1,247 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timeline
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: timeline
+  template:
+    metadata:
+      labels:
+        app: timeline
+    spec:
+      containers:
+        - name: app
+          image: freikin/dawarich:latest
+          command: ["web-entrypoint.sh"]
+          args: ["bin/rails", "server", "-p", "3000", "-b", "::"]
+          ports:
+            - name: http
+              containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: timeline-secrets
+          env:
+            - name: RAILS_ENV
+              value: production
+            - name: SELF_HOSTED
+              value: "true"
+            - name: APPLICATION_HOSTS
+              value: timeline.lth.so
+            - name: APPLICATION_PROTOCOL
+              value: https
+            - name: DOMAIN
+              value: timeline.lth.so
+            - name: TIME_ZONE
+              value: Asia/Seoul
+            - name: DISTANCE_UNIT
+              value: km
+            - name: DATABASE_HOST
+              value: timeline-postgres
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_USERNAME
+              value: postgres
+            - name: DATABASE_NAME
+              value: dawarich
+            - name: REDIS_URL
+              value: redis://redis-service.redis.svc.cluster.local:6379
+            - name: RAILS_CACHE_DB
+              value: "12"
+            - name: RAILS_JOB_QUEUE_DB
+              value: "13"
+            - name: RAILS_WS_DB
+              value: "14"
+            - name: RAILS_MAX_THREADS
+              value: "5"
+            - name: WEB_CONCURRENCY
+              value: "1"
+            - name: BACKGROUND_PROCESSING_CONCURRENCY
+              value: "3"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+            - name: STORE_GEODATA
+              value: "true"
+            - name: SMTP_SERVER
+              value: bridge-service.bridge.svc.cluster.local
+            - name: SMTP_PORT
+              value: "1025"
+            - name: SMTP_DOMAIN
+              value: lth.so
+            - name: SMTP_USERNAME
+              value: limtaehyun@lth.so
+            - name: SMTP_FROM
+              value: limtaehyun@lth.so
+            - name: SMTP_AUTHENTICATION
+              value: plain
+            - name: SMTP_STARTTLS
+              value: "false"
+            - name: SMTP_OPEN_TIMEOUT
+              value: "30"
+            - name: SMTP_READ_TIMEOUT
+              value: "30"
+            - name: OIDC_CLIENT_ID
+              value: MuRkmQfMOrOCOfnZ4515XUki6kX8KM5GUvnl0g8d
+            - name: OIDC_ISSUER
+              value: https://auth.lth.so/application/o/timeline/
+            - name: OIDC_REDIRECT_URI
+              value: https://timeline.lth.so/users/auth/openid_connect/callback
+            - name: OIDC_PROVIDER_NAME
+              value: Authentik
+            - name: OIDC_AUTO_REGISTER
+              value: "true"
+            - name: ALLOW_EMAIL_PASSWORD_REGISTRATION
+              value: "false"
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+          volumeMounts:
+            - name: storage
+              mountPath: /var/app/storage
+        - name: sidekiq
+          image: freikin/dawarich:latest
+          command: ["sidekiq-entrypoint.sh"]
+          args: ["sidekiq"]
+          envFrom:
+            - secretRef:
+                name: timeline-secrets
+          env:
+            - name: RAILS_ENV
+              value: production
+            - name: SELF_HOSTED
+              value: "true"
+            - name: APPLICATION_HOSTS
+              value: timeline.lth.so
+            - name: APPLICATION_PROTOCOL
+              value: https
+            - name: DOMAIN
+              value: timeline.lth.so
+            - name: TIME_ZONE
+              value: Asia/Seoul
+            - name: DISTANCE_UNIT
+              value: km
+            - name: DATABASE_HOST
+              value: timeline-postgres
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_USERNAME
+              value: postgres
+            - name: DATABASE_NAME
+              value: dawarich
+            - name: REDIS_URL
+              value: redis://redis-service.redis.svc.cluster.local:6379
+            - name: RAILS_CACHE_DB
+              value: "12"
+            - name: RAILS_JOB_QUEUE_DB
+              value: "13"
+            - name: RAILS_WS_DB
+              value: "14"
+            - name: RAILS_MAX_THREADS
+              value: "5"
+            - name: WEB_CONCURRENCY
+              value: "1"
+            - name: BACKGROUND_PROCESSING_CONCURRENCY
+              value: "3"
+            - name: RAILS_LOG_TO_STDOUT
+              value: "true"
+            - name: STORE_GEODATA
+              value: "true"
+            - name: SMTP_SERVER
+              value: bridge-service.bridge.svc.cluster.local
+            - name: SMTP_PORT
+              value: "1025"
+            - name: SMTP_DOMAIN
+              value: lth.so
+            - name: SMTP_USERNAME
+              value: limtaehyun@lth.so
+            - name: SMTP_FROM
+              value: limtaehyun@lth.so
+            - name: SMTP_AUTHENTICATION
+              value: plain
+            - name: SMTP_STARTTLS
+              value: "false"
+            - name: SMTP_OPEN_TIMEOUT
+              value: "30"
+            - name: SMTP_READ_TIMEOUT
+              value: "30"
+            - name: OIDC_CLIENT_ID
+              value: MuRkmQfMOrOCOfnZ4515XUki6kX8KM5GUvnl0g8d
+            - name: OIDC_ISSUER
+              value: https://auth.lth.so/application/o/timeline/
+            - name: OIDC_REDIRECT_URI
+              value: https://timeline.lth.so/users/auth/openid_connect/callback
+            - name: OIDC_PROVIDER_NAME
+              value: Authentik
+            - name: OIDC_AUTO_REGISTER
+              value: "true"
+            - name: ALLOW_EMAIL_PASSWORD_REGISTRATION
+              value: "false"
+          volumeMounts:
+            - name: storage
+              mountPath: /var/app/storage
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: timeline-storage-pvc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timeline-postgres
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: timeline-postgres
+  template:
+    metadata:
+      labels:
+        app: timeline-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: imresamu/postgis:17-3.5-alpine
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: dawarich
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: timeline-secrets
+                  key: POSTGRES_PASSWORD
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "dawarich"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          volumeMounts:
+            - name: postgres
+              mountPath: /var/lib/postgresql/data
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: postgres
+          persistentVolumeClaim:
+            claimName: timeline-postgres-pvc
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi

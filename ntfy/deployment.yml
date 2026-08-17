@@ -10,6 +10,9 @@ spec:
       app: ntfy
   template:
     metadata:
+      annotations:
+        checksum/config: 1c6fa275e28731699e27419c3a68c874e86413abd795f275605a26d838d845de
+        checksum/secret: fc77f61c1554553b628027a9cb323142aed8a3c382112c8b9c8f1722ad1e688d
       labels:
         app: ntfy
     spec:
