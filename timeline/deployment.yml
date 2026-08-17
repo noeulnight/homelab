@@ -99,12 +99,22 @@ spec:
             httpGet:
               path: /api/v1/health
               port: http
+              httpHeaders:
+                - name: Host
+                  value: timeline.lth.so
+                - name: X-Forwarded-Proto
+                  value: https
             initialDelaySeconds: 30
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /api/v1/health
               port: http
+              httpHeaders:
+                - name: Host
+                  value: timeline.lth.so
+                - name: X-Forwarded-Proto
+                  value: https
             initialDelaySeconds: 60
             periodSeconds: 30
           volumeMounts:
