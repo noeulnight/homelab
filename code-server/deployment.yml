@@ -17,6 +17,17 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: initialize-data-permissions
+          image: busybox:1.37
+          command: ["chown", "1000:1000", "/home/coder"]
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          volumeMounts:
+            - name: data
+              mountPath: /home/coder
       containers:
         - name: code-server
           image: ghcr.io/coder/code-server:latest
