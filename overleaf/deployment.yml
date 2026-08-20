@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overleaf
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: overleaf
+  template:
+    metadata:
+      labels:
+        app: overleaf
+    spec:
+      containers:
+        - name: overleaf
+          image: overleaf/overleaf:latest
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: OVERLEAF_APP_NAME
+              value: Overleaf Community Edition
+            - name: OVERLEAF_SITE_URL
+              value: https://overleaf.lth.so
+            - name: OVERLEAF_MONGO_URL
+              value: mongodb://mongo-service.mongo.svc.cluster.local:27017/sharelatex?replicaSet=rs0
+            - name: OVERLEAF_REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+            - name: REDIS_HOST
+              value: redis-service.redis.svc.cluster.local
+          startupProbe:
+            tcpSocket:
+              port: http
+            failureThreshold: 60
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/overleaf
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: overleaf-pvc

@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: overleaf
+spec:
+  hosts:
+    - overleaf.lth.so
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: overleaf.overleaf.svc.cluster.local
+            port:
+              number: 80
