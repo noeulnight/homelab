@@ -42,6 +42,17 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /home/coder
+        - name: expose-texlive
+          image: ghcr.io/coder/code-server:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - cp -a /usr/local/bin/. /tools-bin/ && for tool in latexmk pdflatex kpsewhich; do ln -sf /home/coder/.TinyTeX/bin/aarch64-linux/$tool /tools-bin/$tool; done
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          volumeMounts:
+            - name: tools-bin
+              mountPath: /tools-bin
       containers:
         - name: code-server
           image: ghcr.io/coder/code-server:latest
@@ -62,6 +73,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /home/coder
+            - name: tools-bin
+              mountPath: /usr/local/bin
           readinessProbe:
             httpGet:
               path: /healthz
@@ -75,3 +88,5 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: code-server-pvc
+        - name: tools-bin
+          emptyDir: {}
