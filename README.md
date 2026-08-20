@@ -27,7 +27,7 @@ flowchart LR
 
 Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
-### Public Endpoints (24)
+### Public Endpoints (25)
 
 | App | Namespace | Primary URL | Aliases |
 | --- | --- | --- | --- |
@@ -36,6 +36,7 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `authentik` | `authentik` | <https://auth.lth.so> | <https://auth.limtaehyun.dev> |
 | `badges` | `badges` | <https://badges.lth.so> | <https://badges.limtaehyun.dev> |
 | `bridge` | `bridge` | <https://bridge.lth.so> | <https://bridge.limtaehyun.dev> |
+| `code-server` | `code-server` | <https://code.lth.so> | - |
 | `doclane` | `doclane` | <https://book.lth.so> | - |
 | `ghost` | `ghost` | <https://blog.lth.so> | - |
 | `grafana` | `grafana` | <https://monitoring.lth.so> | <https://monitoring.limtaehyun.dev> |

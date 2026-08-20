@@ -12,3 +12,4 @@ resources:
   - ./virtual-service/n8n.yml
   - ./virtual-service/bridge.yml
   - ./virtual-service/codex-lb.yml
+  - ./virtual-service/code-server.yml

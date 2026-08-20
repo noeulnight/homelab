@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: code-server
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: code-server
+          image: ghcr.io/coder/code-server:latest
+          args:
+            - --auth
+            - none
+            - --bind-addr
+            - 0.0.0.0:8080
+            - /home/coder/workspace
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: NPM_CONFIG_PREFIX
+              value: /home/coder/.local
+            - name: PATH
+              value: /home/coder/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+          volumeMounts:
+            - name: data
+              mountPath: /home/coder
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: code-server-pvc
