@@ -29,13 +29,16 @@ spec:
             - name: data
               mountPath: /home/coder
         - name: install-texlive
-          image: ghcr.io/coder/code-server:latest
+          image: alpine:3.22
           command: ["/bin/sh", "-c"]
           args:
-            - test -x /home/coder/.TinyTeX/bin/aarch64-linux/pdflatex || curl -fsSL https://yihui.org/tinytex/install-bin-unix.sh | sh
+            - apk add --no-cache curl xz perl && (test -x /home/coder/.TinyTeX/bin/aarch64-linux/pdflatex || curl -fsSL https://yihui.org/tinytex/install-bin-unix.sh | sh) && chown -R 1000:1000 /home/coder/.TinyTeX
           env:
             - name: HOME
               value: /home/coder
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: data
               mountPath: /home/coder
