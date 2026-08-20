@@ -29,10 +29,10 @@ spec:
             - name: data
               mountPath: /home/coder
         - name: install-texlive
-          image: alpine:3.22
+          image: debian:bookworm-slim
           command: ["/bin/sh", "-c"]
           args:
-            - apk add --no-cache curl xz perl && (test -x /home/coder/.TinyTeX/bin/aarch64-linux/pdflatex || curl -fsSL https://yihui.org/tinytex/install-bin-unix.sh | sh) && chown -R 1000:1000 /home/coder/.TinyTeX
+            - apt-get update && apt-get install -y --no-install-recommends ca-certificates curl perl xz-utils && (test -x /home/coder/.TinyTeX/bin/aarch64-linux/pdflatex || curl -fsSL https://yihui.org/tinytex/install-bin-unix.sh | sh) && chown -R 1000:1000 /home/coder/.TinyTeX
           env:
             - name: HOME
               value: /home/coder
