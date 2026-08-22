@@ -48,6 +48,7 @@ spec:
       release: prometheus
   retention: 90d
   retentionSize: 20GB
+  scrapeInterval: 15s
   scrapeConfigSelector:
     matchLabels:
       release: prometheus
