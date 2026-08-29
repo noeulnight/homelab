@@ -20,15 +20,6 @@ spec:
           service:
             type: LoadBalancer
             externalTrafficPolicy: Local
-          volumes:
-            - name: envoy-lua-script
-              secret:
-                secretName: envoy-lua-script
-                defaultMode: 0444
-          volumeMounts:
-            - name: envoy-lua-script
-              mountPath: /etc/envoy-filter
-              readOnly: true
 
     - path: istio-ingress
       repoURL: git@github.com:noeulnight/homelab.git
