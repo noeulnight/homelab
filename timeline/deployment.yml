@@ -17,6 +17,8 @@ spec:
         - name: app
           image: freikin/dawarich:latest
           resources:
+            requests:
+              cpu: 100m
             limits:
               cpu: 500m
               memory: 1Gi
@@ -127,6 +129,8 @@ spec:
         - name: sidekiq
           image: freikin/dawarich:latest
           resources:
+            requests:
+              cpu: 100m
             limits:
               cpu: 500m
               memory: 1Gi
