@@ -21,7 +21,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: memos
-          image: neosmemo/memos:stable
+          image: neosmemo/memos:canary
           ports:
             - containerPort: 5230
           env:
