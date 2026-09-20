@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/aafqaq/codex-lb-enhanced=ghcr.io/aafqaq/codex-lb-enhanced:latest@sha256:ea17ab29d39fb11bf0f9a4cd05c3e6ed8bb6c4c197192e57b50befd5e4344bd0
