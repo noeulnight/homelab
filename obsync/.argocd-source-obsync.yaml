@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/obsync-api=ghcr.io/noeulnight/obsync-api:latest@sha256:c94e9665141818f5425ef328eb4a07760c3844eccfa150029b4e900e270c0507
+  - ghcr.io/noeulnight/obsync-web=ghcr.io/noeulnight/obsync-web:latest@sha256:e7755188a6cb001ab8845426c3eafa0e3a7b136ab23c4ec1ca8d737570afce06
