@@ -1,0 +1,163 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: homelab
+spec:
+  commonUpdateSettings:
+    updateStrategy: digest
+  writeBackConfig:
+    method: git
+    gitConfig:
+      repository: git@github.com:noeulnight/homelab.git
+      branch: main
+  applicationRefs:
+    - namePattern: authentik
+      images:
+        - alias: authentik
+          imageName: ghcr.io/noeulnight/authentik:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/authentik
+    - namePattern: badges
+      images:
+        - alias: badges
+          imageName: ghcr.io/noeulnight/kube-badges:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/kube-badges
+    - namePattern: bridge
+      images:
+        - alias: bridge
+          imageName: ghcr.io/noeulnight/bridge:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/bridge
+    - namePattern: codex-lb
+      images:
+        - alias: codex-lb
+          imageName: ghcr.io/aafqaq/codex-lb-enhanced:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/aafqaq/codex-lb-enhanced
+    - namePattern: doclane
+      images:
+        - alias: backend
+          imageName: ghcr.io/documentlane/doclane-backend:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/documentlane/doclane-backend
+        - alias: frontend
+          imageName: ghcr.io/documentlane/doclane-frontend:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/documentlane/doclane-frontend
+    - namePattern: health
+      images:
+        - alias: api
+          imageName: ghcr.io/noeulnight/health-api:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/health-api
+        - alias: web
+          imageName: ghcr.io/noeulnight/health-web:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/health-web
+    - namePattern: kepco
+      images:
+        - alias: kepco
+          imageName: ghcr.io/noeulnight/kepco:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/kepco
+    - namePattern: korail
+      images:
+        - alias: backend
+          imageName: ghcr.io/noeulnight/railroad-backend:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/railroad-backend
+        - alias: frontend
+          imageName: ghcr.io/noeulnight/railroad-frontend:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/railroad-frontend
+    - namePattern: obsync
+      images:
+        - alias: api
+          imageName: ghcr.io/noeulnight/obsync-api:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/obsync-api
+        - alias: web
+          imageName: ghcr.io/noeulnight/obsync-web:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/obsync-web
+    - namePattern: osmproxy
+      images:
+        - alias: osmproxy
+          imageName: ghcr.io/noeulnight/osmproxy:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/osmproxy
+    - namePattern: pmail
+      images:
+        - alias: server
+          imageName: ghcr.io/pmh-only/mail:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/pmh-only/mail
+        - alias: worker
+          imageName: ghcr.io/pmh-only/mail-worker:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/pmh-only/mail-worker
+    - namePattern: root
+      images:
+        - alias: root
+          imageName: ghcr.io/noeulnight/root:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/root
+    - namePattern: sikdae
+      images:
+        - alias: backend
+          imageName: ghcr.io/noeulnight/sikdae-backend:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/sikdae-backend
+        - alias: frontend
+          imageName: ghcr.io/noeulnight/sikdae-frontend:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/sikdae-frontend
+    - namePattern: spotify
+      images:
+        - alias: server
+          imageName: ghcr.io/noeulnight/spotify-stat-server:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/spotify-stat-server
+        - alias: web
+          imageName: ghcr.io/noeulnight/spotify-stat-client:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/spotify-stat-client
+        - alias: canvas
+          imageName: ghcr.io/noeulnight/spotify-canvas-api:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/spotify-canvas-api
+    - namePattern: tunnel
+      images:
+        - alias: api
+          imageName: ghcr.io/noeulnight/hole-api:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/hole-api
+        - alias: web
+          imageName: ghcr.io/noeulnight/hole-web:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/hole-web
