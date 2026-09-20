@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/root=ghcr.io/noeulnight/root:latest@sha256:0530a4ffd0347a859483e6840e7cbb168861c63626498e58ac2258a24ac1678d
