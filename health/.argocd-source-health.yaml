@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/health-api=ghcr.io/noeulnight/health-api:latest@sha256:fa1c6f1da78532827ad567d310952e220d97916025d56d429c799e754f71e6f9
+  - ghcr.io/noeulnight/health-web=ghcr.io/noeulnight/health-web:latest@sha256:6a0d0304ca234fb7d8726d79164ee41240de3ae2877af07e0c091db42449d009
