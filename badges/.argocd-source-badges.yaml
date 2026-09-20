@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/kube-badges=ghcr.io/noeulnight/kube-badges:latest@sha256:b95864a6ad83bd12f274f6378ace78e56dd9f7d316c3e5959f9481470d96110a
