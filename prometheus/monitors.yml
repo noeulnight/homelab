@@ -346,7 +346,7 @@ metadata:
     release: prometheus
 spec:
   endpoints:
-    - port: http
+    - port: http-metrics
   selector:
     matchLabels:
       app.kubernetes.io/name: kube-state-metrics
