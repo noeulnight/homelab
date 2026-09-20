@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: n8n
+    path: workloads/n8n
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

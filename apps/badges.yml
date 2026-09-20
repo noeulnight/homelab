@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: badges
+    path: observability/badges
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

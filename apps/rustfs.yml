@@ -35,7 +35,7 @@ spec:
           service:
             type: ClusterIP
           resources: {}
-    - path: rustfs
+    - path: data/rustfs
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   syncPolicy:

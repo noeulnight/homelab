@@ -81,11 +81,11 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 
 | Path | Description |
 | --- | --- |
-| `apps/` | Argo CD `Application` resources |
-| `argocd/` | Argo CD routing and destination policy |
-| `database/` | Stateful backing services |
-| `istio-ingress/` | Public gateway, certificate, Envoy filters, and wildcard fallback |
-| `<app>/` | App-local Kustomize resources such as deployments, services, storage, secrets, and routing |
+| `apps/` | Argo CD `Application` resources; kept flat because the bootstrap application reads this directory non-recursively |
+| `platform/` | Cluster platform resources such as Argo CD, cert-manager, Istio ingress, gateway, and Tailscale |
+| `observability/` | Prometheus, Grafana, kube-visualizer, and cluster badge resources |
+| `data/` | Stateful backing services and object storage |
+| `workloads/` | User-facing and internal application workloads |
 | `.github/workflows/argocd-diff.yml` | PR-time Argo CD diff workflow |
 
 ## Change Workflow

@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: obsync
+    path: workloads/obsync
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

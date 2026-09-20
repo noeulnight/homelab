@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: spotify
+    path: workloads/spotify
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

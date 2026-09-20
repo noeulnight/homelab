@@ -18,7 +18,7 @@ spec:
       targetRevision: "*"
       helm:
         releaseName: tailscale-operator
-    - path: tailscale
+    - path: platform/tailscale
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   destination:

@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    path: mta-sts
+    path: workloads/mta-sts
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   destination:

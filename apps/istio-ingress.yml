@@ -21,7 +21,7 @@ spec:
             type: LoadBalancer
             externalTrafficPolicy: Local
 
-    - path: istio-ingress
+    - path: platform/istio-ingress
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   syncPolicy:

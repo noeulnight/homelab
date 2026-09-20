@@ -21,7 +21,7 @@ spec:
             resources: {}
           backend:
             resources: {}
-    - path: kube-visualizer
+    - path: observability/kube-visualizer
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   syncPolicy:

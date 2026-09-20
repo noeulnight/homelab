@@ -35,7 +35,7 @@ spec:
               namespace: prometheus
               labels:
                 release: prometheus
-    - path: cert-manager
+    - path: platform/cert-manager
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   syncPolicy:

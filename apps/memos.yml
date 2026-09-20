@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: memos
+    path: workloads/memos
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

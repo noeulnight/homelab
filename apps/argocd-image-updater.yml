@@ -18,7 +18,7 @@ spec:
           config:
             git.user: argocd-image-updater
             git.email: noreply@argoproj.io
-    - path: argocd-image-updater
+    - path: platform/argocd-image-updater
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   syncPolicy:

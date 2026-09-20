@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: pmail
+    path: workloads/pmail
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

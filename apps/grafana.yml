@@ -52,7 +52,7 @@ spec:
             storageClassName: "local-path-retain"
             accessModes:
               - ReadWriteOnce
-    - path: grafana
+    - path: observability/grafana
       repoURL: git@github.com:noeulnight/homelab.git
       targetRevision: HEAD
   syncPolicy:

@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: authentik
+    path: workloads/authentik
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:

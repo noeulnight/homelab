@@ -13,7 +13,7 @@ spec:
       kind: Secret
   project: default
   source:
-    path: database/mariadb
+    path: data/mariadb
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:
