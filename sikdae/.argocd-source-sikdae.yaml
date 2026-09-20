@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/sikdae-backend=ghcr.io/noeulnight/sikdae-backend:latest@sha256:1be69a94ecb3f60c5dedb27690477db448dd1d749f9c69aa87f9de01f6c74ed2
+  - ghcr.io/noeulnight/sikdae-frontend=ghcr.io/noeulnight/sikdae-frontend:latest@sha256:39b4554337e3a555374d51d287782aec16b89148472f011f8237cc04905e7784
