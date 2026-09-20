@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/osmproxy=ghcr.io/noeulnight/osmproxy:latest@sha256:afbe2c261d0e8d5c52d0dca4661c894bca2ae054671a0be2863a0d26e4e84968
