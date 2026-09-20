@@ -311,63 +311,6 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: kubelet
-  labels:
-    release: prometheus
-spec:
-  endpoints:
-    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-      port: https-metrics
-      scheme: https
-      tlsConfig:
-        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        insecureSkipVerify: true
-    - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-      interval: 15s
-      path: /metrics/cadvisor
-      port: https-metrics
-      scheme: https
-      tlsConfig:
-        caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-        insecureSkipVerify: true
-  namespaceSelector:
-    matchNames:
-      - kube-system
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: kubelet
-      k8s-app: kubelet
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: kube-state-metrics
-  labels:
-    release: prometheus
-spec:
-  endpoints:
-    - port: http-metrics
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: kube-state-metrics
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: node-exporter
-  labels:
-    release: prometheus
-spec:
-  endpoints:
-    - port: http-metrics
-  selector:
-    matchLabels:
-      app.kubernetes.io/instance: prometheus
-      app.kubernetes.io/name: prometheus-node-exporter
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
   name: prometheus
   labels:
     release: prometheus

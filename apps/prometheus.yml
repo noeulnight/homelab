@@ -12,10 +12,66 @@ spec:
     - jsonPointers:
         - /data
       kind: Secret
-  source:
-    path: prometheus
-    repoURL: git@github.com:noeulnight/homelab.git
-    targetRevision: HEAD
+  sources:
+    - chart: kube-prometheus-stack
+      helm:
+        releaseName: prometheus
+        valuesObject:
+          alertmanager:
+            enabled: false
+          coreDns:
+            enabled: false
+          crds:
+            enabled: true
+          defaultRules:
+            create: false
+          fullnameOverride: prometheus-stack
+          grafana:
+            enabled: false
+          kubeApiServer:
+            enabled: false
+          kubeControllerManager:
+            enabled: false
+          kubeEtcd:
+            enabled: false
+          kubeProxy:
+            enabled: false
+          kubeScheduler:
+            enabled: false
+          kubelet:
+            enabled: true
+            serviceMonitor:
+              authorization:
+                credentials:
+                  key: token
+                  name: prometheus-kubelet-token
+                type: Bearer
+          kube-state-metrics:
+            fullnameOverride: kube-state-metrics
+            prometheus:
+              monitor:
+                additionalLabels:
+                  release: prometheus
+          prometheus:
+            enabled: false
+          prometheus-node-exporter:
+            fullnameOverride: node-exporter
+            prometheus:
+              monitor:
+                additionalLabels:
+                  release: prometheus
+          prometheusOperator:
+            fullnameOverride: prometheus-operator
+            kubeletService:
+              name: kubelet
+            serviceMonitor:
+              additionalLabels:
+                release: prometheus
+      repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: "*"
+    - path: prometheus
+      repoURL: git@github.com:noeulnight/homelab.git
+      targetRevision: HEAD
   syncPolicy:
     automated:
       prune: true
