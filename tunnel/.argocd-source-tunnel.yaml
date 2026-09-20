@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/hole-api=ghcr.io/noeulnight/hole-api:latest@sha256:00f5a4c4421e47ffd60d6dfda44a039832e4ede0d3e6969a7116a505991652da
+  - ghcr.io/noeulnight/hole-web=ghcr.io/noeulnight/hole-web:latest@sha256:625e6d86b5b91c16a89e078096bd1a93b73fc5b2e6ec00704c468bba2266a199
