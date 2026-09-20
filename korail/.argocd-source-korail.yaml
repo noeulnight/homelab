@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/railroad-backend=ghcr.io/noeulnight/railroad-backend:latest@sha256:e6a5508177b32f2efcfacc7c90e9075b68fc57d85254f28cac98497d85262de6
+  - ghcr.io/noeulnight/railroad-frontend=ghcr.io/noeulnight/railroad-frontend:latest@sha256:76cb2938df937924315b814b9d33a5d17ecdb9dbeea03e7a892d69b9e0d1c8eb
