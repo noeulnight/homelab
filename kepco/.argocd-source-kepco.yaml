@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/kepco=ghcr.io/noeulnight/kepco:latest@sha256:f7770a84cd1a0a9b635aceadd0644ab5abdcf770b3acfb652c0d8a15a17b60a4
