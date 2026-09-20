@@ -1,0 +1,4 @@
+kustomize:
+  images:
+  - ghcr.io/documentlane/doclane-backend=ghcr.io/documentlane/doclane-backend:latest@sha256:9d1acf1d73c834014d68fdaa3b816d01969285faad80123c6443f3b450ff5e6f
+  - ghcr.io/documentlane/doclane-frontend=ghcr.io/documentlane/doclane-frontend:latest@sha256:1ac80c188b56ef7dfc76562b58af264de7a8972c9b1f3110159e0cc4b1f9d365
