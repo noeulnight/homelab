@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: lth-pi.tail6de6ea.ts.net
+    tailscale.com/tailnet-fqdn: pi.tail6de6ea.ts.net
   labels:
     app.kubernetes.io/name: pi
   name: pi
@@ -27,7 +27,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    tailscale.com/tailnet-fqdn: lth-mac-mini.tail6de6ea.ts.net
+    tailscale.com/tailnet-fqdn: mac-mini.tail6de6ea.ts.net
   name: mac-mini
 spec:
   externalName: mac-mini
