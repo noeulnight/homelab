@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: tailscale-exporter
-          image: adinhodovic/tailscale-exporter:latest
+          image: adinhodovic/tailscale-exporter:0.6.1
           ports:
             - containerPort: 9250
           env:
