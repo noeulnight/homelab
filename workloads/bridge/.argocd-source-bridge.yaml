@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - ghcr.io/noeulnight/bridge=ghcr.io/noeulnight/bridge:latest@sha256:3f8becc8a341ed13e8261493c37af73edec7f9affa7658f4a2cdc44656cdeb32
+  - ghcr.io/noeulnight/bridge=ghcr.io/noeulnight/bridge:latest@sha256:bd1852642830a21dc210a7d1ce740ffe680ef97e7862adc002243f6c0e3df2e2
