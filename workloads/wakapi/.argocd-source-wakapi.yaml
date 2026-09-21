@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/muety/wakapi=ghcr.io/muety/wakapi:latest@sha256:9ee43d15009730928ed4c3506bdfb410522d9e6543d364d8c063e1e02348ba78
