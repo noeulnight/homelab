@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - neosmemo/memos=neosmemo/memos:canary@sha256:f0436ade0ab94eac54ff5f68ac2f2fe2cafa4bf2b7fb16e221a4e186606a669e
