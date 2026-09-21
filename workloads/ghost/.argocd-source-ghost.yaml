@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghost=ghost:6-alpine@sha256:47ecbe856dd06dcd20cb9410e1c4d532fc085eba776cfabc203609c7d15d8320
