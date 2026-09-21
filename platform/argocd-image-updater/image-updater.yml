@@ -106,10 +106,10 @@ spec:
     - namePattern: n8n
       images:
         - alias: n8n
-          imageName: docker.n8n.io/n8nio/n8n:stable
+          imageName: ghcr.io/n8n-io/n8n:stable
           manifestTargets:
             kustomize:
-              name: docker.n8n.io/n8nio/n8n
+              name: ghcr.io/n8n-io/n8n
     - namePattern: ntfy
       images:
         - alias: ntfy
