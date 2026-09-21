@@ -32,6 +32,13 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/bridge
+    - namePattern: code-server
+      images:
+        - alias: code-server
+          imageName: ghcr.io/coder/code-server:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/coder/code-server
     - namePattern: codex-lb
       images:
         - alias: codex-lb
@@ -51,6 +58,13 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/documentlane/doclane-frontend
+    - namePattern: ghost
+      images:
+        - alias: ghost
+          imageName: ghost:6-alpine
+          manifestTargets:
+            kustomize:
+              name: ghost
     - namePattern: health
       images:
         - alias: api
@@ -82,6 +96,27 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/railroad-frontend
+    - namePattern: memos
+      images:
+        - alias: memos
+          imageName: neosmemo/memos:canary
+          manifestTargets:
+            kustomize:
+              name: neosmemo/memos
+    - namePattern: n8n
+      images:
+        - alias: n8n
+          imageName: docker.n8n.io/n8nio/n8n:stable
+          manifestTargets:
+            kustomize:
+              name: docker.n8n.io/n8nio/n8n
+    - namePattern: ntfy
+      images:
+        - alias: ntfy
+          imageName: binwiederhier/ntfy:latest
+          manifestTargets:
+            kustomize:
+              name: binwiederhier/ntfy
     - namePattern: obsync
       images:
         - alias: api
@@ -132,6 +167,13 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/sikdae-frontend
+    - namePattern: slash
+      images:
+        - alias: slash
+          imageName: yourselfhosted/slash:latest
+          manifestTargets:
+            kustomize:
+              name: yourselfhosted/slash
     - namePattern: spotify
       images:
         - alias: server
@@ -149,6 +191,32 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/spotify-canvas-api
+    - namePattern: technitium
+      images:
+        - alias: server
+          imageName: technitium/dns-server:latest
+          manifestTargets:
+            kustomize:
+              name: technitium/dns-server
+        - alias: exporter
+          imageName: ghcr.io/noeulnight/technitium-exporter:master
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/technitium-exporter
+    - namePattern: termix
+      images:
+        - alias: termix
+          imageName: ghcr.io/lukegus/termix:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/lukegus/termix
+    - namePattern: timeline
+      images:
+        - alias: timeline
+          imageName: freikin/dawarich:latest
+          manifestTargets:
+            kustomize:
+              name: freikin/dawarich
     - namePattern: tunnel
       images:
         - alias: api
@@ -161,3 +229,10 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/hole-web
+    - namePattern: wakapi
+      images:
+        - alias: wakapi
+          imageName: ghcr.io/muety/wakapi:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/muety/wakapi
