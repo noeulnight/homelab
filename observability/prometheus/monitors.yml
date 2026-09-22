@@ -320,3 +320,22 @@ spec:
   selector:
     matchLabels:
       operator.prometheus.io/name: prometheus
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: codex-lb
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - codex-lb
+  selector:
+    matchLabels:
+      app: codex-lb
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s

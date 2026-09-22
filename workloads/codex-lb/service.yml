@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: codex-lb-service
+  labels:
+    app: codex-lb
 spec:
   selector:
     app: codex-lb
@@ -10,3 +12,7 @@ spec:
       protocol: TCP
       port: 2455
       targetPort: http
+    - name: metrics
+      protocol: TCP
+      port: 9090
+      targetPort: metrics

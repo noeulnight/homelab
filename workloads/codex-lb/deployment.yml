@@ -21,9 +21,15 @@ spec:
           ports:
             - name: http
               containerPort: 2455
+            - name: metrics
+              containerPort: 9090
           env:
             - name: CODEX_LB_DASHBOARD_AUTH_MODE
               value: disabled
+            - name: CODEX_LB_METRICS_ENABLED
+              value: "true"
+            - name: CODEX_LB_METRICS_PORT
+              value: "9090"
             - name: CODEX_LB_FIREWALL_TRUST_PROXY_HEADERS
               value: "true"
             - name: CODEX_LB_FIREWALL_TRUSTED_PROXY_CIDRS
