@@ -1,4 +1,4 @@
 kustomize:
   images:
-  - technitium/dns-server=technitium/dns-server:latest@sha256:2502fd4993d18a8c6665ce6eefb20c76ca21918c5435a015d9485b36e8275b5e
+  - technitium/dns-server=technitium/dns-server:latest@sha256:b8efe03a5e3bdc6e9d2baff3f6e70c382c7f98afa2a7ca66f318d4b58a8d5944
   - ghcr.io/noeulnight/technitium-exporter=ghcr.io/noeulnight/technitium-exporter:master@sha256:554e6603748cd8a34004daa255efa8460e80e94f678905f97b42f92735338a7f
