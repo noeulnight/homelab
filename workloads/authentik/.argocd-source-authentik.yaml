@@ -1,4 +1,4 @@
 kustomize:
   images:
   - ghcr.io/noeulnight/authentik=ghcr.io/noeulnight/authentik:latest@sha256:bec9eee0e5595fb8235ceb5f40c8dcb4c23ca11ffc2e37c9fa0c35f1d9da148b
-  - ghcr.io/goauthentik/server=ghcr.io/goauthentik/server:2026.8.0@sha256:7421753cfea67e89a6d295a1f0173ccea3866b33768c88dad90453b151cdcfd5
+  - ghcr.io/goauthentik/server=ghcr.io/goauthentik/server:2026.8.3@sha256:ab9b4e8cc4ab3f8d1198d2db6aeea66bafea1963b3f2843589e0d163f97d9849

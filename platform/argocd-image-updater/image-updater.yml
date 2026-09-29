@@ -14,7 +14,7 @@ spec:
     - namePattern: authentik
       images:
         - alias: authentik
-          imageName: ghcr.io/goauthentik/server:2026.8.0
+          imageName: ghcr.io/goauthentik/server:2026.8.3
           manifestTargets:
             kustomize:
               name: ghcr.io/goauthentik/server
