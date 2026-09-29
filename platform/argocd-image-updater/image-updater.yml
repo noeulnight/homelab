@@ -14,10 +14,10 @@ spec:
     - namePattern: authentik
       images:
         - alias: authentik
-          imageName: ghcr.io/noeulnight/authentik:latest
+          imageName: ghcr.io/goauthentik/server:latest
           manifestTargets:
             kustomize:
-              name: ghcr.io/noeulnight/authentik
+              name: ghcr.io/goauthentik/server
     - namePattern: badges
       images:
         - alias: badges
