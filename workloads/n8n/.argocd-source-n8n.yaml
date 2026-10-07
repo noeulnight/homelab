@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - ghcr.io/n8n-io/n8n=ghcr.io/n8n-io/n8n:stable@sha256:240eaa2a3d491adac5817aa4c3f1c521bb18ec79f6e448517158d5220ee0f37b
+  - ghcr.io/n8n-io/n8n=ghcr.io/n8n-io/n8n:stable@sha256:9c0862a08090c79122069e23131d27529c250b92e90c9d51a6ec406fe1527c4e
