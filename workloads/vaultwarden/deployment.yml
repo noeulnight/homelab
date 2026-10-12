@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+        - name: vaultwarden
+          image: vaultwarden/server:1.37.4
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: DOMAIN
+              value: https://vault.lth.so
+            - name: SIGNUPS_ALLOWED
+              value: "false"
+            - name: INVITATIONS_ALLOWED
+              value: "false"
+            - name: TZ
+              value: Asia/Seoul
+          readinessProbe:
+            httpGet:
+              path: /alive
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: vaultwarden-pvc

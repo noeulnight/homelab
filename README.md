@@ -54,6 +54,7 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `technitium` | `technitium` | <https://dns.lth.so> | - |
 | `timeline` | `timeline` | <https://timeline.lth.so> | - |
 | `tunnel` | `tunnel` | <https://tunnel.lth.so> | `*.tunnel.lth.so` |
+| `vaultwarden` | `vaultwarden` | <https://vault.lth.so> | - |
 | `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |
 
 ### Internal/Infra Apps (16)

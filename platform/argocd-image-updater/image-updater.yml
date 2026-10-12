@@ -117,18 +117,6 @@ spec:
           manifestTargets:
             kustomize:
               name: binwiederhier/ntfy
-    - namePattern: obsync
-      images:
-        - alias: api
-          imageName: ghcr.io/noeulnight/obsync-api:latest
-          manifestTargets:
-            kustomize:
-              name: ghcr.io/noeulnight/obsync-api
-        - alias: web
-          imageName: ghcr.io/noeulnight/obsync-web:latest
-          manifestTargets:
-            kustomize:
-              name: ghcr.io/noeulnight/obsync-web
     - namePattern: osmproxy
       images:
         - alias: osmproxy
