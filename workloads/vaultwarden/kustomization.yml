@@ -7,3 +7,4 @@ resources:
   - ./virtual-service.yml
   - ./pv.yml
   - ./pvc.yml
+  - ./secret.yml

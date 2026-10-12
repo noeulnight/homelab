@@ -28,6 +28,11 @@ spec:
               value: "false"
             - name: INVITATIONS_ALLOWED
               value: "false"
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-admin
+                  key: ADMIN_TOKEN
             - name: TZ
               value: Asia/Seoul
           readinessProbe:
