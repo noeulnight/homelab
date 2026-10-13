@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bybit-mcp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: bybit-mcp
+  template:
+    metadata:
+      labels:
+        app: bybit-mcp
+    spec:
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        - name: install-trading-mcp
+          image: node:20-alpine
+          command: ["/bin/sh", "-ec"]
+          args:
+            - npm install --prefix /opt/bybit --omit=dev --ignore-scripts --no-audit --no-fund bybit-official-trading-server@2.1.23
+          volumeMounts:
+            - name: bybit-package
+              mountPath: /opt/bybit
+      containers:
+        - name: supergateway
+          image: ghcr.io/supercorp-ai/supergateway:4.1.0
+          args:
+            - --stdio
+            - /opt/bybit/node_modules/.bin/bybit-official-trading-server
+            - --outputTransport
+            - streamableHttp
+            - --stateful
+            - --port
+            - "8000"
+            - --streamableHttpPath
+            - /mcp
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: BYBIT_TESTNET
+              value: "false"
+            - name: BYBIT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: bybit-mcp-secret
+                  key: BYBIT_API_KEY
+            - name: BYBIT_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: bybit-mcp-secret
+                  key: BYBIT_API_SECRET
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: bybit-package
+              mountPath: /opt/bybit
+              readOnly: true
+      volumes:
+        - name: bybit-package
+          emptyDir: {}

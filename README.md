@@ -19,7 +19,7 @@ flowchart LR
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
   Gateway --> PublicApps["Public Apps (23)"]
-  K8s --> InternalApps["Internal/Infra Apps (16)"]
+  K8s --> InternalApps["Internal/Infra Apps (17)"]
   K8s --> Data["Data Layer (Postgres/MySQL/MariaDB/Redis/Mongo)"]
 ```
 
@@ -57,10 +57,11 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `vaultwarden` | `vaultwarden` | <https://vault.lth.so> | - |
 | `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |
 
-### Internal/Infra Apps (16)
+### Internal/Infra Apps (17)
 
 | App | Namespace | Role |
 | --- | --- | --- |
+| `bybit-mcp` | `bybit-mcp` | Cluster-only Bybit MCP at `http://bybit-mcp.bybit-mcp.svc.cluster.local:8000/mcp` |
 | `cert-manager` | `cert-manager` | TLS issuers and certificate automation |
 | `gateway` | `kube-system` | Kubernetes Gateway API resources |
 | `istio-base` | `istio-system` | Istio base chart |

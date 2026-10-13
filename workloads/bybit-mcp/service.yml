@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bybit-mcp
+spec:
+  selector:
+    app: bybit-mcp
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: http
