@@ -19,7 +19,7 @@ spec:
           image: node:20-alpine
           command: ["/bin/sh", "-ec"]
           args:
-            - npm install --prefix /opt/bybit --omit=dev --ignore-scripts --no-audit --no-fund bybit-official-trading-server@2.1.23
+            - npm install --prefix /opt/bybit --omit=dev --ignore-scripts --no-audit --no-fund bybit-official-trading-server@2.1.24
           volumeMounts:
             - name: bybit-package
               mountPath: /opt/bybit
