@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - binwiederhier/ntfy=binwiederhier/ntfy:latest@sha256:8563a39da2f5a47360618b2ab9200239c76b37f4145f6d627d9ab4368abd23f0
+  - binwiederhier/ntfy=binwiederhier/ntfy:latest@sha256:803b2aaeb94df76c8b32ecd91039dc80b0fddb7041dcaf082b33bcdfd4ba39ad
