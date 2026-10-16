@@ -8,41 +8,90 @@ spec:
     labels:
       istio: ingress
   configPatches:
-  - applyTo: HTTP_FILTER
-    match:
-      context: GATEWAY
-      listener:
-        filterChain:
-          filter:
-            name: "envoy.filters.network.http_connection_manager"
-            subFilter:
-              name: "envoy.filters.http.router"
-    patch:
-      operation: INSERT_BEFORE
-      value:
-       name: envoy.filters.http.lua
-       typed_config:
-          "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
-          defaultSourceCode:
-            inlineString: |
-              function envoy_on_request(request_handle)
-                local authority = request_handle:headers():get(":authority")
-                if authority ~= "spotify.lth.so" and authority ~= "spotify.limtaehyun.dev" then
-                  return
-                end
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: envoy.filters.network.http_connection_manager
+              subFilter:
+                name: envoy.filters.http.router
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.lua
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+            default_source_code:
+              inline_string: |
+                local share_token = "c1f7b36d-0b03-4376-9d04-c30ea7b862f0"
 
-                local path = request_handle:headers():get(":path")
-                if path == nil then
-                  return
-                end
+                local allowed_hosts = {
+                  ["spotify.lth.so"] = true,
+                  ["spotify.limtaehyun.dev"] = true,
+                }
 
-                local path_only, query = string.match(path, "^([^?]*)%??(.*)$")
-                if query == "" then
-                  request_handle:headers():replace(":path", path_only .. "?token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
-                  return
-                end
+                local shared_pages = {
+                  [""] = true,
+                  ["/recent"] = true,
+                  ["/stats"] = true,
+                  ["/longest-session"] = true,
+                  ["/now-playing"] = true,
+                  ["/top/songs"] = true,
+                  ["/top/albums"] = true,
+                  ["/top/artists"] = true,
+                }
 
-                if not string.find(query, "(^|&)token=[^&]*") then
-                  request_handle:headers():replace(":path", path_only .. "?" .. query .. "&token=c1f7b36d-0b03-4376-9d04-c30ea7b862f0")
+                function envoy_on_request(handle)
+                  local headers = handle:headers()
+                  local authority = headers:get(":authority")
+                  if not authority then
+                    return
+                  end
+
+                  local host = string.lower(authority):match("^([^:]+)")
+                  if not allowed_hosts[host] then
+                    return
+                  end
+
+                  local method = headers:get(":method")
+                  if method ~= "GET" and method ~= "HEAD" then
+                    return
+                  end
+
+                  -- A nonempty login cookie bypasses the guest redirect.
+                  local cookie = headers:get("cookie") or ""
+                  for part in cookie:gmatch("[^;]+") do
+                    local name, value =
+                      part:match("^%s*([^=%s]+)=([^;]*)")
+
+                    if name == "token" and value:match("%S") then
+                      return
+                    end
+                  end
+
+                  local path = headers:get(":path")
+                  if not path then
+                    return
+                  end
+
+                  local path_only, query = path:match("^([^?]*)(.*)$")
+                  local page = path_only:gsub("/+$", "")
+
+                  local is_detail =
+                    page:match("^/songs/[^/]+$") or
+                    page:match("^/albums/[^/]+$") or
+                    page:match("^/artists/[^/]+$")
+
+                  -- Leave API, OAuth, assets and existing share paths unchanged.
+                  if not shared_pages[page] and not is_detail then
+                    return
+                  end
+
+                  handle:respond({
+                    [":status"] = "302",
+                    ["location"] = "/share/" .. share_token .. page .. query,
+                    ["cache-control"] = "no-store",
+                  }, "")
                 end
-              end
