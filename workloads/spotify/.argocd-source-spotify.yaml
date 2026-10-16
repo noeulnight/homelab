@@ -1,5 +1,5 @@
 kustomize:
   images:
-  - ghcr.io/noeulnight/spotify-stat-server=ghcr.io/noeulnight/spotify-stat-server:latest@sha256:230713542c21896f277d4b11bf8c1bc96644e3741ff5d33a95c71f1b969fd7b3
-  - ghcr.io/noeulnight/spotify-stat-client=ghcr.io/noeulnight/spotify-stat-client:latest@sha256:1c901b84d66c8d865a1df758949c6a8a247aa2b8374e2bb62e470be84852f422
+  - ghcr.io/noeulnight/spotify-stat-server=ghcr.io/noeulnight/spotify-stat-server:latest@sha256:d81dbbfb2ffb37e030ca2a75a0cf9eb33a55306562b7c2e851c7544731abf608
+  - ghcr.io/noeulnight/spotify-stat-client=ghcr.io/noeulnight/spotify-stat-client:latest@sha256:5375b3033883f1a25faa8de1ab1ba07ecfe5fd203874634fbfdeeca5e521ed5f
   - ghcr.io/noeulnight/spotify-canvas-api=ghcr.io/noeulnight/spotify-canvas-api:latest@sha256:06a1a50c0290187b8d9d8d4479874e7de8360b99e1450a8a11865961872b34dc
