@@ -25,7 +25,7 @@ spec:
             "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
             default_source_code:
               inline_string: |
-                local share_token = "c1f7b36d-0b03-4376-9d04-c30ea7b862f0"
+                local share_token = "hyun"
 
                 local allowed_hosts = {
                   ["spotify.lth.so"] = true,
