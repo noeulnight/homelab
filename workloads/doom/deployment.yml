@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doom
+  labels:
+    app.kubernetes.io/version: v1
+spec:
+  revisionHistoryLimit: 0
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doom
+  template:
+    metadata:
+      labels:
+        app: doom
+        app.kubernetes.io/version: v1
+    spec:
+      containers:
+        - name: server
+          image: ghcr.io/noeulnight/doom-cyberpunk:latest
+          ports:
+            - containerPort: 80

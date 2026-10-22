@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: doom
+spec:
+  hosts:
+    - "doom.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: doom-service.doom.svc.cluster.local
+            port:
+              number: 80

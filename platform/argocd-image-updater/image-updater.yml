@@ -58,6 +58,13 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/documentlane/doclane-frontend
+    - namePattern: doom
+      images:
+        - alias: doom
+          imageName: ghcr.io/noeulnight/doom-cyberpunk:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/doom-cyberpunk
     - namePattern: ghost
       images:
         - alias: ghost
