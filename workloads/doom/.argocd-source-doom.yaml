@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/doom-cyberpunk=ghcr.io/noeulnight/doom-cyberpunk:latest@sha256:39e913b52e8ad582876957132758e95ebf28e504d3e4884649bdcfd5ecf74e6f
