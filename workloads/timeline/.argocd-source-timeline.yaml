@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - freikin/dawarich=freikin/dawarich:latest@sha256:e22d39339a00ab03b057a75897a8950dfd5d084e0f23202a7c6d5e8814f96aff
+  - freikin/dawarich=freikin/dawarich:latest@sha256:a2b93286a973b2e4b55d6a1ebd8009a65b8624639687ca95e909d0aac27324f5
