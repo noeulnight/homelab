@@ -1,4 +1,4 @@
 kustomize:
   images:
-  - ghcr.io/pmh-only/mail=ghcr.io/pmh-only/mail:latest@sha256:a5270eb7a5837992b127c2b9aa0212e07190b78face727af7bc5b7628a9ae323
+  - ghcr.io/pmh-only/mail=ghcr.io/pmh-only/mail:latest@sha256:12e96de2e29ac7c89a47747c547815dd12b7c87ff472c15156d72f1c639c0ed5
   - ghcr.io/pmh-only/mail-worker=ghcr.io/pmh-only/mail-worker:latest@sha256:eb215af572c3b533f5def35696d832f767ed8ec0f167c28500b0f9f09cafaa8b
