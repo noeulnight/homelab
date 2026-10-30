@@ -11,13 +11,19 @@ spec:
   sources:
     - chart: kubernetes-mcp-server
       repoURL: oci://ghcr.io/containers/charts/kubernetes-mcp-server
-      targetRevision: "*"
+      targetRevision: "0.1.1"
       helm:
         releaseName: mcp
         values: |
           ingress:
             enabled: false
-          resources: {}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 128Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
           rbac:
             extraClusterRoleBindings:
               - name: use-view-role
