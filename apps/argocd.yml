@@ -8,6 +8,12 @@ spec:
     namespace: argocd
     server: https://kubernetes.default.svc
   project: default
+  ignoreDifferences:
+    - kind: Secret
+      name: argocd-secret
+      namespace: argocd
+      jsonPointers:
+        - /data
   source:
     path: platform/argocd
     repoURL: git@github.com:noeulnight/homelab.git
