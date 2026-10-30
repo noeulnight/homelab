@@ -15,10 +15,16 @@ spec:
   sources:
     - chart: grafana
       repoURL: https://grafana.github.io/helm-charts
-      targetRevision: "*"
+      targetRevision: "10.5.15"
       helm:
         releaseName: grafana
         values: |
+          image:
+            tag: "13.3.0"
+            sha: "sha256:488984b716c0862639f91a698adbe2862677a5a07bad42da5f03f3030883b205"
+          deploymentStrategy:
+            type: Recreate
+            rollingUpdate: null
           datasources:
             datasources.yaml:
               apiVersion: 1
@@ -43,7 +49,7 @@ spec:
               root_url: "%(protocol)s://%(domain)s"
             auth.anonymous:
               enabled: true
-              org_name: Main Org.
+              org_name: Homelab
               org_role: Viewer
           persistence:
             type: pvc
