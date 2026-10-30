@@ -5,6 +5,9 @@ metadata:
 spec:
   revisionHistoryLimit: 0
   replicas: 1
+  strategy:
+    type: Recreate
+    rollingUpdate: null
   selector:
     matchLabels:
       app: redis
@@ -13,6 +16,24 @@ spec:
       labels:
         app: redis
     spec:
+      initContainers:
+        - name: verify-preserved-data
+          image: redis:8.4.8-alpine@sha256:3e393dc9c57e628ebd5e0fc0bc4524f83632b6b873503d619e856af9322d4ef7
+          command:
+            - sh
+            - -ec
+            - test -s /data/dump.rdb && redis-check-rdb /data/dump.rdb
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+              readOnly: true
       containers:
         - name: redis
-          image: public.ecr.aws/docker/library/redis:alpine
+          image: redis:8.4.8-alpine@sha256:3e393dc9c57e628ebd5e0fc0bc4524f83632b6b873503d619e856af9322d4ef7
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+      volumes:
+        - name: redis-storage
+          persistentVolumeClaim:
+            claimName: redis-pvc
