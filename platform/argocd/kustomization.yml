@@ -2,5 +2,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: argocd
 resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/c2b1e3017e2cec86b122172e861dcd026453ae44/manifests/install.yaml
   - ./virtual-service.yml
   - ./destination-rule.yml
+images:
+  - name: quay.io/argoproj/argocd
+    newTag: v3.5.6
+    digest: sha256:8e5cc5bb008df8a09dba439462e58c94c55b7735888d3ebde0c25fc05e4e5335
+  - name: public.ecr.aws/docker/library/redis
+    newName: redis
+    newTag: 8.2.11-alpine
+    digest: sha256:489a769e0a54dc245896132a15c72d2bc7296719954da99398f43a3877e5f8eb
+  - name: ghcr.io/dexidp/dex
+    newTag: v2.46.1
+    digest: sha256:65b72ca0f4b0bf6d4ada84ec21da8851782563404ac7b8f926923d27ceced9ab

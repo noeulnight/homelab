@@ -23,11 +23,13 @@ spec:
   source:
     chart: istiod
     repoURL: https://istio-release.storage.googleapis.com/charts
-    targetRevision: "1.30.5"
+    targetRevision: "1.30.7"
     helm:
       releaseName: istiod
       values: |
         profile: ambient
+        rollingMaxSurge: 0
+        rollingMaxUnavailable: 1
         pilot:
           cni:
             enabled: true

@@ -13,11 +13,16 @@ spec:
   source:
     chart: ztunnel
     repoURL: https://istio-release.storage.googleapis.com/charts
-    targetRevision: "1.30.5"
+    targetRevision: "1.30.7"
     helm:
       releaseName: ztunnel
       values: |
         profile: ambient
+        updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxSurge: 0
+            maxUnavailable: 1
   syncPolicy:
     automated:
       prune: false
