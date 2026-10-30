@@ -5,6 +5,9 @@ metadata:
 spec:
   revisionHistoryLimit: 0
   replicas: 1
+  strategy:
+    type: Recreate
+    rollingUpdate: null
   selector:
     matchLabels:
       app: postgres
@@ -13,12 +16,36 @@ spec:
       labels:
         app: postgres
     spec:
+      initContainers:
+        - name: verify-upgraded-data
+          image: postgres:17.11@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f
+          command:
+            - sh
+            - -ec
+            - test "$(cat /var/lib/postgresql/data/17/PG_VERSION)" = 17
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+              readOnly: true
       containers:
         - name: postgres
-          image: public.ecr.aws/docker/library/postgres:14
+          image: postgres:17.11@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f
           ports:
             - containerPort: 5432
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - admin
+                - -d
+                - postgres
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 6
           env:
+            - name: PGDATA
+              value: /var/lib/postgresql/data/17
             - name: POSTGRES_USER
               value: admin
             - name: POSTGRES_PASSWORD
