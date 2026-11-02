@@ -1,4 +1,4 @@
 kustomize:
   images:
-  - ghcr.io/noeulnight/memehub-api=ghcr.io/noeulnight/memehub-api:latest@sha256:59885fc00d9a3a0cf0ef78a100586e45aa950cac8356aa1a61885f1b85bec788
-  - ghcr.io/noeulnight/memehub-web=ghcr.io/noeulnight/memehub-web:latest@sha256:b86c951b50eee68425fc3e7a3856cae41a454bf94138d99ab60a72a7fbc1ebc5
+  - ghcr.io/noeulnight/memehub-api=ghcr.io/noeulnight/memehub-api:latest@sha256:a63551fd53bdd2657378f4ede30f4160d484cfb96442020fa40421143bca04da
+  - ghcr.io/noeulnight/memehub-web=ghcr.io/noeulnight/memehub-web:latest@sha256:bf5551189e542d549d6153688d834d4d5cbc1bfc82e87052fe2fb3ca72e420b4
