@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: memehub
+resources:
+  - config.yml
+  - secret.yml
+  - deployment.yml
+  - web-deployment.yml
+  - service.yml
+  - virtual-service.yml

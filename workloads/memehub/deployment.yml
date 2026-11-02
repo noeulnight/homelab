@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memehub-api
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: memehub-api
+  template:
+    metadata:
+      labels:
+        app: memehub-api
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+      - name: migrate
+        image: ghcr.io/noeulnight/memehub-api:latest
+        command:
+        - "/usr/local/bin/migrate"
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: memehub-secrets
+              key: DATABASE_URL
+      containers:
+      - name: api
+        image: ghcr.io/noeulnight/memehub-api:latest
+        ports:
+        - name: http
+          containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: memehub-config
+        - secretRef:
+            name: memehub-secrets
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        startupProbe:
+          httpGet:
+            path: "/api/health/live"
+            port: http
+          periodSeconds: 5
+          failureThreshold: 24
+        readinessProbe:
+          httpGet:
+            path: "/api/health/ready"
+            port: http
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: "/api/health/live"
+            port: http
+          timeoutSeconds: 5

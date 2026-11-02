@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: memehub-config
+data:
+  APP_ENV: production
+  HTTP_ADDR: 0.0.0.0:8080
+  APP_BASE_URL: https://meme.lth.so
+  OIDC_REDIRECT_URL: https://meme.lth.so/api/auth/callback
+  SESSION_COOKIE_SECURE: 'true'
+  SESSION_TTL_SECONDS: '604800'
+  TEXT_MAX_LENGTH: '10000'
+  UPLOAD_MAX_BYTES: '10485760'
+  UPLOAD_ALLOWED_MIME_TYPES: image/jpeg,image/png,image/webp,image/gif
+  OPENAI_TIMEOUT_SECONDS: '120'
+  WORKER_CONCURRENCY: '2'
+  DELETED_IMAGE_RETENTION_DAYS: '7'
+  INCOMPLETE_UPLOAD_RETENTION_HOURS: '24'
+  OIDC_ISSUER_URL: "https://auth.lth.so/application/o/meme-hub/"
+  OPENAI_MODEL: "gpt-6.1-terra"
+  S3_ENDPOINT: "https://s3.lth.so"
+  S3_PRESIGN_ENDPOINT: "https://s3.lth.so"
+  S3_REGION: "us-east-1"
+  S3_BUCKET: "memehub"
+  S3_FORCE_PATH_STYLE: "true"
+  S3_PRESIGN_TTL_SECONDS: "900"

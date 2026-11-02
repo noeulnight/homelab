@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: memehub
+spec:
+  hosts:
+    - meme.lth.so
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /api/
+      route:
+        - destination:
+            host: memehub-api.memehub.svc.cluster.local
+            port:
+              number: 8080
+    - route:
+        - destination:
+            host: memehub-web.memehub.svc.cluster.local
+            port:
+              number: 80
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains

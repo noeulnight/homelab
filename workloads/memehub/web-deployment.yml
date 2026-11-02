@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memehub-web
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: memehub-web
+  template:
+    metadata:
+      labels:
+        app: memehub-web
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: web
+          image: ghcr.io/noeulnight/memehub-web:latest
+          ports:
+            - name: http
+              containerPort: 4321
+          env:
+            - name: APP_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: memehub-config
+                  key: APP_BASE_URL
+            - name: API_INTERNAL_BASE_URL
+              value: http://memehub-api:8080/api
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            timeoutSeconds: 5

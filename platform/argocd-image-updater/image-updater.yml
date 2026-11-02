@@ -103,6 +103,18 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/railroad-frontend
+    - namePattern: memehub
+      images:
+        - alias: api
+          imageName: ghcr.io/noeulnight/memehub-api:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/memehub-api
+        - alias: web
+          imageName: ghcr.io/noeulnight/memehub-web:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/memehub-web
     - namePattern: memos
       images:
         - alias: memos
