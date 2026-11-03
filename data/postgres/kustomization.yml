@@ -7,3 +7,4 @@ resources:
   - ./pv.yml
   - ./pvc.yml
   - ./service.yml
+  - ./memehub-vector-extension-job.yml

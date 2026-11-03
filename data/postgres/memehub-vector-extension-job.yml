@@ -1,0 +1,53 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: memehub-vector-extension
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 180
+  template:
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: enable-vector
+          image: pgvector/pgvector:pg17-trixie@sha256:01215e09bd4bd582d20230e025b6c971deeeffee49ceef1aae167e839cb62a7e
+          command: [psql]
+          args:
+            - --no-psqlrc
+            - --no-password
+            - --set=ON_ERROR_STOP=1
+            - --command=CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public;
+            - --command=SELECT extversion FROM pg_extension WHERE extname = 'vector';
+          env:
+            - name: PGHOST
+              value: postgres-service.postgres.svc.cluster.local
+            - name: PGPORT
+              value: '5432'
+            - name: PGDATABASE
+              value: memehub
+            - name: PGUSER
+              value: admin
+            - name: PGSSLMODE
+              value: disable
+            - name: PGCONNECT_TIMEOUT
+              value: '10'
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-root-password
+                  key: password
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
