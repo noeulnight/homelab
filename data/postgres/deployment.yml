@@ -18,7 +18,7 @@ spec:
     spec:
       initContainers:
         - name: verify-upgraded-data
-          image: postgres:17.11@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f
+          image: pgvector/pgvector:pg17-trixie@sha256:01215e09bd4bd582d20230e025b6c971deeeffee49ceef1aae167e839cb62a7e
           command:
             - sh
             - -ec
@@ -29,7 +29,7 @@ spec:
               readOnly: true
       containers:
         - name: postgres
-          image: postgres:17.11@sha256:31ba9c94a03ada9988f2bb493a22a75eef3a185884533e5cdbcd498ea835b08f
+          image: pgvector/pgvector:pg17-trixie@sha256:01215e09bd4bd582d20230e025b6c971deeeffee49ceef1aae167e839cb62a7e
           ports:
             - containerPort: 5432
           readinessProbe:

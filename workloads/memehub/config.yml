@@ -14,6 +14,7 @@ data:
   UPLOAD_ALLOWED_MIME_TYPES: image/jpeg,image/png,image/webp,image/gif
   OPENAI_TIMEOUT_SECONDS: '120'
   WORKER_CONCURRENCY: '2'
+  VECTOR_SEARCH_ENABLED: 'true'
   DELETED_IMAGE_RETENTION_DAYS: '7'
   INCOMPLETE_UPLOAD_RETENTION_HOURS: '24'
   OIDC_ISSUER_URL: "https://auth.lth.so/application/o/meme-hub/"
