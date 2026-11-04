@@ -1,4 +1,4 @@
 kustomize:
   images:
-  - ghcr.io/noeulnight/hole-api=ghcr.io/noeulnight/hole-api:latest@sha256:00f5a4c4421e47ffd60d6dfda44a039832e4ede0d3e6969a7116a505991652da
-  - ghcr.io/noeulnight/hole-web=ghcr.io/noeulnight/hole-web:latest@sha256:625e6d86b5b91c16a89e078096bd1a93b73fc5b2e6ec00704c468bba2266a199
+  - ghcr.io/noeulnight/hole-api=ghcr.io/noeulnight/hole-api:latest@sha256:ce3a1177499652e32b4e80152e3fad02be0607b34050ee1b327e235a39b041eb
+  - ghcr.io/noeulnight/hole-web=ghcr.io/noeulnight/hole-web:latest@sha256:c5c7c93668f02a4d772626baa9c700ae27ea4c6dc3aaa870319303291ed37dc1
