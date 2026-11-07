@@ -11,6 +11,8 @@ spec:
       app: memehub-api
   template:
     metadata:
+      annotations:
+        checksum/config: 38cacc46f4b38b4be8866b56c67866034d293f31cd670571492a152fae517fe0
       labels:
         app: memehub-api
     spec:
