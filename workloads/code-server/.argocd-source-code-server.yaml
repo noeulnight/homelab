@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - ghcr.io/coder/code-server=ghcr.io/coder/code-server:latest@sha256:992796b850b8b7ec6f7393b8dd2295840a65cf5071981990ff41ef52dd566c43
+  - ghcr.io/coder/code-server=ghcr.io/coder/code-server:latest@sha256:09565f9e07f5624554e295e8bab0e2fec4a7c533eb3cff459ed6596a4d3d7c1c
