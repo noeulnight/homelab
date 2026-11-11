@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mile
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mile
+  template:
+    metadata:
+      labels:
+        app: mile
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - name: mile
+          image: ghcr.io/noeulnight/mile-mcp:latest
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: MILE_MCP_HOST
+              value: 0.0.0.0
+            - name: MILE_MCP_PORT
+              value: "8000"
+            - name: MILE_MCP_DATABASE_PATH
+              value: /data/mile.db
+            - name: MILE_MCP_ALLOWED_HOSTS
+              value: mile.lth.so,localhost,127.0.0.1,[::1]
+            - name: MILE_MCP_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mile-secret
+                  key: MILE_MCP_API_KEY
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            initialDelaySeconds: 15
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mile-pvc
+        - name: tmp
+          emptyDir: {}

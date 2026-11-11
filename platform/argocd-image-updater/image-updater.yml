@@ -122,6 +122,13 @@ spec:
           manifestTargets:
             kustomize:
               name: neosmemo/memos
+    - namePattern: mile
+      images:
+        - alias: mile
+          imageName: ghcr.io/noeulnight/mile-mcp:latest
+          manifestTargets:
+            kustomize:
+              name: ghcr.io/noeulnight/mile-mcp
     - namePattern: n8n
       images:
         - alias: n8n
