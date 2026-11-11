@@ -1,0 +1,3 @@
+kustomize:
+  images:
+  - ghcr.io/noeulnight/mile-mcp=ghcr.io/noeulnight/mile-mcp:latest@sha256:d79fc1e20fbb041c6fb549cafda067d3929119b9c79e0d027b609ffb0522454f
