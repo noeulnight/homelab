@@ -1,3 +1,0 @@
-kustomize:
-  images:
-  - ghcr.io/lukegus/termix=ghcr.io/lukegus/termix:latest@sha256:cac04fdc9cd38c98566e6e903ad77a3a85b62869e6b78ada35e1570cbc32c6cb

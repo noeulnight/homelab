@@ -58,13 +58,6 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/documentlane/doclane-frontend
-    - namePattern: doom
-      images:
-        - alias: doom
-          imageName: ghcr.io/noeulnight/doom-cyberpunk:latest
-          manifestTargets:
-            kustomize:
-              name: ghcr.io/noeulnight/doom-cyberpunk
     - namePattern: ghost
       images:
         - alias: ghost
@@ -217,13 +210,6 @@ spec:
           manifestTargets:
             kustomize:
               name: ghcr.io/noeulnight/technitium-exporter
-    - namePattern: termix
-      images:
-        - alias: termix
-          imageName: ghcr.io/lukegus/termix:latest
-          manifestTargets:
-            kustomize:
-              name: ghcr.io/lukegus/termix
     - namePattern: timeline
       images:
         - alias: timeline

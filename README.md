@@ -18,8 +18,8 @@ flowchart LR
   Argo --> K8s["Kubernetes"]
   K8s --> Istio["Istio Ambient"]
   Istio --> Gateway["Public Gateway"]
-  Gateway --> PublicApps["Public Apps (23)"]
-  K8s --> InternalApps["Internal/Infra Apps (17)"]
+  Gateway --> PublicApps["Public Apps (22)"]
+  K8s --> InternalApps["Internal/Infra Apps (16)"]
   K8s --> Data["Data Layer (Postgres/MySQL/MariaDB/Redis/Mongo)"]
 ```
 
@@ -27,7 +27,7 @@ flowchart LR
 
 Argo CD `Application` resources live under `apps/`. Each application points at an in-repo Kustomize path, a Helm chart, or both.
 
-### Public Endpoints (25)
+### Public Endpoints (24)
 
 | App | Namespace | Primary URL | Aliases |
 | --- | --- | --- | --- |
@@ -54,14 +54,12 @@ Argo CD `Application` resources live under `apps/`. Each application points at a
 | `technitium` | `technitium` | <https://dns.lth.so> | - |
 | `timeline` | `timeline` | <https://timeline.lth.so> | - |
 | `tunnel` | `tunnel` | <https://tunnel.lth.so> | `*.tunnel.lth.so` |
-| `vaultwarden` | `vaultwarden` | <https://vault.lth.so> | - |
 | `wakapi` | `wakapi` | <https://wakatime.lth.so> | <https://wakatime.limtaehyun.dev> |
 
-### Internal/Infra Apps (17)
+### Internal/Infra Apps (16)
 
 | App | Namespace | Role |
 | --- | --- | --- |
-| `bybit-mcp` | `bybit-mcp` | Cluster-only Bybit MCP at `http://bybit-mcp.bybit-mcp.svc.cluster.local:8000/mcp` |
 | `cert-manager` | `cert-manager` | TLS issuers and certificate automation |
 | `gateway` | `kube-system` | Kubernetes Gateway API resources |
 | `istio-base` | `istio-system` | Istio base chart |
