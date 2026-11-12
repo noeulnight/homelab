@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: crypto-news-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path-retain
+  volumeName: crypto-news-pv
+  resources:
+    requests:
+      storage: 5Gi

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crypto-news-service
+  labels:
+    app.kubernetes.io/name: crypto-news-service
+    app.kubernetes.io/part-of: crypto-news
+spec:
+  selector:
+    app: crypto-news
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8787
+      targetPort: 8787

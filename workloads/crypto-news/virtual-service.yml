@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: crypto-news
+spec:
+  hosts:
+    - "cryptonews.lth.so"
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - route:
+        - destination:
+            host: crypto-news-service.crypto-news.svc.cluster.local
+            port:
+              number: 8787
