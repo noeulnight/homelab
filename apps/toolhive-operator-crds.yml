@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: toolhive-operator-crds
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+spec:
+  destination:
+    namespace: toolhive-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: .
+    repoURL: oci://ghcr.io/stacklok/toolhive/toolhive-operator-crds
+    targetRevision: 0.66.0
+    helm:
+      releaseName: toolhive-operator-crds
+      valuesObject:
+        crds:
+          install: true
+          keep: true
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

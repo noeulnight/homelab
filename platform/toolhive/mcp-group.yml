@@ -1,0 +1,6 @@
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPGroup
+metadata:
+  name: homelab
+spec:
+  description: Homelab MCP backends; intentionally empty during initial setup.
