@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: contextforge-config
+data:
+  HOST: "0.0.0.0"
+  PORT: "4444"
+  GUNICORN_WORKERS: "1"
+  ENVIRONMENT: production
+  APP_DOMAIN: https://mcp.lth.so
+  ALLOWED_ORIGINS: '["https://mcp.lth.so"]'
+  MCP_ALLOWED_ORIGINS: '["https://mcp.lth.so"]'
+  MCP_ALLOWED_HOSTS: '["mcp.lth.so"]'
+  MCPGATEWAY_UI_ENABLED: "true"
+  MCPGATEWAY_UI_AIRGAPPED: "true"
+  MCPGATEWAY_ADMIN_API_ENABLED: "true"
+  MCPGATEWAY_STDIO_TRANSPORT_ENABLED: "false"
+  AUTH_REQUIRED: "true"
+  MCP_REQUIRE_AUTH: "true"
+  EMAIL_AUTH_ENABLED: "true"
+  PUBLIC_REGISTRATION_ENABLED: "false"
+  API_ALLOW_BASIC_AUTH: "false"
+  DOCS_ALLOW_BASIC_AUTH: "false"
+  SECURE_COOKIES: "true"
+  JWT_AUDIENCE: contextforge-api
+  JWT_ISSUER: https://mcp.lth.so
+  CACHE_TYPE: database
+  DB_POOL_SIZE: "5"
+  DB_MAX_OVERFLOW: "5"
+  DB_POOL_TIMEOUT: "30"
+  DB_POOL_RECYCLE: "300"
+  # Allow MCP endpoints on the cluster's Service network.
+  SSRF_ALLOWED_NETWORKS: '["10.43.0.0/16"]'
+  SSO_ENABLED: "true"
+  SSO_GENERIC_ENABLED: "true"
+  SSO_GENERIC_PROVIDER_ID: authentik
+  SSO_GENERIC_DISPLAY_NAME: Authentik
+  SSO_GENERIC_AUTHORIZATION_URL: https://auth.lth.so/application/o/authorize/
+  SSO_GENERIC_TOKEN_URL: https://auth.lth.so/application/o/token/
+  SSO_GENERIC_USERINFO_URL: https://auth.lth.so/application/o/userinfo/
+  SSO_GENERIC_ISSUER: https://auth.lth.so/application/o/contextforge/
+  SSO_GENERIC_JWKS_URI: https://auth.lth.so/application/o/contextforge/jwks/
+  SSO_GENERIC_SCOPE: openid profile email
+  SSO_GENERIC_ADMIN_GROUPS: '["admin","authentik Admins"]'
+  SSO_AUTO_CREATE_USERS: "true"
+  SSO_PRESERVE_ADMIN_AUTH: "true"
+  LOG_LEVEL: INFO

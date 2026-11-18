@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: contextforge
+spec:
+  hosts:
+    - mcp.lth.so
+  gateways:
+    - istio-ingress/public-gateway
+  http:
+    - match:
+        - uri:
+            exact: /
+      redirect:
+        uri: /admin/
+        redirectCode: 302
+    - route:
+        - destination:
+            host: contextforge.contextforge.svc.cluster.local
+            port:
+              number: 4444
+      headers:
+        response:
+          set:
+            Strict-Transport-Security: max-age=31536000; includeSubDomains
