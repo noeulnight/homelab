@@ -1,15 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: toolhive
+  name: contextforge
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: toolhive-system
+    namespace: contextforge
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: platform/toolhive
+    path: platform/contextforge
     repoURL: git@github.com:noeulnight/homelab.git
     targetRevision: HEAD
   syncPolicy:
@@ -25,4 +27,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-      - SkipDryRunOnMissingResource=true
+      - PruneLast=true

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: contextforge
+spec:
+  selector:
+    app: contextforge
+  ports:
+    - name: http
+      port: 4444
+      targetPort: http
