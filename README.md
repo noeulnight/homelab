@@ -12,6 +12,13 @@ GitOps-managed Kubernetes homelab manifests. Argo CD owns the applications, Isti
 
 ## Topology
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/architecture/cluster-dark.png">
+  <img alt="Homelab cluster architecture" src="docs/architecture/cluster.png">
+</picture>
+
+Interactive version: [`docs/architecture/cluster.html`](docs/architecture/cluster.html)
+
 ```mermaid
 flowchart LR
   GitHub["GitHub Repo"] --> Argo["Argo CD"]
