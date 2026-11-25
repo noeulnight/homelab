@@ -16,3 +16,12 @@ images:
   - name: ghcr.io/dexidp/dex
     newTag: v2.46.1
     digest: sha256:65b72ca0f4b0bf6d4ada84ec21da8851782563404ac7b8f926923d27ceced9ab
+patches:
+  - target:
+      kind: ConfigMap
+      name: argocd-cm
+    patch: |-
+      - op: add
+        path: /data
+        value:
+          admin.enabled: "false"
