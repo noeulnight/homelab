@@ -12,6 +12,8 @@ spec:
       app: authentik-server
   template:
     metadata:
+      annotations:
+        homelab/secret-rotated: "2026-11-25"
       labels:
         app: authentik-server
         app.kubernetes.io/component: server
@@ -99,6 +101,8 @@ spec:
       app: authentik-worker
   template:
     metadata:
+      annotations:
+        homelab/secret-rotated: "2026-11-25"
       labels:
         app: authentik-worker
         app.kubernetes.io/version: v1
