@@ -11,3 +11,18 @@ spec:
   http:
     - redirect:
         authority: lth.so
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: blue-house-redirect
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "xn--vk1b187a8ue.xyz"
+  gateways:
+    - public-gateway
+  http:
+    - redirect:
+        authority: lth.so
+        scheme: https

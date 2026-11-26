@@ -20,3 +20,20 @@ spec:
     - "*.s3.lth.so"
     - "*.tunnel.lth.so"
     - "*.limtaehyun.dev"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: blue-house-redirect
+  namespace: istio-ingress
+spec:
+  secretName: blue-house-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    encoding: PKCS8
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - "xn--vk1b187a8ue.xyz"
