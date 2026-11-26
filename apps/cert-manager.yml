@@ -19,9 +19,6 @@ spec:
       helm:
         releaseName: cert-manager
         valuesObject:
-          config:
-            gatewayAPI:
-              enabled: true
           crds:
             enabled: true
           global:

@@ -26,26 +26,3 @@ spec:
     - redirect:
         authority: lth.so
         scheme: https
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: blue-house-http-redirect
-spec:
-  parentRefs:
-    - name: blue-house-http
-      group: gateway.networking.k8s.io
-      kind: Gateway
-  hostnames:
-    - xn--vk1b187a8ue.xyz
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            hostname: lth.so
-            statusCode: 301

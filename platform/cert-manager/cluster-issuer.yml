@@ -18,14 +18,4 @@ spec:
           dnsZones:
             - limtaehyun.dev
             - lth.so
-      - http01:
-          gatewayHTTPRoute:
-            serviceType: ClusterIP
-            parentRefs:
-              - name: blue-house-http
-                group: gateway.networking.k8s.io
-                namespace: istio-ingress
-                kind: Gateway
-        selector:
-          dnsNames:
             - xn--vk1b187a8ue.xyz
