@@ -34,10 +34,16 @@ metadata:
 spec:
   parentRefs:
     - name: blue-house-http
+      group: gateway.networking.k8s.io
+      kind: Gateway
   hostnames:
     - xn--vk1b187a8ue.xyz
   rules:
-    - filters:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      filters:
         - type: RequestRedirect
           requestRedirect:
             scheme: https

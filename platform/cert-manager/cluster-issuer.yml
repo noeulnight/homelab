@@ -23,6 +23,7 @@ spec:
             serviceType: ClusterIP
             parentRefs:
               - name: blue-house-http
+                group: gateway.networking.k8s.io
                 namespace: istio-ingress
                 kind: Gateway
         selector:
