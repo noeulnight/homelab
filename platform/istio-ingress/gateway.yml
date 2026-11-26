@@ -18,7 +18,6 @@ spec:
         - "*.tunnel.lth.so"
         - "limtaehyun.dev"
         - "*.limtaehyun.dev"
-        - "xn--vk1b187a8ue.xyz"
 
     - port:
         number: 443
@@ -59,3 +58,18 @@ spec:
         protocol: TCP
       hosts:
         - "*"
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: blue-house-http
+spec:
+  gatewayClassName: istio
+  addresses:
+    - type: Hostname
+      value: istio-ingress.istio-ingress.svc.cluster.local
+  listeners:
+    - name: http
+      hostname: xn--vk1b187a8ue.xyz
+      port: 80
+      protocol: HTTP
