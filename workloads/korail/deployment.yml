@@ -31,6 +31,11 @@ spec:
                 secretKeyRef:
                   name: korail-secret
                   key: DATABASE_URL
+            - name: WEBSHARE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: korail-secret
+                  key: WEBSHARE_API_KEY
 ---
 apiVersion: apps/v1
 kind: Deployment
